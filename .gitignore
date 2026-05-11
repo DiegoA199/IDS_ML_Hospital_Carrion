@@ -1,0 +1,32 @@
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# --- Entorno y secretos (no versionar) ---
+.env
+.streamlit/secrets.toml
+
+# --- Bases de datos locales ---
+*.db
+idsml_local.db
+
+# --- Artefactos de modelo / serialización ---
+*.pkl
+*.joblib
+
+# --- Credenciales Firebase / nube (no versionar) ---
+firebase_key.json
+**/firebase-adminsdk*.json
+*-firebase-adminsdk*.json
+serviceAccount.json
+google-services.json
+
+# --- Datos generados (se mantiene la carpeta con .gitkeep) ---
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/reports/*
+!data/reports/.gitkeep

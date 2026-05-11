@@ -1,0 +1,14 @@
+# IDS-ML — entorno controlado (MVP). No expone credenciales: use .env local o secrets en cloud.
+services:
+  idsml:
+    build: .
+    image: idsml-hospital-carrion:local
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+    environment:
+      - IDSML_PERSISTENCE_BACKEND=${IDSML_PERSISTENCE_BACKEND:-auto}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS:-}

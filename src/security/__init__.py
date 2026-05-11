@@ -1,0 +1,1 @@
+"""Seguridad mínima (RBAC)."""

@@ -1,0 +1,202 @@
+FACULTAD DE INGENIERÍA
+Escuela Académico Profesional de Ingeniería de Sistemas e Informática
+DOCUMENTO TÉCNICO DE LA APLICACIÓN
+PROTOTIPO IDS-ML EN NUBE
+Proyecto de investigación
+“Diseño y evaluación comparativa de modelos de machine learning para un prototipo de sistema de detección de intrusiones orientado a la identificación de amenazas en la red institucional del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión”
+Presentado por:
+Bach. Diego Gabriel Angulo Gonzales
+Huancayo – Perú
+2026
+ÍNDICE
+1. Propósito del documento
+2. Descripción general de la aplicación
+3. Alcance funcional del prototipo IDS-ML
+4. Arquitectura técnica del sistema
+5. Especificación de funcionamiento en la nube
+6. Persistencia cloud y respaldo local
+7. Seguridad, roles y protección de secretos
+8. Flujo de uso de la aplicación
+9. Relación con la tesis y matriz fusionada
+10. Evidencias técnicas recomendadas
+11. Estructura de carpetas para Cursor y Warp
+12. Comandos de ejecución y despliegue
+13. Limitaciones y condiciones de uso académico
+1. Propósito del documento
+El presente documento técnico describe la aplicación propuesta para el proyecto de investigación IDS-ML. Su finalidad es explicar, de manera formal y verificable, cómo el prototipo software se relaciona con el informe de tesis, qué módulos incluye, qué tecnologías utiliza y de qué manera puede ejecutarse en entorno local y en nube. Este documento complementa el informe principal y sirve como evidencia técnica de la solución propuesta.
+La aplicación se plantea como un prototipo web de detección de intrusiones basado en machine learning. No reemplaza a una solución IDS empresarial instalada en producción; su propósito académico es demostrar la viabilidad de cargar datos de tráfico de red, preparar información, entrenar modelos, comparar métricas, seleccionar el mejor modelo, analizar tráfico nuevo, generar alertas y registrar evidencias funcionales para la investigación.
+2. Descripción general de la aplicación
+El prototipo IDS-ML está orientado al contexto del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión. Su diseño responde a la necesidad de apoyar la identificación de amenazas en una red institucional hospitalaria mediante análisis de datos y modelos de machine learning. El sistema se desarrolla con Python y Streamlit para la interfaz, Scikit-learn para el entrenamiento de modelos, Pandas y NumPy para procesamiento de datos, Firebase/Firestore para almacenamiento cloud, SQLite como respaldo local y GitHub para control de versiones.
+Elemento
+Descripción
+Nombre de la aplicación
+Prototipo IDS-ML para detección de intrusiones
+Contexto de uso
+Red institucional hospitalaria, con aplicación académica en el Hospital Carrión
+Tipo de sistema
+Aplicación web prototipo
+Tecnología principal
+Python + Streamlit
+Componente de IA/ML
+Scikit-learn para entrenamiento, evaluación y predicción
+Persistencia cloud
+Firebase/Firestore
+Respaldo local
+SQLite
+Control de versiones
+GitHub
+Despliegue sugerido
+Streamlit Cloud o Render
+3. Alcance funcional del prototipo IDS-ML
+El alcance funcional de la aplicación se organiza en módulos. Cada módulo se relaciona con una o más dimensiones de la matriz fusionada de la tesis: gestión del dataset, selección de características, comparación de modelos, evaluación del desempeño, implementación del prototipo e interpretabilidad/trazabilidad institucional.
+Módulo
+Función principal
+Autenticación y roles
+Permite diferenciar accesos básicos entre administrador TI, analista TI e invitado/demo.
+Dashboard ejecutivo
+Presenta indicadores, gráficos y resumen de resultados del sistema.
+Gestión de datasets
+Carga archivos CSV o registros compatibles con datos de tráfico.
+Perfilado de datos
+Muestra columnas, tipos de datos, valores nulos, distribución de clases y calidad del dataset.
+Preprocesamiento
+Realiza limpieza, codificación, normalización y partición de datos.
+Selección de características
+Identifica atributos relevantes para mejorar la detección y reducir ruido.
+Entrenamiento de modelos
+Entrena algoritmos de machine learning como Random Forest, Decision Tree, Logistic Regression, SVM, KNN u otros disponibles.
+Comparación de modelos
+Compara accuracy, precision, recall, F1-score, matriz de confusión y tiempo de ejecución.
+Selección del mejor modelo
+Selecciona automáticamente el modelo con mejor F1-score o criterio definido.
+Análisis de tráfico nuevo
+Permite ingresar o cargar nuevos registros para clasificar eventos.
+Centro de alertas TI
+Genera alertas con tipo de amenaza, severidad, impacto y recomendación.
+Historial y reportes
+Guarda resultados, alertas y métricas para consulta posterior.
+Persistencia cloud/local
+Permite almacenar información en Firestore y respaldar en SQLite.
+4. Arquitectura técnica del sistema
+La arquitectura propuesta es modular por capas, con separación entre interfaz, lógica de aplicación, servicios de machine learning, repositorios de almacenamiento y despliegue. Esta separación permite mantener el prototipo ordenado, facilitar pruebas y evitar que los componentes de datos, modelos y visualización dependan directamente unos de otros.
+Capa
+Responsabilidad
+Capa de presentación
+Streamlit; contiene páginas, formularios, tablas, gráficos y navegación.
+Capa de aplicación
+Coordina casos de uso: cargar dataset, entrenar, evaluar, predecir, alertar y reportar.
+Capa de servicios ML
+Incluye preprocesamiento, entrenamiento, selección de características, métricas y persistencia de modelos.
+Capa de repositorios
+Implementa Repository Pattern para usar Firestore o SQLite sin cambiar la lógica principal.
+Capa de persistencia
+Firestore para nube y SQLite para respaldo local.
+Capa de despliegue
+GitHub, requirements.txt, Streamlit Cloud/Render y Docker opcional.
+5. Especificación de funcionamiento en la nube
+La aplicación puede considerarse parcialmente en nube porque combina dos componentes cloud principales: el despliegue web en Streamlit Cloud o Render y la persistencia de resultados en Firebase/Firestore. La interfaz del sistema puede ejecutarse desde una URL pública o privada de Streamlit Cloud/Render, mientras que los resultados, alertas, bitácoras y configuraciones pueden guardarse en Firestore. SQLite se mantiene como respaldo local para pruebas, continuidad y desarrollo.
+Componente
+Servicio propuesto
+Uso en la nube
+Interfaz web
+Streamlit Cloud o Render
+Permite acceder al prototipo desde navegador mediante URL.
+Base cloud
+Firebase/Firestore
+Guarda usuarios, métricas, alertas, historial y resultados.
+Repositorio
+GitHub
+Permite versionar el código y conectar despliegue automático.
+Secretos
+Streamlit secrets o variables de entorno
+Protege credenciales de Firebase y configuraciones sensibles.
+Respaldo
+SQLite local
+Permite ejecutar el sistema sin depender totalmente de la nube.
+En la exposición se puede explicar de forma clara: “El prototipo no depende únicamente de localhost. Está preparado para ejecutarse en Streamlit Cloud o Render, conectado al repositorio GitHub. Además, la persistencia principal puede realizarse en Firebase/Firestore, por lo que las alertas y resultados quedan registrados en un servicio cloud. SQLite se mantiene como respaldo local para pruebas y contingencia”.
+6. Persistencia cloud y respaldo local
+El patrón Repository Pattern permite cambiar el proveedor de almacenamiento sin alterar los módulos principales. Por ejemplo, el módulo de alertas no necesita saber si los datos se guardan en Firestore o SQLite; solo invoca una interfaz de repositorio. Esta decisión mejora mantenibilidad, trazabilidad y portabilidad.
+Elemento
+Descripción
+FirestoreRepository
+Guarda y consulta información en Firebase/Firestore.
+SQLiteRepository
+Guarda y consulta información en base local SQLite.
+RepositoryFactory
+Selecciona el repositorio activo según configuración.
+Entidades persistidas
+Usuarios, datasets, experimentos, modelos, métricas, predicciones, alertas, reportes y bitácora.
+7. Seguridad, roles y protección de secretos
+La seguridad del prototipo se aborda como seguridad básica de aplicación académica. Se recomienda usar roles diferenciados, validación de entradas, protección de archivos de credenciales, control de acceso a páginas y exclusión de secretos del repositorio GitHub. El archivo .streamlit/secrets.toml, archivos JSON de Firebase, .env y credenciales no deben subirse al repositorio.
+Rol
+Permisos sugeridos
+Administrador TI
+Acceso a configuración, usuarios, datasets, entrenamiento, métricas, alertas y reportes.
+Analista TI
+Acceso a carga de datos, entrenamiento, predicción, dashboard, alertas e historial.
+Invitado/demo
+Acceso limitado a visualización o datos de ejemplo sin modificar configuración crítica.
+8. Flujo de uso de la aplicación
+Paso
+Actividad
+1
+Usuario inicia sesión según rol.
+2
+Carga dataset de tráfico o selecciona dataset de prueba.
+3
+El sistema perfila datos y muestra calidad del dataset.
+4
+Se ejecuta preprocesamiento y selección de características.
+5
+Se entrenan y comparan modelos de machine learning.
+6
+Se selecciona el mejor modelo por F1-score u otra métrica definida.
+7
+El usuario analiza registros nuevos o simulados.
+8
+El sistema genera alerta con amenaza, severidad, impacto y recomendación.
+9
+Los resultados se guardan en Firestore y/o SQLite.
+10
+El dashboard muestra métricas, historial y reportes.
+9. Relación con la tesis y matriz fusionada
+Dimensión de la tesis
+Evidencia en la aplicación
+Gestión y preparación del dataset
+Carga, perfilado, calidad, limpieza y transformación de datos.
+Selección y reducción de características
+Módulo de atributos relevantes e importancia de variables.
+Selección, entrenamiento y comparación de modelos IDS-ML
+Módulo de entrenamiento, comparación y selección del mejor modelo.
+Evaluación integral del desempeño
+Métricas, matriz de confusión, falsos positivos y falsos negativos.
+Implementación del prototipo software IDS-ML
+Arquitectura, dashboard, alertas, persistencia y despliegue.
+Interpretabilidad, trazabilidad y utilidad institucional
+Alertas explicadas, historial, reportes y recomendaciones para TI.
+10. Evidencias técnicas recomendadas
+Para sustentar el prototipo ante el jurado o docente, se recomienda incluir capturas y evidencias de:
+Repositorio GitHub con commits y README.
+Archivo requirements.txt.
+Pantalla de login por roles.
+Carga de dataset.
+Perfilado y distribución de clases.
+Entrenamiento de modelos.
+Comparación de métricas.
+Matriz de confusión.
+Selección del mejor modelo.
+Centro de alertas TI.
+Dashboard ejecutivo.
+Registro en Firestore.
+Respaldo SQLite.
+Despliegue en Streamlit Cloud o Render.
+Lista de cotejo de validación funcional.
+11. Estructura de carpetas para Cursor y Warp
+ids_ml/├── app.py├── requirements.txt├── README.md├── .gitignore├── .streamlit/│   └── config.toml├── src/│   ├── config/│   ├── auth/│   ├── data/│   ├── preprocessing/│   ├── features/│   ├── models/│   ├── evaluation/│   ├── alerts/│   ├── dashboard/│   ├── reports/│   ├── storage/│   └── utils/├── tests/├── notebooks/├── data/│   ├── raw/│   └── processed/└── docs/
+12. Comandos de ejecución y despliegue
+# Crear entorno virtualpython -m venv .venv# Activar entorno en Windows.venv\Scripts\activate# Instalar dependenciaspip install -r requirements.txt# Ejecutar aplicaciónstreamlit run app.py# Control de versionesgit add .git commit -m "Implementacion inicial IDS-ML"git push origin main
+Para despliegue en Streamlit Cloud, el repositorio debe estar en GitHub y contener app.py, requirements.txt, README.md y configuración de secretos en el panel de Streamlit Cloud. Las credenciales de Firebase no deben estar en el repositorio.
+13. Limitaciones y condiciones de uso académico
+El prototipo se desarrolla con fines académicos. Su evaluación inicial puede realizarse con datasets públicos de IDS o datos autorizados por la organización. No se debe ejecutar captura real de tráfico hospitalario sin autorización formal. Tampoco debe almacenarse información clínica, datos personales o credenciales institucionales dentro del prototipo. La aplicación sirve para demostrar el diseño, evaluación y utilidad de modelos IDS-ML, no para sustituir una solución de seguridad empresarial certificada.
+Anexo: explicación breve para exposición
+“La aplicación IDS-ML está preparada para trabajar en nube porque su interfaz puede desplegarse en Streamlit Cloud o Render y sus resultados pueden persistirse en Firebase/Firestore. El repositorio GitHub permite control de versiones y actualización del despliegue. Además, se mantiene SQLite como respaldo local para pruebas y continuidad. El prototipo integra machine learning con Scikit-learn para entrenar modelos, compararlos por métricas y generar alertas explicadas para apoyar al área de TI”.

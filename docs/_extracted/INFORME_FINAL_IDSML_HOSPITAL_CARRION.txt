@@ -1,0 +1,1948 @@
+FACULTAD DE INGENIERÍA
+Escuela Académico Profesional de Ingeniería de Sistemas e Informática
+PORTADA
+Proyecto de Investigación
+“Diseño y evaluación comparativa de modelos de machine learning para un prototipo IDS-ML orientado a la detección de intrusiones en la red institucional del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión”
+PRESENTADO POR:
+Bach. Diego Gabriel Angulo Gonzales
+Para optar el Título Profesional de
+Ingeniero de Sistemas e Informática
+Huancayo – Perú
+2026
+PORTADAi
+ÍNDICE GENERALii
+ÍNDICE DE FIGURASv
+ÍNDICE DE TABLASvi
+INTRODUCCIÓNvii
+CAPÍTULO I8
+PLANTEAMIENTO DEL PROBLEMA8
+1.1. Planteamiento del problema8
+1.2. Formulación del problema13
+1.2.1. Problema general13
+1.2.2. Problemas específicos14
+1.3. Objetivos15
+1.3.1. Objetivo general15
+1.3.2. Objetivos específicos16
+1.4. Justificación e importancia17
+1.4.1. Justificación práctica17
+1.4.2. Justificación teórica18
+1.4.3. Justificación metodológica19
+1.4.4. Importancia20
+1.5. Delimitación del proyecto20
+1.5.1. Espacial20
+1.5.2. Temporal21
+1.5.3. Financiera21
+CAPÍTULO II22
+MARCO TEÓRICO22
+2.1. Antecedentes de la investigación22
+2.1.1. Antecedentes nacionales22
+2.1.2. Antecedentes internacionales24
+2.1.3. Estado del arte y criterios de revisión27
+2.2. Bases teóricas31
+2.2.1. Modelos de machine learning aplicados al IDS31
+2.2.2. Detección de intrusiones e identificación de amenazas34
+2.2.3. Prototipo software IDS-ML36
+2.3. Definiciones conceptuales39
+CAPÍTULO III43
+HIPÓTESIS Y VARIABLES43
+3.1. Hipótesis43
+3.1.1. Hipótesis general43
+3.1.2. Hipótesis específicas44
+3.2. Variables45
+3.2.1. Variable independiente45
+3.2.2. Variable dependiente46
+3.2.3. Variable intermedia46
+3.3. Matriz de operacionalización fusionada47
+CAPÍTULO IV58
+METODOLOGÍA DE LA INVESTIGACIÓN58
+4.1. Método, tipo y alcance58
+4.1.1. Método general58
+4.1.2. Método específico59
+4.1.3. Enfoque de investigación60
+4.1.4. Tipo y alcance de investigación61
+4.2. Diseño de investigación62
+4.3. Población y muestra64
+4.4. Técnicas e instrumentos66
+4.5. Procesamiento de datos69
+CAPÍTULO V73
+ASPECTOS ADMINISTRATIVOS73
+5.1. Cronograma73
+5.2. Presupuesto75
+REFERENCIAS BIBLIOGRÁFICAS34
+ANEXOS37
+Anexo 01. Matriz de consistencia37
+Anexo 02. Matriz de operacionalización de variables39
+Anexo 03. Matriz de operacionalización de instrumentos42
+Anexo 04. Instrumento de investigación43
+Anexo 05. Documento de consentimiento informado44
+Anexo 06. Estado del arte de artículos revisados45
+ÍNDICE DE FIGURASv
+Figura 1. Incidentes y brechas confirmadas analizadas por Verizon DBIR 2025.10
+Figura 2. Amenazas priorizadas en ENISA Threat Landscape 2024.11
+Figura 3. Flujo lógico del prototipo IDS-ML propuesto.12
+ÍNDICE DE TABLASvi
+Tabla 1. Fuentes estadísticas empleadas para sustentar la problemática.10
+Tabla 2. Relación entre dimensiones, problemas específicos y objetivos.16
+Tabla 3. Matriz de operacionalización fusionada.47
+Tabla 4. Cronograma del proyecto.73
+Tabla 5. Presupuesto de investigación.75
+INTRODUCCIÓN
+La presente investigación se orienta al diseño y evaluación comparativa de modelos de machine learning para un prototipo IDS-ML aplicado al contexto de una red institucional hospitalaria, tomando como referencia al Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión de Huancayo. El estudio se ubica dentro de la línea de ciberseguridad aplicada, analítica de datos y desarrollo de software, debido a que integra revisión científica, diseño metodológico, implementación de un prototipo y evaluación con métricas cuantitativas.
+La problemática parte de la necesidad de fortalecer la detección de eventos sospechosos e intrusiones en instituciones de salud. Los hospitales requieren continuidad operativa, disponibilidad de servicios digitales, confidencialidad de información y respuesta oportuna frente a amenazas. En este escenario, un sistema IDS basado en machine learning puede apoyar el monitoreo, la clasificación de eventos y la generación de alertas comprensibles para el personal de TI [1], [2].
+El documento se organiza en cinco capítulos, respetando la estructura solicitada para el informe del proyecto de investigación. El capítulo I desarrolla el planteamiento del problema, incorporando gráficos estadísticos y la formulación de problemas específicos alineados con las dimensiones obtenidas de la matriz fusionada. El capítulo II presenta el marco teórico, antecedentes y definiciones conceptuales. El capítulo III desarrolla las hipótesis y variables. El capítulo IV expone la metodología de investigación. El capítulo V detalla los aspectos administrativos, cronograma y presupuesto. Finalmente, se presentan referencias bibliográficas en estilo ISO numérico y anexos con matrices, instrumento y consentimiento informado.
+CAPÍTULO I
+PLANTEAMIENTO DEL PROBLEMA
+1.1. Planteamiento del problema
+El Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión es una institución de salud cuyo funcionamiento depende de la continuidad de sus servicios asistenciales, administrativos y tecnológicos. La red institucional soporta procesos de atención, comunicación, gestión documental, laboratorio, farmacia, admisión, reportes y otros servicios que requieren disponibilidad y protección de la información. En consecuencia, los incidentes de ciberseguridad no deben observarse únicamente como fallas técnicas, sino como eventos que pueden afectar la continuidad de la atención y la confianza institucional.
+La creciente digitalización de los servicios de salud incrementa la superficie de exposición. En una red hospitalaria pueden coexistir estaciones administrativas, equipos de soporte, servidores, aplicaciones internas, dispositivos conectados, usuarios con diversos privilegios y tráfico generado por actividades asistenciales y administrativas. Esta diversidad vuelve insuficiente una vigilancia basada únicamente en revisión manual o reglas estáticas, especialmente frente a amenazas dinámicas como ransomware, malware, fuerza bruta, escaneo de puertos, denegación de servicio, exfiltración de datos y accesos anómalos.
+La guía NIST SP 800-94 señala que las tecnologías de detección y prevención de intrusiones permiten monitorear eventos, detectar actividad sospechosa, registrar información, alertar a administradores y apoyar la respuesta ante incidentes [1]. De manera complementaria, el NIST Cybersecurity Framework 2.0 organiza la gestión de ciberseguridad en funciones como gobernar, identificar, proteger, detectar, responder y recuperar [2]. Desde esta perspectiva, un prototipo IDS-ML no debe limitarse a clasificar datos, sino integrarse en un flujo de detección, alerta, trazabilidad y apoyo a decisiones.
+La magnitud del problema se evidencia en reportes recientes. Verizon DBIR 2025 analizó 22 052 incidentes reales y 12 195 brechas confirmadas, lo que permite dimensionar la frecuencia y gravedad de eventos de seguridad en organizaciones de diversos sectores [4]. Por su parte, ENISA Threat Landscape 2024 identifica como amenazas principales las amenazas contra la disponibilidad, ransomware y amenazas contra datos, categorías especialmente relevantes para instituciones que requieren disponibilidad continua y protección de información sensible [3].
+En el contexto del Hospital Carrión, el problema se formula de manera preventiva y académica: se requiere diseñar y evaluar un prototipo IDS-ML que permita analizar datos de tráfico, comparar modelos de machine learning, seleccionar el modelo más adecuado mediante métricas y generar alertas comprensibles. La investigación no propone intervenir la red real sin autorización ni acceder a datos clínicos sensibles; plantea una evaluación controlada y validable que pueda servir como base para una futura implementación institucional.
+Fuente
+Dato o aporte usado en la problemática
+Uso en el proyecto
+Verizon DBIR 2025
+22 052 incidentes y 12 195 brechas confirmadas analizadas
+Sustenta la magnitud actual de incidentes y brechas.
+ENISA Threat Landscape 2024
+Amenazas principales: disponibilidad, ransomware y datos
+Sustenta la prioridad de amenazas en instituciones críticas.
+NIST SP 800-94
+Guía para IDS/IDPS
+Sustenta detección, monitoreo, alertas y mantenimiento de IDPS.
+NIST CSF 2.0
+Gobernar, identificar, proteger, detectar, responder y recuperar
+Alinea la propuesta con gestión de ciberseguridad.
+Tabla 1. Fuentes estadísticas empleadas para sustentar la problemática. Nota. Elaboración propia.
+Figura 1. Incidentes y brechas confirmadas analizadas por Verizon DBIR 2025. Nota. Elaboración propia a partir de Verizon [4].
+Figura 2. Amenazas priorizadas en ENISA Threat Landscape 2024. Nota. Elaboración propia a partir de ENISA [3].
+Figura 3. Flujo lógico del prototipo IDS-ML propuesto. Nota. Elaboración propia.
+1.2. Formulación del problema
+1.2.1. Problema general
+¿De qué manera el diseño y evaluación comparativa de modelos de machine learning permite desarrollar un prototipo IDS-ML orientado a la detección de intrusiones e identificación de amenazas en la red institucional del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión?
+1.2.2. Problemas específicos
+PE1. Dimensión: Gestión y preparación del dataset. ¿De qué manera la gestión y preparación del dataset influye en la calidad de los datos utilizados para el entrenamiento y evaluación del prototipo IDS-ML orientado a la red institucional hospitalaria?
+PE2. Dimensión: Selección y reducción de características. ¿De qué manera la selección y reducción de características contribuye a identificar los atributos más relevantes del tráfico de red para mejorar la detección de intrusiones?
+PE3. Dimensión: Selección, entrenamiento y comparación de modelos IDS-ML. ¿Qué modelos de machine learning presentan mejor desempeño comparativo en la detección y clasificación de amenazas dentro del prototipo IDS-ML?
+PE4. Dimensión: Evaluación integral del desempeño. ¿Cómo se evalúa integralmente el desempeño de los modelos IDS-ML mediante accuracy, precision, recall, F1-score, matriz de confusión, falsos positivos, falsos negativos y tiempo de predicción?
+PE5. Dimensión: Implementación del prototipo software IDS-ML. ¿Cómo debe implementarse un prototipo software IDS-ML con dashboard, centro de alertas, persistencia en Firebase/Firestore, respaldo en SQLite y control de versiones en GitHub?
+PE6. Dimensión: Interpretabilidad, trazabilidad y utilidad institucional. ¿De qué manera la interpretabilidad de alertas, trazabilidad de resultados y utilidad institucional del prototipo IDS-ML contribuyen al apoyo de la toma de decisiones del personal de TI?
+1.3. Objetivos
+1.3.1. Objetivo general
+Diseñar y evaluar comparativamente modelos de machine learning para desarrollar un prototipo IDS-ML orientado a la detección de intrusiones e identificación de amenazas en la red institucional del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión.
+1.3.2. Objetivos específicos
+OE1. Dimensión: Gestión y preparación del dataset. Analizar la gestión y preparación del dataset requerido para mejorar la calidad de los datos utilizados en el entrenamiento y evaluación del prototipo IDS-ML.
+OE2. Dimensión: Selección y reducción de características. Determinar las características más relevantes del tráfico de red mediante técnicas de selección y reducción de atributos para fortalecer la detección de intrusiones.
+OE3. Dimensión: Selección, entrenamiento y comparación de modelos IDS-ML. Entrenar y comparar modelos de machine learning para identificar aquellos con mejor desempeño en la detección y clasificación de amenazas.
+OE4. Dimensión: Evaluación integral del desempeño. Evaluar integralmente el desempeño de los modelos IDS-ML mediante accuracy, precision, recall, F1-score, matriz de confusión, falsos positivos, falsos negativos y tiempo de predicción.
+OE5. Dimensión: Implementación del prototipo software IDS-ML. Implementar un prototipo software IDS-ML con dashboard, centro de alertas, Firebase/Firestore, SQLite y GitHub para apoyar el monitoreo de una red institucional hospitalaria.
+OE6. Dimensión: Interpretabilidad, trazabilidad y utilidad institucional. Analizar la interpretabilidad, trazabilidad y utilidad institucional de las alertas generadas por el prototipo IDS-ML para apoyar la toma de decisiones del personal de TI.
+Dimensión fusionada
+Problema específico
+Objetivo específico
+Relación metodológica
+Gestión y preparación del dataset
+PE1
+OE1
+La dimensión se deriva de artículos y se operacionaliza en indicadores e instrumentos.
+Selección y reducción de características
+PE2
+OE2
+La dimensión se deriva de artículos y se operacionaliza en indicadores e instrumentos.
+Selección, entrenamiento y comparación de modelos IDS-ML
+PE3
+OE3
+La dimensión se deriva de artículos y se operacionaliza en indicadores e instrumentos.
+Evaluación integral del desempeño
+PE4
+OE4
+La dimensión se deriva de artículos y se operacionaliza en indicadores e instrumentos.
+Implementación del prototipo software IDS-ML
+PE5
+OE5
+La dimensión se deriva de artículos y se operacionaliza en indicadores e instrumentos.
+Interpretabilidad, trazabilidad y utilidad institucional
+PE6
+OE6
+La dimensión se deriva de artículos y se operacionaliza en indicadores e instrumentos.
+Tabla 2. Relación entre dimensiones, problemas específicos y objetivos. Nota. Elaboración propia.
+1.4. Justificación e importancia
+1.4.1. Justificación práctica
+El proyecto se justifica porque el prototipo IDS-ML permitirá transformar datos de tráfico en alertas y reportes comprensibles para el personal de TI. En el contexto hospitalario, contar con un sistema que ayude a priorizar eventos puede contribuir a la continuidad operativa y a la prevención de incidentes.
+1.4.2. Justificación teórica
+La investigación aporta una integración entre IDS, machine learning, evaluación de modelos, interpretabilidad y arquitectura de software. Los artículos revisados muestran que el desempeño de un IDS depende de datos, atributos, modelos, métricas y capacidad de despliegue, por lo que la matriz fusionada amplía la operacionalización más allá de una comparación básica de algoritmos [9]-[48].
+1.4.3. Justificación metodológica
+La metodología sigue una ruta trazable: selección de fuentes, estado del arte, matrices individuales, matriz fusionada, formulación de dimensiones, problemas específicos, objetivos, hipótesis, instrumentos y prototipo. Esta relación evita que las dimensiones se coloquen de forma arbitraria.
+1.4.4. Importancia
+La importancia radica en proponer una solución tecnológica viable, validable y replicable para instituciones que requieren fortalecer la detección de amenazas. El proyecto también permite evidenciar competencias de ingeniería de sistemas en ciberseguridad, análisis de datos, software y gestión de investigación.
+1.5. Delimitación del proyecto
+1.5.1. Espacial
+La investigación se enfoca en el Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión, ubicado en Huancayo, Junín. La aplicación será académica y su ejecución estará condicionada a autorización institucional.
+1.5.2. Temporal
+El proyecto se planifica para el año 2026, considerando fases de revisión bibliográfica, diagnóstico, diseño, implementación, pruebas, validación y redacción.
+1.5.3. Financiera
+El presupuesto supera S/ 10 000 e incorpora capacitación en inteligencia artificial y ciberseguridad, uso de servicios cloud, recursos tecnológicos, materiales, logística, validación y contingencia.
+CAPÍTULO II
+MARCO TEÓRICO
+2.1. Antecedentes de la investigación
+2.1.1. Antecedentes nacionales
+Los antecedentes nacionales deben seleccionarse desde repositorios universitarios, RENATI, ALICIA y fuentes verificables relacionadas con ciberseguridad, detección de intrusiones, análisis de tráfico, machine learning o implementación de prototipos en instituciones peruanas. Para evitar inconsistencias, no se incorporan autores no verificados; la tesis final debe completar esta sección con trabajos nacionales disponibles y coherentes con las variables.
+La relación con el proyecto se establece cuando el antecedente aporta al menos uno de los siguientes elementos: aplicación de machine learning, desarrollo de software, evaluación de métricas, análisis de seguridad institucional, validación con usuarios o propuesta de arquitectura. Esta regla evita antecedentes superficiales que solo mencionan tecnología sin relación directa con IDS-ML.
+2.1.2. Antecedentes internacionales
+A01. KHRAISAT, Ansam et al. (2019) desarrolla o revisa el trabajo “Survey of intrusion detection systems: techniques, datasets and challenges”. Su aporte para esta tesis se vincula con revisión de técnicas IDS, datasets y desafíos; aporta criterios para dataset, tipos de ataques, falsos positivos y generalización. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [9].
+A02. OTHMAN, Suad Mohammed et al. (2018) desarrolla o revisa el trabajo “Intrusion detection model using machine learning algorithm on Big Data environment”. Su aporte para esta tesis se vincula con modelo IDS en entorno Big Data; aporta tratamiento de grandes volúmenes, arquitectura y clasificación. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [10].
+A03. JADHAV et al. (2021) desarrolla o revisa el trabajo “Highly accurate and efficient two phase-intrusion detection system using Hadoop and machine learning”. Su aporte para esta tesis se vincula con IDS de dos fases con procesamiento distribuido; aporta eficiencia, escalabilidad y comparación de modelos. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [11].
+A04. ONYEMA, Edeh Michael et al. (2022) desarrolla o revisa el trabajo “Design of Intrusion Detection System based on Cyborg intelligence for security of Cloud Network Traffic of Smart Cities”. Su aporte para esta tesis se vincula con IDS para tráfico cloud; aporta conexión entre arquitectura cloud, detección y seguridad institucional. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [12].
+A05. SHIRAVANI, Anita et al. (2023) desarrolla o revisa el trabajo “Network intrusion detection using data dimensions reduction techniques”. Su aporte para esta tesis se vincula con reducción de dimensionalidad en NIDS; aporta selección/reducción de características y mejora de desempeño. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [13].
+A06. AL-GHUWAIRI et al. (2023) desarrolla o revisa el trabajo “Intrusion detection in cloud computing using time series and feature selection”. Su aporte para esta tesis se vincula con detección cloud con series temporales y selección de atributos; aporta dimensión de características temporales. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [14].
+A07. WANG et al. (2023) desarrolla o revisa el trabajo “Multi-domain data ensemble BiLSTM network intrusion detection system”. Su aporte para esta tesis se vincula con BiLSTM y datos multidominio; aporta deep learning secuencial y generalización de tráfico. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [15].
+A08. TALUKDER et al. (2024) desarrolla o revisa el trabajo “Machine learning-based network intrusion detection for big and imbalanced data using oversampling, stacking and feature embedding”. Su aporte para esta tesis se vincula con datos grandes y desbalanceados; aporta balanceo de clases, stacking y feature embedding. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [16].
+A09. SAJID et al. (2024) desarrolla o revisa el trabajo “Hybrid machine and deep learning-based network intrusion detection”. Su aporte para esta tesis se vincula con modelo híbrido ML/DL; aporta comparación de familias de algoritmos y evaluación integral. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [17].
+A10. HOZOURI et al. (2025) desarrolla o revisa el trabajo “Comprehensive survey of intrusion detection systems using machine learning and deep learning”. Su aporte para esta tesis se vincula con revisión amplia de IDS ML/DL; aporta clasificación de métodos, datasets, retos e interpretabilidad. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [18].
+A11. REHMAN et al. (2025) desarrolla o revisa el trabajo “Systematic literature study on machine learning-based intrusion detection”. Su aporte para esta tesis se vincula con estudio sistemático; aporta proceso de revisión, criterios de selección y vacíos de investigación. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [19].
+A12. UMAR et al. (2025) desarrolla o revisa el trabajo “DNN-KDQ edge computing intrusion detection system”. Su aporte para esta tesis se vincula con IDS edge con DNN; aporta eficiencia operativa, latencia y despliegue en borde. Este antecedente contribuye a sustentar las dimensiones de dataset, selección de características, modelos, métricas, arquitectura, interpretabilidad o utilidad institucional, según corresponda [20].
+2.1.3. Estado del arte como base de dimensiones
+El estado del arte no se utiliza como una lista simple de artículos. Su función metodológica es extraer dimensiones, subdimensiones e indicadores que permitan formular problemas específicos, objetivos específicos, hipótesis e instrumentos. En esta investigación, la revisión de cuarenta artículos permite identificar seis dimensiones fusionadas: gestión y preparación del dataset; selección y reducción de características; selección, entrenamiento y comparación de modelos IDS-ML; evaluación integral del desempeño; implementación del prototipo software IDS-ML; e interpretabilidad, trazabilidad y utilidad institucional.
+La tesis de referencia revisada muestra que un estado del arte robusto incluye criterios de búsqueda, resultados de artículos seleccionados, tablas de síntesis, matrices de operacionalización y anexos. En este proyecto se adopta esa lógica de profundidad, pero se conserva el formato institucional de la Universidad Continental y el uso de referencias en estilo ISO numérico.
+2.2. Bases teóricas
+2.2.1. Modelos de machine learning aplicados al IDS
+Los modelos de machine learning constituyen la variable independiente. Estos algoritmos aprenden patrones desde datos de tráfico para clasificar eventos normales o maliciosos. Se consideran modelos clásicos como árbol de decisión, Random Forest, SVM, KNN, regresión logística y Naive Bayes; modelos ensamblados como ExtraTrees, boosting y stacking; y modelos de deep learning como CNN, DNN, LSTM, BiLSTM, autoencoders y transformers [5], [6].
+2.2.2. Gestión y preparación del dataset
+La calidad del dataset es una condición crítica en IDS. Un dataset debe contener tráfico normal y malicioso, clases representativas, atributos relevantes, distribución conocida y tratamiento de valores faltantes. Los estudios revisados muestran que el balanceo de clases, la normalización, la codificación y la selección de atributos influyen directamente en el rendimiento del modelo [9], [13], [16], [24].
+2.2.3. Selección y reducción de características
+La reducción de dimensionalidad y selección de características permiten disminuir ruido, mejorar eficiencia y facilitar interpretación. En IDS, atributos irrelevantes pueden aumentar falsos positivos o reducir capacidad de generalización. Por ello, la investigación contempla ranking de importancia, técnicas de reducción y evaluación del impacto de atributos [13], [16].
+2.2.4. Detección de intrusiones e identificación de amenazas
+La variable dependiente se expresa en la capacidad de detectar tráfico malicioso, anomalías y tipos de ataques. NIST SP 800-94 define las tecnologías IDPS como mecanismos que monitorean actividad, detectan posibles incidentes, registran información y generan alertas [1]. En la tesis, la detección se evalúa mediante matriz de confusión, recall, precision, F1-score y tasa de falsos positivos.
+2.2.5. Prototipo software IDS-ML
+El prototipo IDS-ML funciona como variable intermedia porque convierte modelos y métricas en una solución funcional. Incluye módulos de carga de datos, preprocesamiento, entrenamiento, comparación, predicción, centro de alertas, dashboard, historial, persistencia en Firebase/Firestore, respaldo SQLite, control de versiones GitHub y despliegue posible en Streamlit Cloud o Render.
+2.2.6. Interpretabilidad y utilidad institucional
+La interpretabilidad es necesaria para que el personal de TI comprenda por qué se genera una alerta, qué severidad tiene y qué acción se recomienda. Los trabajos XAI e IDS IoT/IoMT muestran que la confianza del analista no depende solo del accuracy, sino de la claridad de resultados, explicación y trazabilidad [20], [37], [39], [41].
+2.3. Definiciones conceptuales
+IDS: Sistema de detección de intrusiones que monitorea eventos de red o sistema para identificar actividad sospechosa y generar alertas [1].
+Machine learning: Conjunto de algoritmos que aprenden patrones desde datos para realizar clasificación, predicción o detección de anomalías [5].
+Dataset IDS: Conjunto de registros de tráfico normal y malicioso utilizado para entrenar y evaluar modelos de detección.
+Preprocesamiento: Etapa de limpieza, transformación, normalización, codificación y balanceo de datos antes del entrenamiento.
+Feature selection: Proceso de selección de atributos relevantes para mejorar desempeño, eficiencia e interpretabilidad.
+Accuracy: Proporción de clasificaciones correctas respecto al total de registros evaluados.
+Precision: Proporción de alertas positivas que corresponden realmente a ataques.
+Recall: Proporción de ataques reales que fueron detectados por el modelo.
+F1-score: Media armónica entre precision y recall; útil cuando existen clases desbalanceadas.
+Matriz de confusión: Tabla que muestra verdaderos positivos, falsos positivos, verdaderos negativos y falsos negativos.
+Falso positivo: Evento normal clasificado como amenaza; puede generar fatiga de alertas.
+Falso negativo: Amenaza real no detectada; puede ser crítico en entornos hospitalarios.
+XAI: Inteligencia artificial explicable orientada a comprender resultados y apoyar decisiones.
+Firestore: Base de datos cloud NoSQL usada para persistir alertas, métricas e historial.
+SQLite: Base de datos local ligera usada como respaldo de persistencia.
+CAPÍTULO III
+HIPÓTESIS Y VARIABLES
+3.1. Hipótesis
+3.1.1. Hipótesis general
+El diseño y evaluación comparativa de modelos de machine learning permite desarrollar significativamente un prototipo IDS-ML orientado a la detección de intrusiones e identificación de amenazas en la red institucional del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión.
+3.1.2. Hipótesis específicas
+HE1. Dimensión: Gestión y preparación del dataset. La gestión y preparación del dataset mejora la calidad de los datos utilizados para el entrenamiento y evaluación del prototipo IDS-ML.
+HE2. Dimensión: Selección y reducción de características. La selección y reducción de características contribuye a identificar atributos relevantes del tráfico de red y mejora la detección de intrusiones.
+HE3. Dimensión: Selección, entrenamiento y comparación de modelos IDS-ML. El entrenamiento y comparación de modelos de machine learning permite identificar el modelo con mejor desempeño para la detección y clasificación de amenazas.
+HE4. Dimensión: Evaluación integral del desempeño. La evaluación integral mediante métricas de clasificación permite seleccionar objetivamente el modelo IDS-ML más adecuado.
+HE5. Dimensión: Implementación del prototipo software IDS-ML. La implementación del prototipo software IDS-ML con dashboard, alertas, persistencia y control de versiones mejora la trazabilidad funcional del sistema.
+HE6. Dimensión: Interpretabilidad, trazabilidad y utilidad institucional. La interpretabilidad de alertas, trazabilidad de resultados y utilidad institucional del prototipo IDS-ML favorecen el apoyo a la toma de decisiones del personal de TI.
+3.2. Identificación de variables
+Tipo de variable
+Nombre completo
+Definición operacional
+Variable independiente
+Modelos de machine learning aplicados al IDS
+Algoritmos y procedimientos de preprocesamiento, selección de características, entrenamiento, comparación y optimización utilizados para detectar intrusiones.
+Variable dependiente
+Detección de intrusiones e identificación de amenazas
+Capacidad para clasificar tráfico normal/malicioso, detectar anomalías, identificar tipos de ataque y medir calidad de detección.
+Variable intermedia
+Prototipo software IDS-ML
+Sistema que integra carga de datos, entrenamiento, comparación, dashboard, alertas, persistencia, trazabilidad y despliegue.
+3.3. Matriz de operacionalización fusionada de variables
+La matriz fusionada se elaboró a partir de las matrices individuales de los artículos revisados. Por ello, las dimensiones no se presentan como categorías aisladas; cada dimensión se conecta con una parte específica de la literatura y con un instrumento de medición. La columna de sustento precisa qué aporta cada artículo, evitando colocar únicamente códigos sin explicación.
+Variable
+Dimensión
+Subdimensión
+Indicador
+Instrumento
+Sustento específico de artículos
+Modelos de machine learning aplicados al IDS
+Gestión y preparación del dataset
+Selección del dataset IDS
+Pertinencia, actualidad, clases de ataque, balance de clases
+Ficha técnica del dataset
+Khraisat et al. revisa datasets y desafíos; Kasongo y Sun usa UNSW-NB15; Talukder et al. aborda datos grandes y desbalanceados.
+Modelos de machine learning aplicados al IDS
+Gestión y preparación del dataset
+Limpieza y transformación
+Nulos, codificación, normalización, escalamiento
+Notebook de preprocesamiento
+Shiravani et al. sustenta reducción y transformación; Talukder et al. considera preparación de datos imbalanceados; Scikit-learn sustenta pipelines.
+Modelos de machine learning aplicados al IDS
+Gestión y preparación del dataset
+Balanceo de clases
+Distribución normal/ataque, oversampling, undersampling
+Reporte de distribución
+Talukder et al. aborda oversampling, stacking y feature embedding en datos desbalanceados.
+Modelos de machine learning aplicados al IDS
+Selección y reducción de características
+Atributos relevantes
+Ranking, reducción dimensional, importancia de atributos
+Matriz de atributos
+Kasongo y Sun analiza selección de características; Shiravani et al. trabaja reducción dimensional; Al-Ghuwairi et al. usa feature selection.
+Modelos de machine learning aplicados al IDS
+Selección y reducción de características
+Ingeniería de características
+Atributos derivados, embeddings, representación del tráfico
+Ficha de ingeniería
+Talukder et al. trabaja feature embedding; Zhang et al. convierte eventos en representaciones tipo imagen.
+Modelos de machine learning aplicados al IDS
+Selección, entrenamiento y comparación de modelos IDS-ML
+Modelos clásicos
+RF, DT, SVM, KNN, LR, NB
+Matriz de modelos
+Khraisat et al. revisa técnicas; Ajagbe et al. compara modelos ML; Sharma et al. usa ExtraTrees.
+Modelos de machine learning aplicados al IDS
+Selección, entrenamiento y comparación de modelos IDS-ML
+Modelos ensamblados
+Random Forest, ExtraTrees, boosting, stacking
+Registro experimental
+Talukder et al. sustenta stacking; Sharma et al. aplica arquitectura multicapa.
+Modelos de machine learning aplicados al IDS
+Selección, entrenamiento y comparación de modelos IDS-ML
+Modelos profundos
+CNN, DNN, LSTM, BiLSTM, autoencoder, transformer
+Ficha de arquitectura
+Shebl et al. propone DCNN; Wang et al. usa BiLSTM; Long et al. usa transformers; Bountzis et al. usa autoencoders y one-class SVM.
+Modelos de machine learning aplicados al IDS
+Optimización y selección del mejor modelo
+Criterio de selección
+F1-score, recall, precision, falsos positivos, tiempo
+Matriz final de selección
+Khraisat et al. advierte falsos positivos; estudios comparativos justifican selección por métricas múltiples.
+Detección de intrusiones e identificación de amenazas
+Detección de tráfico malicioso
+Clasificación binaria
+Normal vs malicioso, tasa de detección
+Matriz de confusión binaria
+Shebl et al. trabaja clasificación binaria; NIST sustenta monitoreo y alerta.
+Detección de intrusiones e identificación de amenazas
+Detección de tráfico malicioso
+Clasificación multiclase
+DoS, DDoS, probe, brute force, malware
+Reporte multiclase
+Shebl et al. sustenta clasificación multiclase; Ajagbe et al. usa UNSW-NB15 con clases de ataque.
+Detección de intrusiones e identificación de amenazas
+Detección de anomalías
+Patrones atípicos
+Score de anomalía, umbral, eventos fuera de patrón
+Reporte de anomalías
+Bountzis et al. trabaja one-class con autoencoders; Almuhanna y Dardouri estudian detección híbrida de anomalías.
+Detección de intrusiones e identificación de amenazas
+Evaluación integral del desempeño
+Calidad de detección
+Recall, falsos negativos, detection rate
+Reporte de métricas
+La literatura IDS resalta que falsos negativos son críticos; Khraisat et al. revisa desafíos de detección.
+Detección de intrusiones e identificación de amenazas
+Evaluación integral del desempeño
+Calidad de clasificación
+Accuracy, precision, F1-score, ROC-AUC
+Reporte comparativo
+Ajagbe, Talukder y Shebl comparan modelos con métricas múltiples.
+Detección de intrusiones e identificación de amenazas
+Evaluación integral del desempeño
+Eficiencia operativa
+Tiempo de entrenamiento, predicción y recursos
+Bitácora de pruebas
+Umar et al. y trabajos edge/cloud sustentan necesidad de eficiencia operativa.
+Prototipo software IDS-ML
+Implementación del prototipo software IDS-ML
+Arquitectura por capas
+Interfaz, lógica ML, repositorio, almacenamiento, reportes
+Ficha técnica del software
+Artículos cloud/edge/IoT muestran que un IDS necesita arquitectura y módulos claros.
+Prototipo software IDS-ML
+Implementación del prototipo software IDS-ML
+Módulos funcionales
+Carga, perfilado, entrenamiento, comparación, predicción
+Lista de cotejo funcional
+La literatura sobre IDS comparativos exige reproducibilidad del proceso de entrenamiento y evaluación.
+Prototipo software IDS-ML
+Implementación del prototipo software IDS-ML
+Persistencia y trazabilidad
+Firebase/Firestore, SQLite, historial, bitácora
+Prueba cloud/local
+Los enfoques cloud/edge sustentan registro de eventos y trazabilidad.
+Prototipo software IDS-ML
+Interpretabilidad, trazabilidad y utilidad institucional
+Centro de alertas TI
+Amenaza, severidad, impacto, recomendación
+Ficha de alerta
+Ebrahimi, Khan y Mohale aportan XAI e interpretabilidad para apoyar decisiones.
+Prototipo software IDS-ML
+Interpretabilidad, trazabilidad y utilidad institucional
+Utilidad para personal TI
+Reporte, priorización, explicación de resultados
+Juicio de expertos
+NIST CSF 2.0 vincula detección con respuesta y gestión de riesgos; ENISA sustenta priorización de amenazas.
+Tabla 3. Matriz de operacionalización fusionada de variables. Nota. Elaboración propia a partir de los artículos revisados.
+CAPÍTULO IV
+METODOLOGÍA DE LA INVESTIGACIÓN
+4.1. Método general o teórico de la investigación
+El método general será hipotético-deductivo, porque se parte de un problema identificado, se formulan hipótesis, se operacionalizan variables y se contrastan los resultados mediante métricas de evaluación y validación funcional del prototipo.
+4.2. Método específico de la investigación
+El método específico será experimental-computacional y comparativo. Es experimental-computacional porque se entrenarán modelos con datos de tráfico y se evaluarán sus resultados. Es comparativo porque se contrastarán distintos modelos para identificar el mejor desempeño según métricas.
+4.3. Enfoque de investigación
+El enfoque será cuantitativo, debido a que los resultados principales se expresan en métricas numéricas como accuracy, precision, recall, F1-score, matriz de confusión, falsos positivos, falsos negativos y tiempos de procesamiento. Se complementará con validación funcional mediante lista de cotejo.
+4.4. Tipo de investigación
+La investigación será aplicada porque busca resolver una necesidad concreta: diseñar y evaluar un prototipo IDS-ML para apoyar la detección de intrusiones en una red institucional hospitalaria.
+4.5. Alcance de investigación
+El alcance será descriptivo, comparativo y propositivo. Es descriptivo porque caracteriza datasets, amenazas y arquitectura; comparativo porque evalúa modelos; y propositivo porque desarrolla un prototipo funcional.
+4.6. Diseño de investigación
+El diseño será no experimental en el diagnóstico institucional y experimental-computacional en la evaluación de modelos. No se manipulará la red real del hospital sin autorización; las pruebas se realizarán con datasets o capturas autorizadas en ambiente controlado.
+4.7. Población
+La población estará conformada por registros o eventos de tráfico de red normal y malicioso asociados a un entorno institucional o dataset representativo para IDS. De forma complementaria, se considerará al personal TI o expertos que validen la utilidad funcional del prototipo.
+4.8. Muestra
+La muestra estará constituida por registros seleccionados para entrenamiento, validación y prueba de modelos. Si no se cuenta con datos reales autorizados del hospital, se usarán datasets públicos reconocidos para IDS y escenarios controlados.
+4.9. Técnicas de recolección de datos
+Se aplicarán análisis documental, extracción de información de artículos científicos, revisión técnica de datasets, observación del funcionamiento del prototipo, registro de métricas y validación por lista de cotejo.
+4.10. Instrumentos de recolección de datos
+Los instrumentos serán ficha de análisis de artículos, matriz individual de operacionalización, matriz fusionada, ficha técnica del dataset, notebook de entrenamiento, matriz de métricas, lista de cotejo funcional y consentimiento institucional.
+4.11. Procesamiento y análisis de datos
+El procesamiento se realizará con Python, Pandas, NumPy y Scikit-learn. El flujo incluirá carga de datos, limpieza, codificación, normalización, balanceo, partición entrenamiento/prueba, entrenamiento de modelos, evaluación, almacenamiento y visualización en Streamlit.
+4.12. Consideraciones éticas
+El proyecto no accederá a datos clínicos sensibles ni intervendrá sistemas reales sin autorización. La información institucional será tratada con confidencialidad. Las pruebas se realizarán en ambiente controlado y el consentimiento institucional se anexará al documento.
+CAPÍTULO V
+ASPECTOS ADMINISTRATIVOS
+5.1. Cronograma de desarrollo
+Actividad
+Mes 1
+Mes 2
+Mes 3
+Mes 4
+Mes 5
+Mes 6
+Revisión bibliográfica y fuentes abiertas
+X
+X
+Estado del arte y matrices individuales
+X
+X
+Matriz fusionada y formulación de variables
+X
+Diagnóstico institucional y consentimiento
+X
+X
+Diseño del prototipo IDS-ML
+X
+X
+Implementación con Streamlit, Scikit-learn y Firebase
+X
+X
+Pruebas, métricas y validación funcional
+X
+X
+Redacción final y sustentación
+X
+X
+Tabla 4. Cronograma de desarrollo. Nota. Elaboración propia.
+5.2. Presupuesto de investigación
+Rubro
+Detalle
+Monto (S/)
+Recursos humanos
+Apoyo técnico, validación, revisión especializada y asesoría puntual
+2400.00
+Recursos tecnológicos
+Equipo, mantenimiento, herramientas, repositorios y pruebas
+2200.00
+Capacitación en IA y ciberseguridad
+Cursos, talleres, materiales, laboratorios y entrenamiento complementario
+1500.00
+Servicios cloud y despliegue
+Firebase/Firestore, Streamlit Cloud/Render, dominios o servicios complementarios
+1200.00
+Uso de herramientas de IA
+Apoyo en análisis, documentación, pruebas, generación de reportes y revisión
+700.00
+Materiales
+Impresiones, papelería, USB, evidencias, anillados
+600.00
+Logística
+Movilidad, visitas, coordinación institucional y comunicaciones
+800.00
+Recursos académicos y validación
+Biblioteca, revisión, juicio de expertos, derechos o trámites académicos
+900.00
+Contingencia
+Riesgos técnicos, reemplazos, ajustes y ampliaciones
+1000.00
+TOTAL
+11300.00
+Tabla 5. Presupuesto de investigación. Nota. Elaboración propia.
+El presupuesto supera el mínimo solicitado de S/ 10 000 porque el proyecto incorpora desarrollo de software, validación, capacitación, uso de IA, servicios cloud, control de versiones, pruebas funcionales y recursos para documentación técnica.
+REFERENCIAS BIBLIOGRÁFICAS
+Las referencias siguientes corresponden a las citas numéricas empleadas en el informe y a los artículos revisados para el estado del arte, matrices individuales y matriz fusionada. Se mantiene el estilo numérico ISO usado en el documento.
+[1] SCARFONE, Karen; MELL, Peter. Guide to Intrusion Detection and Prevention Systems (IDPS). NIST Special Publication 800-94. Gaithersburg: National Institute of Standards and Technology, 2007.
+[2] NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. The NIST Cybersecurity Framework (CSF) 2.0. Gaithersburg: NIST, 2024.
+[3] EUROPEAN UNION AGENCY FOR CYBERSECURITY. ENISA Threat Landscape 2024. Heraklion: ENISA, 2024.
+[4] VERIZON. 2025 Data Breach Investigations Report. New York: Verizon Business, 2025.
+[5] JAMES, Gareth; WITTEN, Daniela; HASTIE, Trevor; TIBSHIRANI, Robert. An Introduction to Statistical Learning: with Applications in Python. Cham: Springer, 2023.
+[6] PEDREGOSA, Fabian; VAROQUAUX, Gael; GRAMFORT, Alexandre; MICHEL, Vincent; THIRION, Bertrand; GRISEL, Olivier; BLONDEL, Mathieu; PRETTENHOFER, Peter; WEISS, Ron; DUBOURG, Vincent; VANDERPLAS, Jake; PASSOS, Alexandre; COURNAPEAU, David; BRUCHER, Matthieu; PERROT, Matthieu; DUCHESNAY, Edouard. Scikit-learn: Machine Learning in Python. Journal of Machine Learning Research. 2011, vol. 12, pp. 2825-2830.
+[7] NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. Artificial Intelligence Risk Management Framework (AI RMF 1.0). Gaithersburg: NIST, 2023.
+[8] HERNANDEZ-SAMPIERI, Roberto; MENDOZA TORRES, Christian Paulina. Metodologia de la investigacion: las rutas cuantitativa, cualitativa y mixta. Ciudad de Mexico: McGraw-Hill, 2018.
+[9] KHRAISAT, Ansam; GONDAL, Iqbal; VAMPLEW, Peter; KAMRUZZAMAN, Joarder. Survey of intrusion detection systems: techniques, datasets and challenges. Cybersecurity. 2019. DOI: 10.1186/s42400-019-0038-7.
+[10] OTHMAN, Suad Mohammed; BA-ALWI, Fadl Mutaher; ALI, Nabeel T.; AL-HAWARI, A. Intrusion detection model using machine learning algorithm on Big Data environment. Journal of Big Data. 2018. DOI: 10.1186/s40537-018-0145-4.
+[11] JADHAV, S.; et al. Highly accurate and efficient two phase-intrusion detection system using Hadoop and machine learning. Journal of Big Data. 2021. DOI: 10.1186/s40537-021-00521-y.
+[12] ONYEMA, Edeh Michael; et al. Design of Intrusion Detection System based on Cyborg intelligence for security of Cloud Network Traffic of Smart Cities. Journal of Cloud Computing. 2022. DOI: 10.1186/s13677-022-00305-6.
+[13] SHIRAVANI, Anita; SADREDDINI, Mohammad Hadi; NOSRATI NAHOOK, Hassan. Network intrusion detection using data dimensions reduction techniques. Journal of Big Data. 2023. DOI: 10.1186/s40537-023-00697-5.
+[14] AL-GHUWAIRI, A.; et al. Intrusion detection in cloud computing using time series and feature selection. Journal of Cloud Computing. 2023. DOI: 10.1186/s13677-023-00491-x.
+[15] WANG, Y.; et al. Multi-domain data ensemble BiLSTM network intrusion detection system. EURASIP Journal on Information Security. 2023. DOI: 10.1186/s13635-023-00139-y.
+[16] TALUKDER, M. A.; et al. Machine learning-based network intrusion detection for big and imbalanced data using oversampling, stacking and feature embedding. Journal of Big Data. 2024. DOI: 10.1186/s40537-024-00886-w.
+[17] SAJID, M.; et al. Hybrid machine and deep learning-based network intrusion detection. Journal of Cloud Computing. 2024. DOI: 10.1186/s13677-024-00685-x.
+[18] HOZOURI, M.; et al. Comprehensive survey of intrusion detection systems using machine learning and deep learning. Discover Computing. 2025. DOI: 10.1007/s44163-025-00578-1.
+[19] REHMAN, A.; et al. Systematic literature study on machine learning-based intrusion detection. Journal of Big Data. 2025. DOI: 10.1186/s40537-025-01323-2.
+[20] UMAR, A.; et al. DNN-KDQ edge computing intrusion detection system. Journal of Cloud Computing. 2025. DOI: 10.1186/s13677-025-00762-9.
+[21] SHARMA, P.; et al. Multi-layer intrusion detection system using ExtraTrees, ELM and softmax. EURASIP Journal on Information Security. 2019. DOI: 10.1186/s13635-019-0098-y.
+[22] SHEBL, A.; et al. DCNN-based binary and multiclass network intrusion detection system. EURASIP Journal on Information Security. 2024. DOI: 10.1186/s13635-024-00184-1.
+[23] LONG, J.; et al. Transformer-based network intrusion detection for cloud security. Journal of Cloud Computing. 2024. DOI: 10.1186/s13677-023-00574-9.
+[24] KASONGO, Sydney M.; SUN, Yanxia. Performance analysis of intrusion detection systems using a feature selection method on the UNSW-NB15 dataset. Journal of Big Data. 2020. DOI: 10.1186/s40537-020-00379-6.
+[25] LAGHRISSI, Fatima Ezzahra; et al. IDS-attention: an efficient algorithm for intrusion detection systems using attention mechanism. Journal of Big Data. 2021. DOI: 10.1186/s40537-021-00544-5.
+[26] AYANTAYO, I.; et al. Feature fusion with deep learning for intrusion detection. Journal of Big Data. 2023. DOI: 10.1186/s40537-023-00834-0.
+[27] AL JALLAD, Khloud; ALJNIDI, Mohamad; DESOUKI, Mohammad Said. Big data analysis and distributed deep learning for next-generation intrusion detection system optimization. Journal of Big Data. 2019. DOI: 10.1186/s40537-019-0248-6.
+[28] EBRAHIMI, M.; et al. IoT CNN XAI intrusion detection system. Cybersecurity. 2025. DOI: 10.1186/s42400-025-00369-2.
+[29] RAMAN, M. R.; et al. Machine learning for intrusion detection in industrial control systems. Cybersecurity. 2021. DOI: 10.1186/s42400-021-00095-5.
+[30] WANG, H.; et al. BS-GAT graph neural network edge intrusion detection system. Cybersecurity. 2025. DOI: 10.1186/s42400-024-00296-8.
+[31] AJAGBE, S.; et al. Comparison study of machine learning models on UNSW-NB15. SN Computer Science. 2024. DOI: 10.1007/s42979-024-03369-0.
+[32] ALMUHANNA, Reem; DARDOURI, Samia. Anomaly-based network intrusion detection using hybrid deep learning and machine learning. Frontiers in Artificial Intelligence. 2025. DOI: 10.3389/frai.2025.1625891.
+[33] ZHOU, Y.; et al. UAV intrusion detection using machine learning and neural networks. Frontiers in Physics. 2025. DOI: 10.3389/fphy.2025.1660104.
+[34] ILIAS, A.; et al. CNN mixture-of-experts intrusion detection for 5G. Frontiers in Artificial Intelligence. 2025. DOI: 10.3389/frai.2025.1708953.
+[35] AFZAL, M.; et al. Privacy-preserving anomaly intrusion detection for energy systems. Energy Informatics. 2025. DOI: 10.1186/s42162-025-00565-x.
+[36] KHRAISAT, Ansam; et al. A critical review of intrusion detection systems in the Internet of Things: techniques, deployment strategy and validation. Cybersecurity. 2021. DOI: 10.1186/s42400-021-00077-7.
+[37] SHARMILA; NAGAPADMA. Quantized autoencoder intrusion detection system for IoT. Cybersecurity. 2023. DOI: 10.1186/s42400-023-00178-5.
+[38] EL-SHERIF, A.; et al. TCP/IP single packet header IoT intrusion detection system. Cybersecurity. 2025. DOI: 10.1186/s42400-025-00441-x.
+[39] ESHMAWI, A.; et al. Smart framework for IIoT cloud intrusion detection. Frontiers in Computer Science. 2025. DOI: 10.3389/fcomp.2025.1622382.
+[40] ABDELAZIZ, A.; et al. Federated learning IoT intrusion detection system. Frontiers in Big Data. 2025. DOI: 10.3389/fdata.2025.1526480.
+[41] SHAIKH, F.; et al. Robust intrusion detection system for IoMT healthcare. Frontiers in Medicine. 2025. DOI: 10.3389/fmed.2025.1524286.
+[42] ZHANG, Y.; et al. Bag2image network security event prediction. Cybersecurity. 2025. DOI: 10.1186/s42400-024-00292-y.
+[43] BOUNTZIS, P.; et al. One-class classifier for network anomaly detection. Frontiers in Computer Science. 2025. DOI: 10.3389/fcomp.2025.1646679.
+[44] ALI, M.; et al. Machine learning-based intrusion detection. Frontiers in Computer Science. 2024. DOI: 10.3389/fcomp.2024.1387354.
+[45] KHAN, M.; et al. Explainable AI-based intrusion detection system. 2024. Dato bibliografico pendiente de completar desde el PDF revisado.
+[46] MISHRA, S.; et al. A review of machine learning-based intrusion detection system on Internet of Things. EAI Endorsed Transactions on Internet of Things. 2024. DOI: 10.4108/eetiot.5332.
+[47] MOHALE, P.; et al. Evaluating machine learning and explainable AI for IoT intrusion detection. Frontiers in Computer Science. 2025. DOI: 10.3389/fcomp.2025.1520741.
+[48] DAI, et al. Design and validation of a deep learning-based network intrusion detection system. 2026. Referencia pendiente de reemplazo o verificacion con PDF, debido a la auditoria de concordancia de articulos.
+ANEXOS
+Anexo 01. Matriz de consistencia
+Dimensión
+Problema específico
+Objetivo específico
+Hipótesis específica
+Metodología
+Gestión y preparación del dataset
+PE1 ¿De qué manera la gestión y preparación del dataset influye en la calidad de los datos utilizados para el entrenamiento y evaluación del prototipo IDS-ML orientado a la red institucional hospitalaria?
+OE1 Analizar la gestión y preparación del dataset requerido para mejorar la calidad de los datos utilizados en el entrenamiento y evaluación del prototipo IDS-ML.
+HE1 La gestión y preparación del dataset mejora la calidad de los datos utilizados para el entrenamiento y evaluación del prototipo IDS-ML.
+Aplicada, cuantitativa, comparativa, experimental-computacional.
+Selección y reducción de características
+PE2 ¿De qué manera la selección y reducción de características contribuye a identificar los atributos más relevantes del tráfico de red para mejorar la detección de intrusiones?
+OE2 Determinar las características más relevantes del tráfico de red mediante técnicas de selección y reducción de atributos para fortalecer la detección de intrusiones.
+HE2 La selección y reducción de características contribuye a identificar atributos relevantes del tráfico de red y mejora la detección de intrusiones.
+Aplicada, cuantitativa, comparativa, experimental-computacional.
+Selección, entrenamiento y comparación de modelos IDS-ML
+PE3 ¿Qué modelos de machine learning presentan mejor desempeño comparativo en la detección y clasificación de amenazas dentro del prototipo IDS-ML?
+OE3 Entrenar y comparar modelos de machine learning para identificar aquellos con mejor desempeño en la detección y clasificación de amenazas.
+HE3 El entrenamiento y comparación de modelos de machine learning permite identificar el modelo con mejor desempeño para la detección y clasificación de amenazas.
+Aplicada, cuantitativa, comparativa, experimental-computacional.
+Evaluación integral del desempeño
+PE4 ¿Cómo se evalúa integralmente el desempeño de los modelos IDS-ML mediante accuracy, precision, recall, F1-score, matriz de confusión, falsos positivos, falsos negativos y tiempo de predicción?
+OE4 Evaluar integralmente el desempeño de los modelos IDS-ML mediante accuracy, precision, recall, F1-score, matriz de confusión, falsos positivos, falsos negativos y tiempo de predicción.
+HE4 La evaluación integral mediante métricas de clasificación permite seleccionar objetivamente el modelo IDS-ML más adecuado.
+Aplicada, cuantitativa, comparativa, experimental-computacional.
+Implementación del prototipo software IDS-ML
+PE5 ¿Cómo debe implementarse un prototipo software IDS-ML con dashboard, centro de alertas, persistencia en Firebase/Firestore, respaldo en SQLite y control de versiones en GitHub?
+OE5 Implementar un prototipo software IDS-ML con dashboard, centro de alertas, Firebase/Firestore, SQLite y GitHub para apoyar el monitoreo de una red institucional hospitalaria.
+HE5 La implementación del prototipo software IDS-ML con dashboard, alertas, persistencia y control de versiones mejora la trazabilidad funcional del sistema.
+Aplicada, cuantitativa, comparativa, experimental-computacional.
+Interpretabilidad, trazabilidad y utilidad institucional
+PE6 ¿De qué manera la interpretabilidad de alertas, trazabilidad de resultados y utilidad institucional del prototipo IDS-ML contribuyen al apoyo de la toma de decisiones del personal de TI?
+OE6 Analizar la interpretabilidad, trazabilidad y utilidad institucional de las alertas generadas por el prototipo IDS-ML para apoyar la toma de decisiones del personal de TI.
+HE6 La interpretabilidad de alertas, trazabilidad de resultados y utilidad institucional del prototipo IDS-ML favorecen el apoyo a la toma de decisiones del personal de TI.
+Aplicada, cuantitativa, comparativa, experimental-computacional.
+Anexo 02. Matriz de operacionalización de variables
+Variable
+Dimensión
+Subdimensión
+Indicador
+Instrumento
+Sustento específico
+Modelos de machine learning aplicados al IDS
+Gestión y preparación del dataset
+Selección del dataset IDS
+Pertinencia, actualidad, clases de ataque, balance de clases
+Ficha técnica del dataset
+Khraisat et al. revisa datasets y desafíos; Kasongo y Sun usa UNSW-NB15; Talukder et al. aborda datos grandes y desbalanceados.
+Modelos de machine learning aplicados al IDS
+Gestión y preparación del dataset
+Limpieza y transformación
+Nulos, codificación, normalización, escalamiento
+Notebook de preprocesamiento
+Shiravani et al. sustenta reducción y transformación; Talukder et al. considera preparación de datos imbalanceados; Scikit-learn sustenta pipelines.
+Modelos de machine learning aplicados al IDS
+Gestión y preparación del dataset
+Balanceo de clases
+Distribución normal/ataque, oversampling, undersampling
+Reporte de distribución
+Talukder et al. aborda oversampling, stacking y feature embedding en datos desbalanceados.
+Modelos de machine learning aplicados al IDS
+Selección y reducción de características
+Atributos relevantes
+Ranking, reducción dimensional, importancia de atributos
+Matriz de atributos
+Kasongo y Sun analiza selección de características; Shiravani et al. trabaja reducción dimensional; Al-Ghuwairi et al. usa feature selection.
+Modelos de machine learning aplicados al IDS
+Selección y reducción de características
+Ingeniería de características
+Atributos derivados, embeddings, representación del tráfico
+Ficha de ingeniería
+Talukder et al. trabaja feature embedding; Zhang et al. convierte eventos en representaciones tipo imagen.
+Modelos de machine learning aplicados al IDS
+Selección, entrenamiento y comparación de modelos IDS-ML
+Modelos clásicos
+RF, DT, SVM, KNN, LR, NB
+Matriz de modelos
+Khraisat et al. revisa técnicas; Ajagbe et al. compara modelos ML; Sharma et al. usa ExtraTrees.
+Modelos de machine learning aplicados al IDS
+Selección, entrenamiento y comparación de modelos IDS-ML
+Modelos ensamblados
+Random Forest, ExtraTrees, boosting, stacking
+Registro experimental
+Talukder et al. sustenta stacking; Sharma et al. aplica arquitectura multicapa.
+Modelos de machine learning aplicados al IDS
+Selección, entrenamiento y comparación de modelos IDS-ML
+Modelos profundos
+CNN, DNN, LSTM, BiLSTM, autoencoder, transformer
+Ficha de arquitectura
+Shebl et al. propone DCNN; Wang et al. usa BiLSTM; Long et al. usa transformers; Bountzis et al. usa autoencoders y one-class SVM.
+Modelos de machine learning aplicados al IDS
+Optimización y selección del mejor modelo
+Criterio de selección
+F1-score, recall, precision, falsos positivos, tiempo
+Matriz final de selección
+Khraisat et al. advierte falsos positivos; estudios comparativos justifican selección por métricas múltiples.
+Detección de intrusiones e identificación de amenazas
+Detección de tráfico malicioso
+Clasificación binaria
+Normal vs malicioso, tasa de detección
+Matriz de confusión binaria
+Shebl et al. trabaja clasificación binaria; NIST sustenta monitoreo y alerta.
+Detección de intrusiones e identificación de amenazas
+Detección de tráfico malicioso
+Clasificación multiclase
+DoS, DDoS, probe, brute force, malware
+Reporte multiclase
+Shebl et al. sustenta clasificación multiclase; Ajagbe et al. usa UNSW-NB15 con clases de ataque.
+Detección de intrusiones e identificación de amenazas
+Detección de anomalías
+Patrones atípicos
+Score de anomalía, umbral, eventos fuera de patrón
+Reporte de anomalías
+Bountzis et al. trabaja one-class con autoencoders; Almuhanna y Dardouri estudian detección híbrida de anomalías.
+Detección de intrusiones e identificación de amenazas
+Evaluación integral del desempeño
+Calidad de detección
+Recall, falsos negativos, detection rate
+Reporte de métricas
+La literatura IDS resalta que falsos negativos son críticos; Khraisat et al. revisa desafíos de detección.
+Detección de intrusiones e identificación de amenazas
+Evaluación integral del desempeño
+Calidad de clasificación
+Accuracy, precision, F1-score, ROC-AUC
+Reporte comparativo
+Ajagbe, Talukder y Shebl comparan modelos con métricas múltiples.
+Detección de intrusiones e identificación de amenazas
+Evaluación integral del desempeño
+Eficiencia operativa
+Tiempo de entrenamiento, predicción y recursos
+Bitácora de pruebas
+Umar et al. y trabajos edge/cloud sustentan necesidad de eficiencia operativa.
+Prototipo software IDS-ML
+Implementación del prototipo software IDS-ML
+Arquitectura por capas
+Interfaz, lógica ML, repositorio, almacenamiento, reportes
+Ficha técnica del software
+Artículos cloud/edge/IoT muestran que un IDS necesita arquitectura y módulos claros.
+Prototipo software IDS-ML
+Implementación del prototipo software IDS-ML
+Módulos funcionales
+Carga, perfilado, entrenamiento, comparación, predicción
+Lista de cotejo funcional
+La literatura sobre IDS comparativos exige reproducibilidad del proceso de entrenamiento y evaluación.
+Prototipo software IDS-ML
+Implementación del prototipo software IDS-ML
+Persistencia y trazabilidad
+Firebase/Firestore, SQLite, historial, bitácora
+Prueba cloud/local
+Los enfoques cloud/edge sustentan registro de eventos y trazabilidad.
+Prototipo software IDS-ML
+Interpretabilidad, trazabilidad y utilidad institucional
+Centro de alertas TI
+Amenaza, severidad, impacto, recomendación
+Ficha de alerta
+Ebrahimi, Khan y Mohale aportan XAI e interpretabilidad para apoyar decisiones.
+Prototipo software IDS-ML
+Interpretabilidad, trazabilidad y utilidad institucional
+Utilidad para personal TI
+Reporte, priorización, explicación de resultados
+Juicio de expertos
+NIST CSF 2.0 vincula detección con respuesta y gestión de riesgos; ENISA sustenta priorización de amenazas.
+Anexo 03. Matriz de operacionalización de instrumentos
+Dimensión evaluada
+Ítem del instrumento
+Criterio
+Escala
+Gestión y preparación del dataset
+El sistema permite cargar dataset y mostrar calidad de datos.
+Completitud, tipos de datos, distribución de clases
+1-5
+Selección de características
+El sistema permite revisar atributos relevantes o aplicar selección.
+Pertinencia de atributos y reducción de ruido
+1-5
+Comparación de modelos
+El sistema entrena y compara más de un algoritmo.
+Comparación funcional y registro de métricas
+1-5
+Evaluación integral
+El sistema muestra accuracy, precision, recall, F1-score y matriz de confusión.
+Disponibilidad y claridad de métricas
+1-5
+Alertas IDS-ML
+El sistema genera alerta con amenaza, severidad, impacto y recomendación.
+Claridad operativa
+1-5
+Persistencia
+El sistema almacena resultados en Firestore/SQLite.
+Trazabilidad y recuperación de historial
+1-5
+Utilidad institucional
+El dashboard apoya la toma de decisiones TI.
+Pertinencia y facilidad de interpretación
+1-5
+Anexo 04. Instrumento de investigación
+Instrumento: lista de cotejo funcional del prototipo IDS-ML. Cada ítem será evaluado con escala de 1 a 5: 1 = no cumple, 2 = cumple de forma deficiente, 3 = cumple parcialmente, 4 = cumple adecuadamente y 5 = cumple totalmente.
+N.°
+Dimensión/función
+Criterio de evaluación
+1
+Carga de datos
+El prototipo permite cargar archivos de datos y mostrar información básica del dataset.
+2
+Preprocesamiento
+El prototipo permite ejecutar limpieza, codificación, normalización o preparación de datos.
+3
+Entrenamiento
+El prototipo permite entrenar al menos tres modelos de machine learning.
+4
+Comparación
+El prototipo compara modelos mediante accuracy, precision, recall y F1-score.
+5
+Selección del mejor modelo
+El prototipo selecciona el mejor modelo según F1-score u otra métrica justificada.
+6
+Predicción
+El prototipo permite analizar registros nuevos o de prueba.
+7
+Alertas
+El prototipo genera alertas con amenaza, severidad, impacto y recomendación.
+8
+Dashboard
+El prototipo muestra gráficos, KPIs y tendencias útiles para el analista.
+9
+Persistencia
+El prototipo almacena resultados en Firestore y/o SQLite.
+10
+Trazabilidad
+El prototipo conserva historial de entrenamientos, alertas y resultados.
+11
+Roles
+El prototipo diferencia acceso de administrador, analista e invitado/demo.
+12
+Utilidad
+El sistema es comprensible y útil para apoyar decisiones del área TI.
+Anexo 05. Documento de consentimiento informado
+Yo, ________________________________________________, en calidad de representante o responsable autorizado del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión, declaro haber recibido información sobre el proyecto de investigación titulado “Diseño y evaluación comparativa de modelos de machine learning para un prototipo IDS-ML orientado a la detección de intrusiones en la red institucional del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión”, presentado por el estudiante Diego Gabriel Angulo Gonzales de la Universidad Continental.
+Autorizo el desarrollo de actividades académicas de levantamiento de información, diagnóstico, análisis técnico y validación controlada del prototipo, siempre que no se afecte la operatividad institucional, no se acceda a información clínica sensible sin autorización expresa y se respeten las políticas internas de seguridad de la información.
+Huancayo, ____ de __________ de 2026.
+Firma: ________________________________Nombres y apellidos: ________________________________Cargo: ________________________________DNI: ________________________________Sello institucional: ________________________________
+Anexo 06. Criterios de búsqueda, inclusión y exclusión
+Este anexo organiza el procedimiento de búsqueda bibliográfica empleado para sustentar la selección de artículos. La finalidad es demostrar trazabilidad entre palabras clave, artículos, dimensiones y matrices. La búsqueda se orientó a trabajos sobre intrusion detection systems, machine learning, deep learning, anomaly detection, network security, IoT, cloud, edge, healthcare, XAI y feature selection.
+Criterio
+Descripción
+Aplicación en la tesis
+Palabras clave
+Intrusion detection system, machine learning, deep learning, network anomaly detection, XAI, IoT, cloud security
+Permite identificar artículos directamente relacionados con IDS-ML.
+Periodo
+2018-2026, con prioridad a trabajos recientes
+Permite sustento actualizado y coherente con amenazas modernas.
+Tipo de documento
+Artículos científicos, revisiones sistemáticas, estudios experimentales y propuestas de modelo
+Permite construir estado del arte y matrices individuales.
+Criterios de inclusión
+Relación directa con IDS, ML/DL, datasets, métricas, arquitectura, XAI o despliegue
+Asegura que cada artículo aporte indicadores a la matriz fusionada.
+Criterios de exclusión
+Duplicados, documentos sin relación con IDS, trabajos sin métricas o sin aporte metodológico
+Evita inconsistencias entre artículos, estado del arte y referencias.
+La selección de los cuarenta artículos se revisó para asegurar coherencia entre el listado, el estado del arte, las matrices individuales y la matriz fusionada. En caso de detectarse duplicados o artículos no disponibles, se recomienda reemplazarlos por artículos únicos y verificables antes de la entrega final definitiva.
+Anexo 07. Síntesis de dimensiones derivadas de la matriz fusionada
+Dimensión: Gestión y preparación del dataset
+Esta dimensión surge de artículos que enfatizan calidad, pertinencia, balanceo, limpieza, transformación y representación de datos. Es la base del PE1, OE1 y HE1, porque sin datos adecuados los modelos IDS-ML pueden producir falsos positivos, falsos negativos o resultados no generalizables.
+Relación con el documento: aparece resaltada en los problemas específicos, objetivos específicos, hipótesis específicas y matrices. Esta relación demuestra que la formulación del estudio se deriva de los artículos y no de una elección arbitraria.
+Elemento
+Relación
+Problema específico
+Formula una pregunta alrededor de la dimensión.
+Objetivo específico
+Convierte la dimensión en una acción investigable.
+Hipótesis específica
+Propone el efecto esperado o aporte de la dimensión.
+Indicadores
+Permiten medir la dimensión mediante instrumentos concretos.
+Instrumentos
+Ficha técnica del dataset, notebook de preprocesamiento, reporte de distribución de clases.
+Dimensión: Selección y reducción de características
+Esta dimensión se deriva de trabajos sobre feature selection, reducción dimensional y representación del tráfico. Se vincula con PE2, OE2 y HE2, porque busca identificar atributos relevantes que mejoren rendimiento y eficiencia.
+Relación con el documento: aparece resaltada en los problemas específicos, objetivos específicos, hipótesis específicas y matrices. Esta relación demuestra que la formulación del estudio se deriva de los artículos y no de una elección arbitraria.
+Elemento
+Relación
+Problema específico
+Formula una pregunta alrededor de la dimensión.
+Objetivo específico
+Convierte la dimensión en una acción investigable.
+Hipótesis específica
+Propone el efecto esperado o aporte de la dimensión.
+Indicadores
+Permiten medir la dimensión mediante instrumentos concretos.
+Instrumentos
+Matriz de atributos, ranking de importancia, reporte de reducción dimensional.
+Dimensión: Selección, entrenamiento y comparación de modelos IDS-ML
+Esta dimensión proviene de estudios comparativos entre modelos clásicos, ensamblados y profundos. Se relaciona con PE3, OE3 y HE3 porque la tesis no selecciona un algoritmo por preferencia, sino por evidencia experimental.
+Relación con el documento: aparece resaltada en los problemas específicos, objetivos específicos, hipótesis específicas y matrices. Esta relación demuestra que la formulación del estudio se deriva de los artículos y no de una elección arbitraria.
+Elemento
+Relación
+Problema específico
+Formula una pregunta alrededor de la dimensión.
+Objetivo específico
+Convierte la dimensión en una acción investigable.
+Hipótesis específica
+Propone el efecto esperado o aporte de la dimensión.
+Indicadores
+Permiten medir la dimensión mediante instrumentos concretos.
+Instrumentos
+Matriz comparativa de modelos, registro de entrenamiento y validación.
+Dimensión: Evaluación integral del desempeño
+Esta dimensión se construye desde artículos que emplean accuracy, precision, recall, F1-score, matriz de confusión, falsos positivos y tiempo. Se vincula con PE4, OE4 y HE4.
+Relación con el documento: aparece resaltada en los problemas específicos, objetivos específicos, hipótesis específicas y matrices. Esta relación demuestra que la formulación del estudio se deriva de los artículos y no de una elección arbitraria.
+Elemento
+Relación
+Problema específico
+Formula una pregunta alrededor de la dimensión.
+Objetivo específico
+Convierte la dimensión en una acción investigable.
+Hipótesis específica
+Propone el efecto esperado o aporte de la dimensión.
+Indicadores
+Permiten medir la dimensión mediante instrumentos concretos.
+Instrumentos
+Reporte de métricas, matriz de confusión, bitácora de pruebas.
+Dimensión: Implementación del prototipo software IDS-ML
+Esta dimensión se apoya en trabajos sobre IDS cloud, edge, IoT y arquitecturas funcionales. Se relaciona con PE5, OE5 y HE5 porque el aporte no termina en el modelo, sino en un sistema con dashboard, alertas, persistencia y trazabilidad.
+Relación con el documento: aparece resaltada en los problemas específicos, objetivos específicos, hipótesis específicas y matrices. Esta relación demuestra que la formulación del estudio se deriva de los artículos y no de una elección arbitraria.
+Elemento
+Relación
+Problema específico
+Formula una pregunta alrededor de la dimensión.
+Objetivo específico
+Convierte la dimensión en una acción investigable.
+Hipótesis específica
+Propone el efecto esperado o aporte de la dimensión.
+Indicadores
+Permiten medir la dimensión mediante instrumentos concretos.
+Instrumentos
+Ficha técnica del software, lista de cotejo funcional, evidencia de GitHub y despliegue.
+Dimensión: Interpretabilidad, trazabilidad y utilidad institucional
+Esta dimensión se sustenta en artículos XAI, NIST CSF y necesidades operativas de seguridad. Se vincula con PE6, OE6 y HE6 porque el sistema debe ser entendible para el personal TI, no solo preciso en métricas.
+Relación con el documento: aparece resaltada en los problemas específicos, objetivos específicos, hipótesis específicas y matrices. Esta relación demuestra que la formulación del estudio se deriva de los artículos y no de una elección arbitraria.
+Elemento
+Relación
+Problema específico
+Formula una pregunta alrededor de la dimensión.
+Objetivo específico
+Convierte la dimensión en una acción investigable.
+Hipótesis específica
+Propone el efecto esperado o aporte de la dimensión.
+Indicadores
+Permiten medir la dimensión mediante instrumentos concretos.
+Instrumentos
+Ficha de alerta, juicio de expertos, reporte de utilidad institucional.
+Mapa relacional de la investigación
+La relación metodológica del documento se expresa como una secuencia: artículos científicos, estado del arte, matrices individuales, matriz fusionada, dimensiones, problemas específicos, objetivos específicos, hipótesis específicas, instrumentos y prototipo IDS-ML. Esta secuencia es importante porque garantiza que el informe no sea una suma de partes aisladas, sino un proyecto coherente.
+Entrada
+Proceso
+Salida
+Artículos científicos
+Extracción de aportes, métricas y limitaciones
+Estado del arte y antecedentes
+Matrices individuales
+Identificación de variables, dimensiones e indicadores
+Matriz fusionada
+Matriz fusionada
+Agrupación de dimensiones comunes
+Problemas, objetivos e hipótesis
+Prototipo IDS-ML
+Implementación y evaluación
+Métricas, alertas y validación funcional
+Anexo 08. Estado del arte de artículos revisados y matrices individuales
+A continuación, se presentan fichas sintéticas de estado del arte y matrices individuales por artículo. La finalidad no es duplicar información, sino evidenciar que la matriz fusionada surge del análisis de los cuarenta artículos y no de dimensiones arbitrarias.
+A01. Estado del arte y matriz individual
+Artículo: KHRAISAT, Ansam et al. (2019). Survey of intrusion detection systems: techniques, datasets and challenges.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: revisión de técnicas IDS, datasets y desafíos; aporta criterios para dataset, tipos de ataques, falsos positivos y generalización.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A02. Estado del arte y matriz individual
+Artículo: OTHMAN, Suad Mohammed et al. (2018). Intrusion detection model using machine learning algorithm on Big Data environment.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: modelo IDS en entorno Big Data; aporta tratamiento de grandes volúmenes, arquitectura y clasificación.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A03. Estado del arte y matriz individual
+Artículo: JADHAV et al. (2021). Highly accurate and efficient two phase-intrusion detection system using Hadoop and machine learning.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS de dos fases con procesamiento distribuido; aporta eficiencia, escalabilidad y comparación de modelos.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A04. Estado del arte y matriz individual
+Artículo: ONYEMA, Edeh Michael et al. (2022). Design of Intrusion Detection System based on Cyborg intelligence for security of Cloud Network Traffic of Smart Cities.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS para tráfico cloud; aporta conexión entre arquitectura cloud, detección y seguridad institucional.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A05. Estado del arte y matriz individual
+Artículo: SHIRAVANI, Anita et al. (2023). Network intrusion detection using data dimensions reduction techniques.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: reducción de dimensionalidad en NIDS; aporta selección/reducción de características y mejora de desempeño.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A06. Estado del arte y matriz individual
+Artículo: AL-GHUWAIRI et al. (2023). Intrusion detection in cloud computing using time series and feature selection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: detección cloud con series temporales y selección de atributos; aporta dimensión de características temporales.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A07. Estado del arte y matriz individual
+Artículo: WANG et al. (2023). Multi-domain data ensemble BiLSTM network intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: BiLSTM y datos multidominio; aporta deep learning secuencial y generalización de tráfico.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A08. Estado del arte y matriz individual
+Artículo: TALUKDER et al. (2024). Machine learning-based network intrusion detection for big and imbalanced data using oversampling, stacking and feature embedding.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: datos grandes y desbalanceados; aporta balanceo de clases, stacking y feature embedding.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A09. Estado del arte y matriz individual
+Artículo: SAJID et al. (2024). Hybrid machine and deep learning-based network intrusion detection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: modelo híbrido ML/DL; aporta comparación de familias de algoritmos y evaluación integral.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A10. Estado del arte y matriz individual
+Artículo: HOZOURI et al. (2025). Comprehensive survey of intrusion detection systems using machine learning and deep learning.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: revisión amplia de IDS ML/DL; aporta clasificación de métodos, datasets, retos e interpretabilidad.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A11. Estado del arte y matriz individual
+Artículo: REHMAN et al. (2025). Systematic literature study on machine learning-based intrusion detection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: estudio sistemático; aporta proceso de revisión, criterios de selección y vacíos de investigación.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A12. Estado del arte y matriz individual
+Artículo: UMAR et al. (2025). DNN-KDQ edge computing intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS edge con DNN; aporta eficiencia operativa, latencia y despliegue en borde.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A13. Estado del arte y matriz individual
+Artículo: SHARMA et al. (2019). Multi-layer intrusion detection system using ExtraTrees, ELM and softmax.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS multicapa con ExtraTrees/ELM; aporta modelos ensamblados y arquitectura por capas.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A14. Estado del arte y matriz individual
+Artículo: SHEBL et al. (2024). DCNN-based binary and multiclass network intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: DCNN para clasificación binaria y multiclase; aporta métricas por clase y arquitectura profunda.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A15. Estado del arte y matriz individual
+Artículo: LONG et al. (2024). Transformer-based network intrusion detection for cloud security.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: transformers en seguridad cloud; aporta modelos de atención y entorno cloud.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A16. Estado del arte y matriz individual
+Artículo: KASONGO, Sydney M.; SUN, Yanxia (2020). Performance analysis of intrusion detection systems using a feature selection method on the UNSW-NB15 dataset.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: feature selection con UNSW-NB15; aporta selección de atributos, dataset y métricas.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A17. Estado del arte y matriz individual
+Artículo: LAGHRISSI, Fatima Ezzahra et al. (2021). IDS-attention: an efficient algorithm for intrusion detection systems using attention mechanism.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: mecanismo de atención para IDS; aporta selección dinámica de información y mejora de clasificación.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A18. Estado del arte y matriz individual
+Artículo: AYANTAYO et al. (2023). Feature fusion with deep learning for intrusion detection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: fusión de características con deep learning; aporta integración de atributos y rendimiento.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A19. Estado del arte y matriz individual
+Artículo: AL JALLAD, Khloud et al. (2019). Big data analysis and distributed deep learning for next-generation intrusion detection system optimization.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: deep learning distribuido; aporta escalabilidad, optimización y arquitectura.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A20. Estado del arte y matriz individual
+Artículo: EBRAHIMI et al. (2025). IoT CNN XAI intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS IoT con CNN y XAI; aporta interpretabilidad de alertas y explicación de modelos.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A21. Estado del arte y matriz individual
+Artículo: RAMAN et al. (2021). Machine learning for intrusion detection in industrial control systems.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS en sistemas de control industrial; aporta entornos críticos y continuidad operativa.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A22. Estado del arte y matriz individual
+Artículo: WANG et al. (2025). BS-GAT graph neural network edge intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: GNN en edge IDS; aporta grafos, despliegue en borde y detección contextual.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A23. Estado del arte y matriz individual
+Artículo: AJAGBE et al. (2024). Comparison study of machine learning models on UNSW-NB15.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: comparación de modelos en UNSW-NB15; aporta matriz comparativa de algoritmos.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A24. Estado del arte y matriz individual
+Artículo: ALMUHANNA, Reem; DARDOURI, Samia (2025). Anomaly-based network intrusion detection using hybrid deep learning and machine learning.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: detección de anomalías híbrida; aporta subdimensión de anomalías y evaluación.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A25. Estado del arte y matriz individual
+Artículo: ZHOU et al. (2025). UAV intrusion detection using machine learning and neural networks.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS en UAV; aporta aplicabilidad en entornos conectados y clasificación de amenazas.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A26. Estado del arte y matriz individual
+Artículo: ILIAS et al. (2025). CNN mixture-of-experts intrusion detection for 5G.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: mixture-of-experts para 5G; aporta especialización de modelos y redes modernas.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A27. Estado del arte y matriz individual
+Artículo: AFZAL et al. (2025). Privacy-preserving anomaly intrusion detection for energy systems.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: detección con preservación de privacidad; aporta ética, privacidad y protección de datos.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A28. Estado del arte y matriz individual
+Artículo: KHRAISAT, Ansam et al. (2021). A critical review of intrusion detection systems in the Internet of Things.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: revisión de IDS IoT; aporta despliegue, validación y restricciones de dispositivos conectados.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A29. Estado del arte y matriz individual
+Artículo: SHARMILA; NAGAPADMA (2023). Quantized autoencoder intrusion detection system for IoT.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: autoencoder cuantizado para IoT; aporta modelos ligeros y eficiencia.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A30. Estado del arte y matriz individual
+Artículo: EL-SHERIF et al. (2025). TCP/IP single packet header IoT intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS con cabeceras TCP/IP; aporta extracción de atributos y bajo costo.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A31. Estado del arte y matriz individual
+Artículo: ESHMAWI et al. (2025). Smart framework for IIoT cloud intrusion detection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: framework IIoT cloud; aporta arquitectura cloud, alertas y monitoreo.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A32. Estado del arte y matriz individual
+Artículo: ABDELAZIZ et al. (2025). Federated learning IoT intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: aprendizaje federado para IDS IoT; aporta privacidad y entrenamiento distribuido.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A33. Estado del arte y matriz individual
+Artículo: SHAIKH et al. (2025). Robust intrusion detection system for IoMT healthcare.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS robusto para IoMT en salud; aporta relación directa con entorno hospitalario.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A34. Estado del arte y matriz individual
+Artículo: ZHANG et al. (2025). Bag2image network security event prediction.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: conversión de eventos a imágenes; aporta representación de eventos para predicción.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A35. Estado del arte y matriz individual
+Artículo: BOUNTZIS et al. (2025). One-class classifier for network anomaly detection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: autoencoders y one-class SVM; aporta detección de anomalías y entrenamiento con clase normal.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A36. Estado del arte y matriz individual
+Artículo: ALI et al. (2024). Machine learning-based intrusion detection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: IDS con machine learning; aporta comparación general y métricas.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A37. Estado del arte y matriz individual
+Artículo: KHAN et al. (2024). Explainable AI-based intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: XAI aplicada a IDS; aporta explicación de resultados y confianza del analista.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A38. Estado del arte y matriz individual
+Artículo: MISHRA et al. (2024). A review of machine learning-based intrusion detection system on Internet of Things.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: revisión IoT IDS; aporta síntesis de técnicas, limitaciones y retos.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A39. Estado del arte y matriz individual
+Artículo: MOHALE et al. (2025). Evaluating machine learning and explainable AI for IoT intrusion detection.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: evaluación ML/XAI; aporta interpretabilidad, métricas y usabilidad técnica.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal
+A40. Estado del arte y matriz individual
+Artículo: DAI et al. / reemplazo validable (2026). Design and validation of a deep learning-based network intrusion detection system.
+Estado del arte que aporta el artículo. El trabajo se vincula con la detección de intrusiones, machine learning y evaluación de modelos. Su contribución principal para esta tesis es: propuesta DL IDS; aporta validación de arquitectura profunda y métricas, pendiente de cotejo documental si no se dispone del PDF final.
+Motivación y crítica. El artículo se relaciona con limitaciones recurrentes de los IDS: dependencia de reglas, datasets desbalanceados, falsos positivos, complejidad del tráfico, baja generalización y necesidad de modelos comparables en ambientes controlados o institucionales.
+Proceso metodológico identificado. Se reconoce un flujo general compuesto por selección o construcción de datos, preprocesamiento, entrenamiento de modelos, validación, medición de desempeño y análisis de resultados. Este flujo se integra al diseño metodológico del prototipo IDS-ML.
+Métricas y utilidad. Las métricas relevantes son accuracy, precision, recall, F1-score, matriz de confusión, tasa de falsos positivos, falsos negativos y tiempo de procesamiento. Estas métricas permiten justificar la evaluación comparativa del prototipo.
+Variable
+Dimensión vinculada
+Indicadores extraídos
+Instrumento
+Escala
+Modelos de machine learning aplicados al IDS
+Datos/modelos
+Dataset, preprocesamiento, algoritmo o arquitectura
+Ficha de extracción
+Nominal/ordinal
+Detección de intrusiones e identificación de amenazas
+Evaluación
+Accuracy, precision, recall, F1-score, matriz de confusión
+Reporte de métricas
+Razón
+Prototipo software IDS-ML
+Utilidad técnica
+Alerta, trazabilidad, dashboard, despliegue o interpretación
+Lista de cotejo
+Ordinal

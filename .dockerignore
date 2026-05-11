@@ -1,0 +1,12 @@
+.venv
+venv
+__pycache__
+*.pyc
+.git
+.gitignore
+.pytest_cache
+*.db
+idsml_local.db
+.streamlit/secrets.toml
+.env
+docs/_extracted
