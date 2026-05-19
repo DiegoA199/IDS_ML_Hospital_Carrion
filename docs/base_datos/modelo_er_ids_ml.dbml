@@ -1,0 +1,746 @@
+// Modelo ER IDS-ML Hospital Carrion - generado desde database/schema.sql
+// Compatible con dbdiagram.io
+
+Table usuarios {
+  id int [pk]
+  username varchar [not null, unique]
+  email varchar [unique]
+  nombre_completo varchar [not null]
+  password_hash varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table roles {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table permisos {
+  id int [pk]
+  codigo varchar [not null, unique]
+  nombre varchar [not null]
+  descripcion varchar
+  modulo varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table usuarios_roles {
+  id int [pk]
+  usuario_id int [not null]
+  rol_id int [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table roles_permisos {
+  id int [pk]
+  rol_id int [not null]
+  permiso_id int [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table sesiones_usuario {
+  id int [pk]
+  usuario_id int [not null]
+  token_referencia varchar
+  ip_origen varchar
+  user_agent varchar
+  inicio_sesion varchar [not null]
+  fin_sesion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table bitacora_accesos {
+  id int [pk]
+  usuario_id int
+  accion varchar [not null]
+  resultado varchar [not null]
+  ip_origen varchar
+  detalle varchar
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table auditoria_sistema {
+  id int [pk]
+  usuario_id int
+  modulo varchar [not null]
+  accion varchar [not null]
+  entidad varchar
+  entidad_id varchar
+  resultado varchar [not null]
+  detalle varchar
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table instituciones {
+  id int [pk]
+  nombre varchar [not null]
+  ruc varchar [unique]
+  tipo varchar [not null]
+  direccion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table sedes {
+  id int [pk]
+  institucion_id int [not null]
+  nombre varchar [not null]
+  ciudad varchar
+  direccion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table areas_hospitalarias {
+  id int [pk]
+  sede_id int [not null]
+  nombre varchar [not null]
+  codigo varchar
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table cargos {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table responsables_ti {
+  id int [pk]
+  usuario_id int
+  area_id int
+  cargo_id int
+  telefono varchar
+  correo_institucional varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table tipos_activo {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table segmentos_red {
+  id int [pk]
+  sede_id int
+  nombre varchar [not null]
+  cidr varchar [not null]
+  criticidad varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table activos_red {
+  id int [pk]
+  tipo_activo_id int
+  area_id int
+  segmento_red_id int
+  nombre varchar [not null]
+  codigo_inventario varchar [unique]
+  criticidad varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table dispositivos_red {
+  id int [pk]
+  activo_red_id int [not null]
+  fabricante varchar
+  modelo varchar
+  sistema_operativo varchar
+  mac_address varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table direcciones_ip {
+  id int [pk]
+  segmento_red_id int
+  activo_red_id int
+  direccion_ip varchar [not null, unique]
+  version_ip varchar [not null]
+  es_estatica int [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table protocolos_red {
+  id int [pk]
+  nombre varchar [not null, unique]
+  numero_protocolo int
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table servicios_red {
+  id int [pk]
+  protocolo_red_id int
+  nombre varchar [not null]
+  puerto int
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table datasets {
+  id int [pk]
+  nombre varchar [not null]
+  descripcion varchar
+  origen varchar [not null]
+  formato varchar [not null]
+  responsable_id int
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table versiones_dataset {
+  id int [pk]
+  dataset_id int [not null]
+  version varchar [not null]
+  ruta_archivo varchar
+  hash_archivo varchar
+  total_filas int [not null]
+  total_columnas int [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table columnas_dataset {
+  id int [pk]
+  version_dataset_id int [not null]
+  nombre_columna varchar [not null]
+  tipo_dato varchar [not null]
+  es_objetivo int [not null]
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table perfilado_dataset {
+  id int [pk]
+  version_dataset_id int [not null]
+  total_nulos int [not null]
+  total_duplicados int [not null]
+  porcentaje_nulos decimal [not null]
+  columnas_numericas int [not null]
+  columnas_categoricas int [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table calidad_dataset {
+  id int [pk]
+  version_dataset_id int [not null]
+  score_calidad decimal [not null]
+  regla_evaluada varchar [not null]
+  resultado varchar [not null]
+  observacion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table clases_trafico {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  es_benigna int [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table particiones_dataset {
+  id int [pk]
+  version_dataset_id int [not null]
+  tipo_particion varchar [not null]
+  porcentaje decimal [not null]
+  total_filas int [not null]
+  semilla int
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table preprocesamientos {
+  id int [pk]
+  version_dataset_id int [not null]
+  nombre varchar [not null]
+  descripcion varchar
+  configuracion_json varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table pasos_preprocesamiento {
+  id int [pk]
+  preprocesamiento_id int [not null]
+  nombre varchar [not null]
+  orden int [not null]
+  resultado varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table transformaciones_datos {
+  id int [pk]
+  paso_preprocesamiento_id int [not null]
+  columna_origen varchar
+  tipo_transformacion varchar [not null]
+  parametros_json varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table seleccion_caracteristicas {
+  id int [pk]
+  preprocesamiento_id int [not null]
+  metodo varchar [not null]
+  columna varchar [not null]
+  score decimal
+  seleccionada int [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table tipos_modelo_ml {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  requiere_escalamiento int [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table modelos_ml {
+  id int [pk]
+  tipo_modelo_ml_id int [not null]
+  nombre varchar [not null]
+  libreria varchar [not null]
+  version_libreria varchar
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table parametros_modelo {
+  id int [pk]
+  modelo_ml_id int [not null]
+  nombre_parametro varchar [not null]
+  valor_parametro varchar
+  tipo_dato varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table entrenamientos {
+  id int [pk]
+  modelo_ml_id int [not null]
+  preprocesamiento_id int
+  version_dataset_id int
+  usuario_id int
+  fecha_inicio varchar [not null]
+  fecha_fin varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table metricas_entrenamiento {
+  id int [pk]
+  entrenamiento_id int [not null]
+  accuracy decimal [not null]
+  precision_score decimal [not null]
+  recall decimal [not null]
+  f1_score decimal [not null]
+  matriz_confusion_json varchar
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table comparaciones_modelo {
+  id int [pk]
+  version_dataset_id int
+  nombre_comparacion varchar [not null]
+  criterio_seleccion varchar [not null]
+  observacion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table modelos_seleccionados {
+  id int [pk]
+  comparacion_modelo_id int
+  entrenamiento_id int [not null]
+  ruta_artefacto varchar [not null]
+  f1_score decimal [not null]
+  version_modelo varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table predicciones {
+  id int [pk]
+  modelo_seleccionado_id int
+  usuario_id int
+  nombre_lote varchar [not null]
+  total_registros int [not null]
+  fecha_prediccion varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table eventos_red {
+  id int [pk]
+  prediccion_id int
+  timestamp_evento varchar
+  ip_origen varchar
+  ip_destino varchar
+  protocolo varchar
+  servicio varchar
+  etiqueta_predicha varchar
+  confianza decimal
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table flujos_trafico {
+  id int [pk]
+  evento_red_id int [not null]
+  bytes_origen int
+  bytes_destino int
+  paquetes_origen int
+  paquetes_destino int
+  duracion_segundos decimal
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table tipos_amenaza {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  categoria varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table niveles_severidad {
+  id int [pk]
+  nombre varchar [not null, unique]
+  peso int [not null]
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table amenazas_detectadas {
+  id int [pk]
+  evento_red_id int [not null]
+  tipo_amenaza_id int
+  nivel_severidad_id int
+  probabilidad decimal
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table estados_alerta {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table acciones_recomendadas {
+  id int [pk]
+  tipo_amenaza_id int
+  nombre varchar [not null]
+  descripcion varchar [not null]
+  prioridad varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table alertas {
+  id int [pk]
+  amenaza_detectada_id int
+  estado_alerta_id int
+  accion_recomendada_id int
+  titulo varchar [not null]
+  descripcion varchar
+  fecha_alerta varchar [not null]
+  revisado_por int
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table evidencias_alerta {
+  id int [pk]
+  alerta_id int [not null]
+  tipo_evidencia varchar [not null]
+  ruta_evidencia varchar
+  hash_evidencia varchar
+  descripcion varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table incidentes_seguridad {
+  id int [pk]
+  alerta_id int
+  titulo varchar [not null]
+  descripcion varchar
+  prioridad varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table atencion_incidente {
+  id int [pk]
+  incidente_seguridad_id int [not null]
+  usuario_id int
+  descripcion_atencion varchar [not null]
+  resultado varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table escalamiento_incidente {
+  id int [pk]
+  incidente_seguridad_id int [not null]
+  responsable_ti_id int
+  nivel_escalamiento varchar [not null]
+  motivo varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table historial_alerta {
+  id int [pk]
+  alerta_id int [not null]
+  usuario_id int
+  estado_anterior varchar
+  estado_nuevo varchar [not null]
+  comentario varchar
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table tipos_reporte {
+  id int [pk]
+  nombre varchar [not null, unique]
+  descripcion varchar
+  formato varchar [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table reportes {
+  id int [pk]
+  tipo_reporte_id int
+  titulo varchar [not null]
+  descripcion varchar
+  parametros_json varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table reportes_generados {
+  id int [pk]
+  reporte_id int
+  usuario_id int
+  titulo varchar [not null]
+  ruta_archivo varchar [not null]
+  resumen_json varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table exportaciones_reporte {
+  id int [pk]
+  reporte_generado_id int [not null]
+  formato varchar [not null]
+  ruta_exportacion varchar [not null]
+  hash_archivo varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table configuracion_sistema {
+  id int [pk]
+  clave varchar [not null, unique]
+  valor varchar
+  descripcion varchar
+  es_secreto int [not null]
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table umbrales_alerta {
+  id int [pk]
+  tipo_amenaza_id int
+  nombre varchar [not null]
+  valor_minimo decimal
+  valor_maximo decimal
+  nivel_severidad_id int
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table normas_referencia {
+  id int [pk]
+  codigo varchar [not null, unique]
+  nombre varchar [not null]
+  descripcion varchar
+  version varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table controles_cumplimiento {
+  id int [pk]
+  norma_referencia_id int [not null]
+  codigo_control varchar [not null]
+  descripcion varchar [not null]
+  aplicabilidad varchar
+  estado varchar [not null]
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Ref: usuarios_roles.usuario_id > usuarios.id
+Ref: usuarios_roles.rol_id > roles.id
+Ref: roles_permisos.rol_id > roles.id
+Ref: roles_permisos.permiso_id > permisos.id
+Ref: sesiones_usuario.usuario_id > usuarios.id
+Ref: bitacora_accesos.usuario_id > usuarios.id
+Ref: auditoria_sistema.usuario_id > usuarios.id
+Ref: sedes.institucion_id > instituciones.id
+Ref: areas_hospitalarias.sede_id > sedes.id
+Ref: responsables_ti.usuario_id > usuarios.id
+Ref: responsables_ti.area_id > areas_hospitalarias.id
+Ref: responsables_ti.cargo_id > cargos.id
+Ref: segmentos_red.sede_id > sedes.id
+Ref: activos_red.tipo_activo_id > tipos_activo.id
+Ref: activos_red.area_id > areas_hospitalarias.id
+Ref: activos_red.segmento_red_id > segmentos_red.id
+Ref: dispositivos_red.activo_red_id > activos_red.id
+Ref: direcciones_ip.segmento_red_id > segmentos_red.id
+Ref: direcciones_ip.activo_red_id > activos_red.id
+Ref: servicios_red.protocolo_red_id > protocolos_red.id
+Ref: datasets.responsable_id > responsables_ti.id
+Ref: versiones_dataset.dataset_id > datasets.id
+Ref: columnas_dataset.version_dataset_id > versiones_dataset.id
+Ref: perfilado_dataset.version_dataset_id > versiones_dataset.id
+Ref: calidad_dataset.version_dataset_id > versiones_dataset.id
+Ref: particiones_dataset.version_dataset_id > versiones_dataset.id
+Ref: preprocesamientos.version_dataset_id > versiones_dataset.id
+Ref: pasos_preprocesamiento.preprocesamiento_id > preprocesamientos.id
+Ref: transformaciones_datos.paso_preprocesamiento_id > pasos_preprocesamiento.id
+Ref: seleccion_caracteristicas.preprocesamiento_id > preprocesamientos.id
+Ref: modelos_ml.tipo_modelo_ml_id > tipos_modelo_ml.id
+Ref: parametros_modelo.modelo_ml_id > modelos_ml.id
+Ref: entrenamientos.modelo_ml_id > modelos_ml.id
+Ref: entrenamientos.preprocesamiento_id > preprocesamientos.id
+Ref: entrenamientos.version_dataset_id > versiones_dataset.id
+Ref: entrenamientos.usuario_id > usuarios.id
+Ref: metricas_entrenamiento.entrenamiento_id > entrenamientos.id
+Ref: comparaciones_modelo.version_dataset_id > versiones_dataset.id
+Ref: modelos_seleccionados.comparacion_modelo_id > comparaciones_modelo.id
+Ref: modelos_seleccionados.entrenamiento_id > entrenamientos.id
+Ref: predicciones.modelo_seleccionado_id > modelos_seleccionados.id
+Ref: predicciones.usuario_id > usuarios.id
+Ref: eventos_red.prediccion_id > predicciones.id
+Ref: flujos_trafico.evento_red_id > eventos_red.id
+Ref: amenazas_detectadas.evento_red_id > eventos_red.id
+Ref: amenazas_detectadas.tipo_amenaza_id > tipos_amenaza.id
+Ref: amenazas_detectadas.nivel_severidad_id > niveles_severidad.id
+Ref: acciones_recomendadas.tipo_amenaza_id > tipos_amenaza.id
+Ref: alertas.amenaza_detectada_id > amenazas_detectadas.id
+Ref: alertas.estado_alerta_id > estados_alerta.id
+Ref: alertas.accion_recomendada_id > acciones_recomendadas.id
+Ref: alertas.revisado_por > usuarios.id
+Ref: evidencias_alerta.alerta_id > alertas.id
+Ref: incidentes_seguridad.alerta_id > alertas.id
+Ref: atencion_incidente.incidente_seguridad_id > incidentes_seguridad.id
+Ref: atencion_incidente.usuario_id > usuarios.id
+Ref: escalamiento_incidente.incidente_seguridad_id > incidentes_seguridad.id
+Ref: escalamiento_incidente.responsable_ti_id > responsables_ti.id
+Ref: historial_alerta.alerta_id > alertas.id
+Ref: historial_alerta.usuario_id > usuarios.id
+Ref: reportes.tipo_reporte_id > tipos_reporte.id
+Ref: reportes_generados.reporte_id > reportes.id
+Ref: reportes_generados.usuario_id > usuarios.id
+Ref: exportaciones_reporte.reporte_generado_id > reportes_generados.id
+Ref: umbrales_alerta.tipo_amenaza_id > tipos_amenaza.id
+Ref: umbrales_alerta.nivel_severidad_id > niveles_severidad.id
+Ref: controles_cumplimiento.norma_referencia_id > normas_referencia.id

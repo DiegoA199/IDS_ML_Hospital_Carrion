@@ -4,9 +4,7 @@ Control de acceso mínimo por rol (MVP). No sustituye IAM institucional.
 
 from __future__ import annotations
 
-ROLE_ADMIN = "Administrador TI"
-ROLE_ANALYST = "Analista TI"
-ROLE_GUEST = "Invitado/demo"
+from src.core.constants import ROLE_ADMIN, ROLE_ANALYST, ROLE_GUEST
 
 
 def can_access_dataset(role: str) -> bool:

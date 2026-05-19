@@ -1,0 +1,5 @@
+duration,src_bytes,dst_bytes,protocol,service
+1.1,126,331,tcp,https
+5.9,13200,41,tcp,http
+2.2,940,70,tcp,ftp
+

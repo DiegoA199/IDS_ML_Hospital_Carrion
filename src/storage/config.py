@@ -43,7 +43,8 @@ def load_persistence_settings() -> dict[str, Any]:
 
     Claves soportadas (ejemplos, sin valores reales):
 
-    - ``IDSML_PERSISTENCE_BACKEND``: ``auto`` | ``sqlite`` | ``firestore``
+    - ``IDSML_PERSISTENCE_BACKEND``: ``auto`` | ``sqlite`` | ``postgres`` | ``firestore``
+    - ``DATABASE_URL``: DSN PostgreSQL, por ejemplo ``postgresql://user:pass@db:5432/idsml``
     - ``FIREBASE_PROJECT_ID`` / ``[firebase] project_id`` en secrets
     - ``GOOGLE_APPLICATION_CREDENTIALS`` o ``FIREBASE_CREDENTIALS_PATH``: ruta al JSON de cuenta de servicio
     """
@@ -69,11 +70,18 @@ def load_persistence_settings() -> dict[str, Any]:
         or fb.get("credentials_path")
         or sec.get("FIREBASE_CREDENTIALS_PATH")
     )
+    database_url = (
+        os.environ.get("DATABASE_URL")
+        or os.environ.get("POSTGRES_DSN")
+        or sec.get("DATABASE_URL")
+        or sec.get("POSTGRES_DSN")
+    )
 
     return {
         "backend": backend,
         "firebase_project_id": project_id,
         "firebase_credentials_path": cred_path,
+        "postgres_dsn": database_url,
     }
 
 
@@ -85,3 +93,9 @@ def is_firestore_configured(settings: dict[str, Any] | None = None) -> bool:
     if not pid or not cp:
         return False
     return Path(cp).is_file()
+
+
+def is_postgres_configured(settings: dict[str, Any] | None = None) -> bool:
+    """True si existe un DSN PostgreSQL para la capa repository."""
+    s = settings or load_persistence_settings()
+    return bool(s.get("postgres_dsn"))

@@ -1,41 +1,59 @@
-# IDS-ML — MVP operativo (Hospital Daniel Alcides Carrión)
+# IDS-ML Hospital Carrion
 
-Sistema **IDS-ML** orientado al **Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión** (Huancayo, Perú), en modo **MVP** para **ambiente controlado** (CSV / datos autorizados). **No** interviene la red institucional sin autorización explícita del área TI.
+Sistema IDS-ML en Python y Streamlit para tesis:
 
-Investigación asociada: *Diseño y evaluación comparativa de modelos de machine learning para un prototipo IDS-ML orientado a la detección de intrusiones e identificación de amenazas en la red institucional del Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión*.
+**"Diseno y evaluacion comparativa de modelos de machine learning para un sistema de deteccion de intrusiones orientado a la identificacion de amenazas en redes institucionales".**
 
-## Qué hace el MVP
+El prototipo esta orientado a una red institucional hospitalaria. Trabaja con datasets CSV autorizados, compara modelos de machine learning y registra inferencias, alertas, reportes y trazabilidad.
 
-- Carga y perfilado de datasets (CSV).
-- Preprocesamiento riguroso (train/test, sin fuga, `ColumnTransformer`, SMOTE opcional).
-- Entrenamiento comparativo (scikit-learn), selección por **F1-score**, persistencia **Joblib** del mejor modelo + pipeline.
-- **Inferencia** sobre CSV nuevo → predicciones → **alertas reales** con metadatos (modelo, backend, severidad, confianza).
-- **Persistencia real**: experimentos, predicciones por fila, alertas, bitácora estructurada, errores, reportes exportados.
-- **Repository Pattern**: **SQLite** (local/respaldo) y **Firestore** (nube); **fallback** automático a SQLite si Firestore no está o falla.
-- **RBAC** mínimo (Administrador TI / Analista TI / Invitado).
-- **Docker** + instrucciones para **Streamlit Cloud / Render**.
+## Inicio rapido
 
-## Stack
+### Opcion A: Docker recomendado
 
-Python · Streamlit · scikit-learn · Pandas · NumPy · Plotly · Matplotlib · Joblib · SQLite · Firebase/Firestore · Docker · GitHub.
+Requisitos: Git y Docker Desktop.
 
-## Arquitectura modular
+```powershell
+git clone https://github.com/DiegoA199/IDS_ML_Hospital_Carrion.git
+cd IDS_ML_Hospital_Carrion
+copy .env.example .env
+docker compose up -d --build
+```
 
-| Ruta | Rol |
-|------|-----|
-| `app.py` | Orquestador mínimo (config, auth, router). |
-| `src/ui/router.py` | Enrutador de módulos. |
-| `src/ui/pages.py` | Páginas Streamlit (Dataset, Entrenamiento, Inferencia, …). |
-| `src/preprocessing/` | Pipeline ML sin fuga. |
-| `src/models/` | Entrenamiento, persistencia Joblib. |
-| `src/alerts/` | Construcción de alertas. |
-| `src/storage/` | `IDSMLRepository`, SQLite, Firestore, factory. |
-| `src/audit/` | Bitácora (`log_action`). |
-| `src/security/` | RBAC. |
-| `src/services/` | Dashboard y estado del sistema. |
-| `src/reports/` | Exportación CSV/PDF. |
+Servicios:
 
-## Instalación local
+| Servicio | URL / host | Uso |
+|---|---|---|
+| Streamlit | `http://localhost:8501` | Aplicacion IDS-ML |
+| Adminer | `http://localhost:8080` | Gestor grafico de PostgreSQL |
+| PostgreSQL | `localhost:5432` | Motor relacional |
+
+Credenciales por defecto para Adminer si no se cambia `.env`:
+
+```text
+Sistema: PostgreSQL
+Servidor: db
+Usuario: idsml
+Contrasena: idsml_dev_password
+Base de datos: idsml
+```
+
+Para produccion, cambie `POSTGRES_PASSWORD` en `.env` o en el gestor de secretos del proveedor.
+
+### Opcion B: ejecucion local con Python
+
+Windows:
+
+```powershell
+.\scripts\run_local.ps1
+```
+
+Linux/macOS:
+
+```bash
+bash scripts/run_local.sh
+```
+
+Tambien puede hacerse manualmente:
 
 ```powershell
 py -3 -m venv .venv
@@ -44,36 +62,153 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Docker
+Abrir `http://localhost:8501`.
 
-```bash
-docker compose build
-docker compose up
+## Credenciales demo de la app
+
+| Usuario | Contrasena | Rol |
+|---|---|---|
+| `admin` | `admin123` | Administrador TI |
+| `analista` | `analista123` | Analista TI |
+| `invitado` | `invitado123` | Invitado/demo |
+
+Estas credenciales son solo para laboratorio y sustentacion. Antes de produccion real deben reemplazarse por IAM, LDAP, OAuth o un servicio institucional equivalente.
+
+## Modulos del sistema
+
+- Login por roles.
+- Dashboard ejecutivo IDS.
+- Carga y perfilado de dataset.
+- Preprocesamiento de datos.
+- Entrenamiento y comparacion de modelos.
+- Seleccion automatica del mejor modelo por F1-score.
+- Analisis de trafico nuevo.
+- Centro de alertas TI.
+- Reportes y trazabilidad.
+- Administracion de usuarios y roles.
+- Configuracion y estado del sistema.
+- Vista academica del modelo de base de datos.
+- Persistencia desacoplada por repository pattern.
+
+## Arquitectura
+
+| Ruta | Rol |
+|---|---|
+| `app.py` | Orquestador Streamlit minimo. |
+| `src/app/` | Componentes, estilos y estructura de aplicacion. |
+| `src/core/` | Configuracion no sensible, constantes, excepciones y seguridad auxiliar. |
+| `src/domain/entities/` | Entidades de dominio. |
+| `src/domain/services/` | Servicios testeables sin dependencia de Streamlit. |
+| `src/ml/` | Facades ML para carga, preprocesamiento, entrenamiento, evaluacion y prediccion. |
+| `src/preprocessing/` | Pipeline de preprocesamiento sin fuga de datos. |
+| `src/models/` | Entrenamiento, evaluacion y persistencia Joblib. |
+| `src/storage/` | Repositorios SQLite, PostgreSQL, Firestore y `repository_factory`. |
+| `src/ui/` | Vistas Streamlit y tema visual. |
+| `database/` | Modelo relacional academico de 60 tablas. |
+| `docs/` | Documentacion de base de datos, pruebas y SonarQube. |
+| `tests/` | Pruebas unitarias, integracion y fixtures. |
+
+## Base de datos
+
+El proyecto contiene un modelo relacional formal de 60 tablas para el IDS-ML hospitalario:
+
+- `database/schema.sql`: version SQLite para pruebas locales.
+- `database/postgresql/schema.sql`: version PostgreSQL para Docker/produccion.
+- `database/seed_demo.sql`: datos demo para SQLite.
+- `database/postgresql/seed_demo.sql`: datos demo para PostgreSQL.
+- `docs/base_datos/modelo_er_ids_ml.dbml`: modelo para dbdiagram.io.
+- `docs/base_datos/diccionario_datos.md`: diccionario de datos.
+
+Crear una base SQLite local:
+
+```powershell
+py -3 database/init_db.py --db idsml_relational.db
 ```
 
-Abrir `http://localhost:8501`. Los volúmenes montan `./data` y `./artifacts` para conservar reportes y modelos entre reinicios.
+Ver graficamente:
 
-## Despliegue cloud (Streamlit Cloud / Render)
+- Docker: Adminer en `http://localhost:8080`.
+- SQLite local: SQLiteStudio o DBeaver abriendo el archivo `.db`.
+- Diagrama ER: pegar `docs/base_datos/modelo_er_ids_ml.dbml` en dbdiagram.io.
 
-1. Repositorio en **GitHub** sin secretos.
-2. Punto de entrada: `app.py`.
-3. Secretos en el panel (equivalente a `.streamlit/secrets.toml`): ver **`.streamlit/secrets.toml.example`**.
-4. Variables típicas: `IDSML_PERSISTENCE_BACKEND`, `FIREBASE_PROJECT_ID`, `GOOGLE_APPLICATION_CREDENTIALS` (ruta o configuración que provea el proveedor cloud).
+## Machine learning
 
-## Usuarios demo (solo laboratorio / piloto)
+Modelos incluidos:
 
-| Usuario   | Contraseña   | Rol                | Capacidades resumidas        |
-|-----------|--------------|--------------------|------------------------------|
-| admin     | admin123     | Administrador TI   | Todo + cambio estado alertas |
-| analista  | analista123  | Analista TI        | Dataset, train, infer, reportes |
-| invitado  | invitado123  | Invitado/demo      | Dashboard + dataset (lectura carga) |
+- Random Forest.
+- Decision Tree.
+- Logistic Regression.
+- SVM.
+- KNN.
+- Naive Bayes.
 
-Sustituir por identidad institucional (LDAP/OAuth) antes de producción real.
+El sistema mantiene carga de dataset, validacion, limpieza, codificacion, escalamiento, particion train/test, entrenamiento, comparacion por Accuracy/Precision/Recall/F1-score, seleccion por F1-score, guardado de modelo, prediccion de trafico nuevo y generacion de alertas.
 
-## Seguridad
+## Pruebas
 
-No versionar: `.streamlit/secrets.toml`, `.env`, JSON de Firebase, `*.db` con datos sensibles. Revisar `.gitignore` y `.dockerignore`.
+```powershell
+pytest
+pytest --cov=src --cov-report=xml
+```
 
-## Licencia / uso
+Documentacion:
 
-Uso académico y piloto controlado hasta completar criterios de seguridad y gobierno institucional.
+- `docs/testing/plan_pruebas_ids_ml.md`
+- `docs/testing/casos_prueba_ids_ml.md`
+
+## SonarQube / SonarCloud
+
+El proyecto incluye:
+
+- `sonar-project.properties`
+- `.coveragerc`
+- `pytest.ini`
+- `docs/sonarqube/configuracion_sonar.md`
+
+Flujo sugerido:
+
+```powershell
+pytest --cov=src --cov-report=xml
+sonar-scanner
+```
+
+## Seguridad de credenciales
+
+No versionar:
+
+- `.streamlit/secrets.toml`
+- `.env`
+- `secrets.toml`
+- archivos `*.json` privados
+- bases `*.db` con datos sensibles
+- `coverage.xml`
+- `htmlcov/`
+
+`Firestore` se mantiene desacoplado mediante `repository_factory`. Si no hay credenciales validas, el sistema usa SQLite como fallback. Para despliegues con Docker, el backend recomendado es PostgreSQL.
+
+## Despliegue en servidor
+
+En un VPS o servidor con Docker:
+
+```bash
+git clone https://github.com/DiegoA199/IDS_ML_Hospital_Carrion.git
+cd IDS_ML_Hospital_Carrion
+cp .env.example .env
+docker compose up -d --build
+```
+
+Recomendacion para produccion:
+
+- Exponer solo Streamlit detras de Nginx, Caddy o un proxy HTTPS.
+- No publicar Adminer hacia Internet sin VPN, autenticacion adicional o firewall.
+- Cambiar credenciales demo.
+- Cambiar `POSTGRES_PASSWORD`.
+- Guardar secretos en variables del proveedor, no en Git.
+
+## Pendientes
+
+- Integrar progresivamente las 60 tablas formales con todos los repositorios operativos.
+- Reemplazar autenticacion demo por IAM institucional.
+- Validar el flujo completo con datasets reales de tesis.
+- Ejecutar SonarQube/SonarCloud y registrar el Quality Gate como evidencia.
+- Revisar rendimiento con datasets grandes antes de uso institucional.

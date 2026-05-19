@@ -1,44 +1,63 @@
 import streamlit as st
 
-USERS = {
-    "admin": {"password": "admin123", "role": "Administrador TI"},
-    "analista": {"password": "analista123", "role": "Analista TI"},
-    "invitado": {"password": "invitado123", "role": "Invitado/demo"},
-}
-
-ROLE_ADMIN = "Administrador TI"
+from src.domain.services.auth_service import authenticate
+from src.ui.theme import page_header
 
 
 def login(repo=None):
-    st.sidebar.subheader("Acceso IDS-ML")
-    username = st.sidebar.text_input("Usuario")
-    password = st.sidebar.text_input("Contraseña", type="password")
-    if st.sidebar.button("Ingresar"):
-        user = USERS.get(username)
-        if user and user["password"] == password:
-            st.session_state["authenticated"] = True
-            st.session_state["username"] = username
-            st.session_state["role"] = user["role"]
-            st.sidebar.success(f"Bienvenido: {user['role']}")
-            if repo is not None:
-                try:
-                    repo.save_audit_event(
-                        username=username,
-                        role=user["role"],
-                        action="inicio_sesion",
-                        module="auth",
-                        result="ok",
-                        observation="",
-                    )
-                except Exception:
-                    pass
-        else:
-            st.sidebar.error("Credenciales no válidas")
+    page_header(
+        "Acceso institucional",
+        "Plataforma IDS-ML para monitoreo de trafico, evaluacion de amenazas y trazabilidad de alertas.",
+        kicker="IDS-ML Core",
+        tag="Acceso seguro",
+    )
+
+    left, center, right = st.columns([1, 1.25, 1])
+    with center:
+        st.markdown(
+            """
+            <div class="ids-login-card ids-card">
+                <div class="ids-card-title">Ingreso al sistema</div>
+                <div class="ids-card-subtitle">
+                    Acceso autorizado para personal responsable de seguridad, redes y soporte TI.
+                    Las operaciones relevantes quedan registradas para auditoria.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        with st.form("idsml_login_form", clear_on_submit=False):
+            username = st.text_input("Usuario", placeholder="Usuario institucional")
+            password = st.text_input("Contrasena", type="password", placeholder="Ingrese su contrasena")
+            submitted = st.form_submit_button("Ingresar al sistema")
+
+        if submitted:
+            user = authenticate(username, password)
+            if user is not None:
+                st.session_state["authenticated"] = True
+                st.session_state["username"] = user.username
+                st.session_state["role"] = user.role
+                if repo is not None:
+                    try:
+                        repo.save_audit_event(
+                            username=user.username,
+                            role=user.role,
+                            action="inicio_sesion",
+                            module="auth",
+                            result="ok",
+                            observation="",
+                        )
+                    except Exception:
+                        pass
+                st.rerun()
+            else:
+                st.error("Credenciales no validas.")
+
+        st.caption("Uso restringido. Solicite credenciales al administrador del sistema IDS-ML.")
     return st.session_state.get("authenticated", False)
 
 
 def require_auth():
     if not st.session_state.get("authenticated", False):
-        st.info("Ingrese con un usuario demo para continuar.")
         return False
     return True

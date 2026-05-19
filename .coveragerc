@@ -1,0 +1,11 @@
+[run]
+source = src
+omit =
+    tests/*
+    src/app/views/*
+    src/app/styles/*
+
+[report]
+show_missing = True
+skip_empty = True
+

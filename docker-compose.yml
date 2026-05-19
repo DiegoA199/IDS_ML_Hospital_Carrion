@@ -1,14 +1,54 @@
-# IDS-ML — entorno controlado (MVP). No expone credenciales: use .env local o secrets en cloud.
+# IDS-ML Hospital Carrion - despliegue portable con Docker Compose.
+# Copie .env.example como .env para personalizar puertos y credenciales locales.
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: idsml-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-idsml}
+      POSTGRES_USER: ${POSTGRES_USER:-idsml}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-idsml_dev_password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/postgresql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./database/postgresql/seed_demo.sql:/docker-entrypoint-initdb.d/02_seed_demo.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-idsml} -d ${POSTGRES_DB:-idsml}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   idsml:
     build: .
     image: idsml-hospital-carrion:local
+    container_name: idsml-streamlit
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
-      - "8501:8501"
+      - "${APP_PORT:-8501}:8501"
     volumes:
       - ./data:/app/data
       - ./artifacts:/app/artifacts
     environment:
-      - IDSML_PERSISTENCE_BACKEND=${IDSML_PERSISTENCE_BACKEND:-auto}
-      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-}
-      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS:-}
+      IDSML_PERSISTENCE_BACKEND: ${IDSML_PERSISTENCE_BACKEND:-postgres}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-idsml}:${POSTGRES_PASSWORD:-idsml_dev_password}@db:5432/${POSTGRES_DB:-idsml}
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-}
+
+  adminer:
+    image: adminer:4
+    container_name: idsml-adminer
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+
+volumes:
+  postgres_data:

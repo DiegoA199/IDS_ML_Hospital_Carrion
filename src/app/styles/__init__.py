@@ -1,0 +1,2 @@
+"""Estilos centralizados para Streamlit."""
+

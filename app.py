@@ -7,42 +7,62 @@ La lógica de páginas vive en ``src/ui/pages.py`` y el enrutador en ``src/ui/ro
 import streamlit as st
 
 from src.auth.simple_auth import login, require_auth
+from src.app.components.sidebar import SIDEBAR_MODULES
 from src.storage.repository_factory import get_repository
 from src.ui.router import render_page
+from src.ui.theme import apply_global_theme
 
-st.set_page_config(page_title="IDS-ML Hospital Carrión", layout="wide")
-st.title("IDS-ML — Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión")
-st.caption(
-    "MVP operativo: ML sobre datos autorizados/controlados (CSV), alertas, bitácora, "
-    "persistencia SQLite/Firestore y despliegue portable. No interviene la red institucional sin autorización TI."
-)
+st.set_page_config(page_title="IDS-ML Core | Hospital Carrión", page_icon="🛡️", layout="wide")
+apply_global_theme()
 
-for _k, _v in [("df", None), ("results", None), ("best_model", None), ("last_pred_df", None)]:
+for _k, _v in [
+    ("df", None),
+    ("dataset_profile", None),
+    ("prepared_dataset", None),
+    ("prepared_target_col", None),
+    ("results", None),
+    ("best_model", None),
+    ("last_pred_df", None),
+]:
     if _k not in st.session_state:
         st.session_state[_k] = _v
 
 repo = get_repository()
-login(repo)
+
+if not st.session_state.get("authenticated", False):
+    login(repo)
 
 if not require_auth():
     st.stop()
 
 role = st.session_state.get("role", "")
-st.sidebar.success(f"Rol activo: {role}")
-st.sidebar.caption(f"Persistencia activa: **{repo.backend_name}**")
+username = st.session_state.get("username", "usuario")
+
+st.sidebar.markdown(
+    f"""
+    <div class="ids-sidebar-brand">
+        <div class="ids-brand">IDS-ML Core</div>
+        <div class="ids-sidebar-meta">Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión</div>
+    </div>
+    <div class="ids-card" style="margin-bottom: 1rem;">
+        <div class="ids-card-title">{username}</div>
+        <div class="ids-card-subtitle">{role}</div>
+        <div class="ids-pill-row">
+            <span class="ids-chip">Persistencia activa</span>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+if st.sidebar.button("Cerrar sesión"):
+    for key in ["authenticated", "username", "role"]:
+        st.session_state.pop(key, None)
+    st.rerun()
 
 page = st.sidebar.radio(
     "Módulo",
-    [
-        "Dashboard",
-        "Dataset",
-        "Entrenamiento",
-        "Inferencia",
-        "Alertas e historial",
-        "Reportes",
-        "Estado del sistema",
-        "Nube y despliegue",
-    ],
+    SIDEBAR_MODULES,
 )
 
 render_page(page, repo)

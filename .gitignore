@@ -3,10 +3,15 @@
 venv/
 __pycache__/
 *.pyc
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
 
 # --- Entorno y secretos (no versionar) ---
 .env
 .streamlit/secrets.toml
+secrets.toml
 
 # --- Bases de datos locales ---
 *.db
@@ -15,8 +20,11 @@ idsml_local.db
 # --- Artefactos de modelo / serialización ---
 *.pkl
 *.joblib
+artifacts/models/*
+!artifacts/models/.gitkeep
 
 # --- Credenciales Firebase / nube (no versionar) ---
+*.json
 firebase_key.json
 **/firebase-adminsdk*.json
 *-firebase-adminsdk*.json
