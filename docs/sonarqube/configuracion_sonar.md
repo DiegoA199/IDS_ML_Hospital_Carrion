@@ -112,6 +112,22 @@ Para considerar el proyecto listo para sustentacion:
 - Los code smells deben estar justificados o corregidos.
 - La cobertura debe concentrarse en logica de negocio, ML, repositorios y servicios.
 
+Estado oficial verificado el 2026-06-02:
+
+| Indicador | Resultado |
+|---|---:|
+| Quality Gate | OK |
+| Bugs | 0 |
+| Vulnerabilities | 0 |
+| Security Hotspots | 0 |
+| Code Smells | 0 |
+| Duplicacion | 0.0% |
+| Reliability Rating | A |
+| Security Rating | A |
+| Maintainability Rating | A |
+
+La evidencia detallada queda documentada en `docs/sonarqube/evidencia_quality_gate_sonarcloud.md`.
+
 ## 7. Exclusiones justificadas
 
 Se excluyen de cobertura:
@@ -133,6 +149,15 @@ Guardar capturas de:
 - dashboard de SonarCloud;
 - Quality Gate;
 - lista de issues relevantes y acciones correctivas.
+
+Documento de evidencia:
+
+- `docs/sonarqube/evidencia_quality_gate_sonarcloud.md`
+
+Enlaces oficiales:
+
+- dashboard: `https://sonarcloud.io/project/overview?id=DiegoA199_IDS_ML_Hospital_Carrion`
+- Quality Gate API: `https://sonarcloud.io/api/qualitygates/project_status?projectKey=DiegoA199_IDS_ML_Hospital_Carrion`
 
 ## 9. Recomendaciones
 

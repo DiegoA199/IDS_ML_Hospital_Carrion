@@ -55,7 +55,8 @@ Resultado:
 | Security Rating | A |
 | Maintainability Rating | A |
 | Lineas de codigo analizadas | 1615 |
-| Fecha de analisis | 2026-06-02T18:09:11+0000 |
+| Fecha de analisis | 2026-06-02T18:11:35+0000 |
+| Revision analizada | `c459b9272e977f5c1b745ed1bb9878abfe1129b3` |
 
 El analisis oficial se ejecuto con alcance ajustado mediante `.sonarcloud.properties`, evitando que SonarCloud trate documentacion, scripts de apoyo, SQL academico o prototipos como codigo productivo de la aplicacion.
 
@@ -138,6 +139,7 @@ Se agregaron pruebas para:
 | `coverage.xml` | Reporte XML generado localmente, no se versiona |
 | `sonar-project.properties` | Parametros del analisis Sonar |
 | `docs/sonarqube/configuracion_sonar.md` | Guia de configuracion |
+| `docs/sonarqube/evidencia_quality_gate_sonarcloud.md` | Evidencia oficial del Quality Gate |
 
 ## 10. Pasos para reproducir el reporte oficial
 

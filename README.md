@@ -173,6 +173,8 @@ El proyecto incluye:
 - `scripts/run_quality.ps1`
 - `scripts/run_quality.sh`
 - `docs/sonarqube/configuracion_sonar.md`
+- `docs/sonarqube/evidencia_quality_gate_sonarcloud.md`
+- `docs/sonarqube/reporte_calidad_sonar_ids_ml.md`
 
 Flujo local:
 
@@ -198,12 +200,19 @@ Flujo recomendado en GitHub:
 
 3. Hacer `push` a `main`. GitHub Actions ejecuta tests, genera `coverage.xml` y lanza el analisis Sonar.
 
-Estado local verificado:
+Estado verificado:
 
 - `44 passed`
 - cobertura efectiva: `92%`
 - reporte local de calidad: `docs/sonarqube/reporte_calidad_sonar_ids_ml.md`
+- evidencia oficial: `docs/sonarqube/evidencia_quality_gate_sonarcloud.md`
 - SonarCloud oficial: `Quality Gate OK`, `0 bugs`, `0 vulnerabilities`, `0 code smells`, `0 security hotspots`, `0.0%` duplicacion.
+
+Dashboard oficial:
+
+```text
+https://sonarcloud.io/project/overview?id=DiegoA199_IDS_ML_Hospital_Carrion
+```
 
 ## Seguridad de credenciales
 
@@ -243,5 +252,5 @@ Recomendacion para produccion:
 - Integrar progresivamente las 60 tablas formales con todos los repositorios operativos.
 - Reemplazar autenticacion demo por IAM institucional.
 - Validar el flujo completo con datasets reales de tesis.
-- Ejecutar SonarQube/SonarCloud y registrar el Quality Gate como evidencia.
+- Mantener actualizada la evidencia SonarQube/SonarCloud despues de cambios grandes.
 - Revisar rendimiento con datasets grandes antes de uso institucional.
