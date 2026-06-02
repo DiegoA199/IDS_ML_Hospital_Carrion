@@ -45,14 +45,24 @@ class PreparedDataset:
         Nombre de la columna objetivo en el dataset original.
     """
 
-    X_train: np.ndarray
-    X_test: np.ndarray
+    x_train: np.ndarray
+    x_test: np.ndarray
     y_train: np.ndarray
     y_test: np.ndarray
     preprocessor: ColumnTransformer
     target_encoder: LabelEncoder | None
     feature_columns: tuple[str, ...]
     target_column: str
+
+    @property
+    def X_train(self) -> np.ndarray:
+        """Alias compatible con la notacion usual de matrices en scikit-learn."""
+        return self.x_train
+
+    @property
+    def X_test(self) -> np.ndarray:
+        """Alias compatible con la notacion usual de matrices en scikit-learn."""
+        return self.x_test
 
 
 def _split_feature_columns(X: pd.DataFrame) -> tuple[list[str], list[str]]:
@@ -104,7 +114,8 @@ def _build_column_transformer(numeric_cols: list[str], categorical_cols: list[st
             steps=[
                 ("imputer", SimpleImputer(strategy="median")),
                 ("scaler", StandardScaler()),
-            ]
+            ],
+            memory=None,
         )
         transformers.append(("num", numeric_pipe, numeric_cols))
 
@@ -116,7 +127,8 @@ def _build_column_transformer(numeric_cols: list[str], categorical_cols: list[st
                     "onehot",
                     OneHotEncoder(handle_unknown="ignore", sparse_output=False),
                 ),
-            ]
+            ],
+            memory=None,
         )
         transformers.append(("cat", categorical_pipe, categorical_cols))
 
@@ -234,8 +246,8 @@ def _maybe_resample_training(
         return X_train, y_train, False
     try:
         smote = SMOTE(random_state=random_state)
-        X_res, y_res = smote.fit_resample(X_train, y_train)
-        return X_res, y_res, True
+        x_resampled, y_resampled = smote.fit_resample(X_train, y_train)
+        return x_resampled, y_resampled, True
     except ValueError:
         return X_train, y_train, False
 
@@ -316,21 +328,21 @@ def prepare_dataset(
     numeric_cols, categorical_cols = _split_feature_columns(X_train)
     preprocessor = _build_column_transformer(numeric_cols, categorical_cols)
     preprocessor.fit(X_train)
-    X_train_t = preprocessor.transform(X_train)
-    X_test_t = preprocessor.transform(X_test)
+    x_train_transformed = preprocessor.transform(X_train)
+    x_test_transformed = preprocessor.transform(X_test)
 
     y_train_enc, y_test_enc, target_encoder = _encode_target_after_split(y_train, y_test)
 
-    X_train_final, y_train_final, _ = _maybe_resample_training(
-        X_train_t,
+    x_train_final, y_train_final, _ = _maybe_resample_training(
+        x_train_transformed,
         y_train_enc,
         random_state=random_state,
         apply_smote=apply_smote,
     )
 
     return PreparedDataset(
-        X_train=np.asarray(X_train_final, dtype=np.float64),
-        X_test=np.asarray(X_test_t, dtype=np.float64),
+        x_train=np.asarray(x_train_final, dtype=np.float64),
+        x_test=np.asarray(x_test_transformed, dtype=np.float64),
         y_train=np.asarray(y_train_final),
         y_test=np.asarray(y_test_enc),
         preprocessor=preprocessor,

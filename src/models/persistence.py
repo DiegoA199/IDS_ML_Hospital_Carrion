@@ -180,13 +180,13 @@ def _decode_class_labels(bundle: ModelBundle, y_pred: np.ndarray) -> np.ndarray:
     return np.asarray(y_pred)
 
 
-def _rowwise_proba(bundle: ModelBundle, X_t: np.ndarray) -> np.ndarray | None:
+def _rowwise_proba(bundle: ModelBundle, x_transformed: np.ndarray) -> np.ndarray | None:
     """Probabilidad del modelo para la clase predicha en cada fila, si existe ``predict_proba``."""
     est = bundle.estimator
     if not hasattr(est, "predict_proba"):
         return None
-    proba = est.predict_proba(X_t)
-    preds = est.predict(X_t)
+    proba = est.predict_proba(x_transformed)
+    preds = est.predict(x_transformed)
     classes = np.asarray(est.classes_)
     col_idx = np.array([int(np.flatnonzero(classes == pi)[0]) for pi in preds], dtype=int)
     return proba[np.arange(len(preds)), col_idx]
@@ -210,10 +210,10 @@ def predict_dataframe(bundle: ModelBundle, df: pd.DataFrame) -> pd.DataFrame:
         y opcionalmente ``confianza``.
     """
     X = align_features(df, bundle.feature_columns)
-    X_t = bundle.preprocessor.transform(X)
-    y_hat = bundle.estimator.predict(X_t)
+    x_transformed = bundle.preprocessor.transform(X)
+    y_hat = bundle.estimator.predict(x_transformed)
     labels = _decode_class_labels(bundle, y_hat)
-    conf = _rowwise_proba(bundle, X_t)
+    conf = _rowwise_proba(bundle, x_transformed)
 
     out = df.copy()
     out["prediccion_codigo"] = np.asarray(y_hat)
