@@ -12,7 +12,6 @@ def test_run_preprocessing_returns_train_test_matrices():
         }
     )
     prepared = run_preprocessing(df, "label", apply_smote=False)
-    assert prepared.X_train.shape[0] > 0
-    assert prepared.X_test.shape[0] > 0
-    assert prepared.X_train.shape[1] == prepared.X_test.shape[1]
-
+    assert prepared.x_train.shape[0] > 0
+    assert prepared.x_test.shape[0] > 0
+    assert prepared.x_train.shape[1] == prepared.x_test.shape[1]

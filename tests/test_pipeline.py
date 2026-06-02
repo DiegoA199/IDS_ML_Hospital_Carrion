@@ -6,7 +6,7 @@ from src.preprocessing.pipeline import _encode_target_after_split, prepare_datas
 
 
 def test_prepare_dataset_shapes_and_no_leakage_columns():
-    """Split coherente: train+test filas = filas útiles; mismas columnas en X."""
+    """Split coherente: train+test filas = filas Ãºtiles; mismas columnas en X."""
     df = pd.DataFrame(
         {
             "num": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0],
@@ -15,10 +15,10 @@ def test_prepare_dataset_shapes_and_no_leakage_columns():
         }
     )
     prep = prepare_dataset(df, "label", test_size=0.25, random_state=0, apply_smote=False)
-    assert prep.X_train.shape[0] + prep.X_test.shape[0] == len(df)
-    assert prep.X_train.shape[1] == prep.X_test.shape[1]
-    assert prep.y_train.shape[0] == prep.X_train.shape[0]
-    assert prep.y_test.shape[0] == prep.X_test.shape[0]
+    assert prep.x_train.shape[0] + prep.x_test.shape[0] == len(df)
+    assert prep.x_train.shape[1] == prep.x_test.shape[1]
+    assert prep.y_train.shape[0] == prep.x_train.shape[0]
+    assert prep.y_test.shape[0] == prep.x_test.shape[0]
 
 
 def test_unseen_label_in_test_raises():
@@ -30,7 +30,7 @@ def test_unseen_label_in_test_raises():
 
 
 def test_smote_increases_minority_only_train():
-    """SMOTE aumenta filas de train; el tamaño de test no cambia respecto a split sin SMOTE."""
+    """SMOTE aumenta filas de train; el tamaÃ±o de test no cambia respecto a split sin SMOTE."""
     rng = np.random.default_rng(42)
     n0, n1 = 30, 4
     X0 = rng.normal(size=(n0, 3))
@@ -41,6 +41,6 @@ def test_smote_increases_minority_only_train():
     df["label"] = y
     prep_no = prepare_dataset(df, "label", test_size=0.3, random_state=0, apply_smote=False)
     prep_yes = prepare_dataset(df, "label", test_size=0.3, random_state=0, apply_smote=True)
-    assert prep_yes.X_test.shape == prep_no.X_test.shape
+    assert prep_yes.x_test.shape == prep_no.x_test.shape
     assert prep_yes.y_test.shape == prep_no.y_test.shape
-    assert prep_yes.X_train.shape[0] >= prep_no.X_train.shape[0]
+    assert prep_yes.x_train.shape[0] >= prep_no.x_train.shape[0]

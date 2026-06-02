@@ -54,17 +54,6 @@ class PreparedDataset:
     feature_columns: tuple[str, ...]
     target_column: str
 
-    @property
-    def X_train(self) -> np.ndarray:
-        """Alias compatible con la notacion usual de matrices en scikit-learn."""
-        return self.x_train
-
-    @property
-    def X_test(self) -> np.ndarray:
-        """Alias compatible con la notacion usual de matrices en scikit-learn."""
-        return self.x_test
-
-
 def _split_feature_columns(X: pd.DataFrame) -> tuple[list[str], list[str]]:
     """
     Separa nombres de columnas numéricas frente a categóricas según dtypes.

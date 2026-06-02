@@ -20,7 +20,7 @@ def test_save_load_roundtrip(tmp_path):
     )
     prep = prepare_dataset(df, "y", apply_smote=False, random_state=0)
     clf = RandomForestClassifier(n_estimators=5, random_state=0)
-    clf.fit(prep.X_train, prep.y_train)
+    clf.fit(prep.x_train, prep.y_train)
     p = tmp_path / "bundle.joblib"
     save_model_bundle(clf, prep, model_name="RF-test", f1_score=0.9, path=p)
     b = load_model_bundle(p)
@@ -39,7 +39,7 @@ def test_predict_new_rows(tmp_path):
     )
     prep = prepare_dataset(df, "y", apply_smote=False, random_state=0)
     clf = RandomForestClassifier(n_estimators=10, random_state=0)
-    clf.fit(prep.X_train, prep.y_train)
+    clf.fit(prep.x_train, prep.y_train)
     p = tmp_path / "b2.joblib"
     save_model_bundle(clf, prep, model_name="RF", f1_score=0.95, path=p)
     b = load_model_bundle(p)
