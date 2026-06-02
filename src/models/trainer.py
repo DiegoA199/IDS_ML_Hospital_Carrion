@@ -15,10 +15,15 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
 MODELS = {
-    "Random Forest": RandomForestClassifier(n_estimators=120, random_state=42),
-    "Decision Tree": DecisionTreeClassifier(random_state=42),
+    "Random Forest": RandomForestClassifier(
+        n_estimators=120,
+        max_features="sqrt",
+        min_samples_leaf=1,
+        random_state=42,
+    ),
+    "Decision Tree": DecisionTreeClassifier(ccp_alpha=0.0, random_state=42),
     "Logistic Regression": LogisticRegression(max_iter=1000),
-    "SVM": SVC(kernel="rbf", probability=True, random_state=42),
+    "SVM": SVC(C=1.0, gamma="scale", kernel="rbf", probability=True, random_state=42),
     "KNN": KNeighborsClassifier(n_neighbors=5),
     "Naive Bayes": GaussianNB(),
 }
