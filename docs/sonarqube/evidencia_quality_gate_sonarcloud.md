@@ -11,7 +11,7 @@
 | Herramienta | SonarQube Cloud / SonarCloud |
 | Fecha de verificacion | 2026-06-02 |
 | Rama revisada | `main` |
-| Revision verificada por API | `5a65eb3f2cdc83b9a807832e73f865bc1398f202` |
+| Revision | Consultar dashboard/API de SonarCloud; se actualiza con cada push |
 
 ## 2. Enlaces de consulta
 
@@ -25,6 +25,7 @@
 ## 3. Resultado oficial de SonarCloud
 
 La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub mediante SonarCloud Automatic Analysis.
+Las metricas siguientes corresponden al estado oficial verificado el 2026-06-02; el dashboard puede mostrar una revision posterior si se realizaron nuevos commits de documentacion.
 
 | Indicador | Resultado |
 |---|---:|
@@ -39,7 +40,7 @@ La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub media
 | Maintainability Rating | A |
 | Lineas de codigo analizadas | 1615 |
 | Issues abiertos | 0 |
-| Fecha del analisis oficial | 2026-06-02T18:22:17+0000 |
+| Fecha del snapshot documentado | 2026-06-02 |
 
 Las calificaciones `1.0` reportadas por la API de SonarCloud equivalen a rating **A** en confiabilidad, seguridad y mantenibilidad.
 
