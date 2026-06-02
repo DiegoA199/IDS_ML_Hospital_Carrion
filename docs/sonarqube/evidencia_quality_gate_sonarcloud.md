@@ -11,7 +11,7 @@
 | Herramienta | SonarQube Cloud / SonarCloud |
 | Fecha de verificacion | 2026-06-02 |
 | Rama revisada | `main` |
-| Revision analizada | `c459b9272e977f5c1b745ed1bb9878abfe1129b3` |
+| Revision verificada por API | `5a65eb3f2cdc83b9a807832e73f865bc1398f202` |
 
 ## 2. Enlaces de consulta
 
@@ -20,7 +20,7 @@
 | Dashboard SonarCloud | <https://sonarcloud.io/project/overview?id=DiegoA199_IDS_ML_Hospital_Carrion> |
 | Quality Gate por API | <https://sonarcloud.io/api/qualitygates/project_status?projectKey=DiegoA199_IDS_ML_Hospital_Carrion> |
 | Metricas por API | <https://sonarcloud.io/api/measures/component?component=DiegoA199_IDS_ML_Hospital_Carrion&metricKeys=bugs,vulnerabilities,code_smells,duplicated_lines_density,reliability_rating,security_rating,sqale_rating,security_hotspots,ncloc> |
-| Ultima corrida de GitHub Actions | <https://github.com/DiegoA199/IDS_ML_Hospital_Carrion/actions/runs/26838984903> |
+| Corrida de GitHub Actions usada como evidencia | <https://github.com/DiegoA199/IDS_ML_Hospital_Carrion/actions/runs/26839546997> |
 
 ## 3. Resultado oficial de SonarCloud
 
@@ -39,7 +39,7 @@ La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub media
 | Maintainability Rating | A |
 | Lineas de codigo analizadas | 1615 |
 | Issues abiertos | 0 |
-| Fecha del analisis oficial | 2026-06-02T18:11:35+0000 |
+| Fecha del analisis oficial | 2026-06-02T18:22:17+0000 |
 
 Las calificaciones `1.0` reportadas por la API de SonarCloud equivalen a rating **A** en confiabilidad, seguridad y mantenibilidad.
 
@@ -83,7 +83,7 @@ El workflow `.github/workflows/quality-sonar.yml` queda preparado para:
 4. subir el reporte como artefacto;
 5. ejecutar el scanner de SonarCloud cuando exista el secreto `SONAR_TOKEN`.
 
-La ultima corrida publica de GitHub Actions revisada finalizo en estado `success` para la rama `main`.
+La corrida publica de GitHub Actions revisada finalizo en estado `success` para la rama `main`.
 
 Nota tecnica: SonarCloud Automatic Analysis ya entrego un resultado oficial aprobado. El secreto `SONAR_TOKEN` se requiere solo si se desea que el scanner se ejecute desde GitHub Actions importando tambien `coverage.xml` en cada push.
 

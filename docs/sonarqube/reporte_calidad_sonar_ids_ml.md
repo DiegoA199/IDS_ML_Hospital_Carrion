@@ -55,8 +55,8 @@ Resultado:
 | Security Rating | A |
 | Maintainability Rating | A |
 | Lineas de codigo analizadas | 1615 |
-| Fecha de analisis | 2026-06-02T18:11:35+0000 |
-| Revision analizada | `c459b9272e977f5c1b745ed1bb9878abfe1129b3` |
+| Fecha de analisis | 2026-06-02T18:22:17+0000 |
+| Revision verificada por API | `5a65eb3f2cdc83b9a807832e73f865bc1398f202` |
 
 El analisis oficial se ejecuto con alcance ajustado mediante `.sonarcloud.properties`, evitando que SonarCloud trate documentacion, scripts de apoyo, SQL academico o prototipos como codigo productivo de la aplicacion.
 
