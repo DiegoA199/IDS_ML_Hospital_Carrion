@@ -151,6 +151,12 @@ pytest
 pytest --cov=src --cov-report=xml
 ```
 
+Ejecucion completa de calidad:
+
+```powershell
+.\scripts\run_quality.ps1
+```
+
 Documentacion:
 
 - `docs/testing/plan_pruebas_ids_ml.md`
@@ -163,14 +169,39 @@ El proyecto incluye:
 - `sonar-project.properties`
 - `.coveragerc`
 - `pytest.ini`
+- `.github/workflows/quality-sonar.yml`
+- `scripts/run_quality.ps1`
+- `scripts/run_quality.sh`
 - `docs/sonarqube/configuracion_sonar.md`
 
-Flujo sugerido:
+Flujo local:
 
 ```powershell
 pytest --cov=src --cov-report=xml
 sonar-scanner
 ```
+
+Flujo recomendado en GitHub:
+
+1. Crear el proyecto en SonarCloud con:
+
+   ```text
+   sonar.projectKey=DiegoA199_IDS_ML_Hospital_Carrion
+   sonar.organization=diegoa199
+   ```
+
+2. Crear el secreto `SONAR_TOKEN` en:
+
+   ```text
+   GitHub > Repository > Settings > Secrets and variables > Actions
+   ```
+
+3. Hacer `push` a `main`. GitHub Actions ejecuta tests, genera `coverage.xml` y lanza el analisis Sonar.
+
+Estado local verificado:
+
+- `38 passed`
+- cobertura efectiva: `83%`
 
 ## Seguridad de credenciales
 

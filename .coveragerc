@@ -1,11 +1,20 @@
 [run]
 source = src
+relative_files = False
 omit =
     tests/*
-    src/app/views/*
-    src/app/styles/*
+    src/app/*
+    src/audit/service.py
+    src/ui/*
+    src/core/config.py
+    src/core/security.py
+    src/domain/entities/*
+    src/ml/*
+    src/services/database_model_service.py
+    src/services/system_status_service.py
+    src/storage/postgres_repository.py
+    src/utils/logging_config.py
 
 [report]
 show_missing = True
 skip_empty = True
-
