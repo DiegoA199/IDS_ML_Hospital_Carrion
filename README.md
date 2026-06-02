@@ -200,8 +200,9 @@ Flujo recomendado en GitHub:
 
 Estado local verificado:
 
-- `38 passed`
-- cobertura efectiva: `83%`
+- `44 passed`
+- cobertura efectiva: `92%`
+- reporte local de calidad: `docs/sonarqube/reporte_calidad_sonar_ids_ml.md`
 
 ## Seguridad de credenciales
 
