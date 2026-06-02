@@ -34,6 +34,14 @@ El flujo recomendado para que el proyecto pase por SonarCloud es:
 7. SonarCloud calcula el Quality Gate.
 8. El resultado queda visible en GitHub Actions y en el dashboard de SonarCloud.
 
+Tambien puede ejecutarse manualmente desde GitHub:
+
+```text
+GitHub > Actions > Quality and Sonar > Run workflow
+```
+
+Esta ejecucion manual funciona despues de importar el proyecto en SonarCloud y crear el secreto `SONAR_TOKEN`.
+
 ## 3. Archivos configurados
 
 - `sonar-project.properties`: configuracion principal del analisis.
@@ -72,6 +80,8 @@ En SonarCloud:
    ```
 
 No subir el token al repositorio.
+
+Sin `SONAR_TOKEN`, GitHub Actions puede ejecutar pruebas y cobertura, pero el paso oficial de SonarCloud queda omitido.
 
 ## 5. Ejecutar localmente
 
