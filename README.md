@@ -203,6 +203,7 @@ Estado local verificado:
 - `44 passed`
 - cobertura efectiva: `92%`
 - reporte local de calidad: `docs/sonarqube/reporte_calidad_sonar_ids_ml.md`
+- SonarCloud oficial: `Quality Gate OK`, `0 bugs`, `0 vulnerabilities`, `0 code smells`, `0 security hotspots`, `0.0%` duplicacion.
 
 ## Seguridad de credenciales
 

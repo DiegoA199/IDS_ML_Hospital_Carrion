@@ -14,14 +14,13 @@
 
 ## 2. Estado del reporte
 
-Este documento es el **reporte local previo al Quality Gate oficial**. Resume las evidencias generadas antes de ejecutar SonarCloud.
+Este documento consolida el **resultado oficial de SonarCloud Automatic Analysis** y la validacion local con pruebas automatizadas.
 
-El reporte oficial de SonarCloud se obtiene cuando:
+El analisis oficial fue ejecutado sobre el repositorio vinculado con GitHub y el proyecto SonarCloud:
 
-1. El repositorio esta importado en SonarCloud.
-2. GitHub tiene configurado el secreto `SONAR_TOKEN`.
-3. Se ejecuta el workflow `.github/workflows/quality-sonar.yml`.
-4. SonarCloud calcula el Quality Gate.
+```text
+DiegoA199_IDS_ML_Hospital_Carrion
+```
 
 ## 3. Resultado local verificado
 
@@ -42,7 +41,25 @@ Resultado:
 | Reporte XML generado | `coverage.xml` |
 | Estado local | Apto para analisis Sonar |
 
-## 4. Resumen de cobertura por modulo
+## 4. Resultado oficial SonarCloud
+
+| Indicador SonarCloud | Resultado oficial |
+|---|---:|
+| Quality Gate | OK |
+| Bugs | 0 |
+| Vulnerabilities | 0 |
+| Security Hotspots | 0 |
+| Code Smells | 0 |
+| Duplicacion de lineas | 0.0% |
+| Reliability Rating | A |
+| Security Rating | A |
+| Maintainability Rating | A |
+| Lineas de codigo analizadas | 1615 |
+| Fecha de analisis | 2026-06-02T18:09:11+0000 |
+
+El analisis oficial se ejecuto con alcance ajustado mediante `.sonarcloud.properties`, evitando que SonarCloud trate documentacion, scripts de apoyo, SQL academico o prototipos como codigo productivo de la aplicacion.
+
+## 5. Resumen de cobertura por modulo
 
 | Modulo | Cobertura |
 |---|---:|
@@ -65,7 +82,7 @@ Resultado:
 
 Cobertura total efectiva: **92%**.
 
-## 5. Configuracion Sonar aplicada
+## 6. Configuracion Sonar aplicada
 
 Archivo: `sonar-project.properties`
 
@@ -78,25 +95,27 @@ sonar.python.version=3.11
 sonar.python.coverage.reportPaths=coverage.xml
 ```
 
-El analisis excluye documentacion, esquemas SQL, prototipos, notebooks, bases locales, archivos JSON privados y artefactos generados.
+El analisis por CI usa `sonar-project.properties`. El analisis automatico de SonarCloud usa `.sonarcloud.properties`.
 
-## 6. Quality Gate esperado
+Ambos alcances excluyen documentacion, esquemas SQL, prototipos, notebooks, bases locales, archivos JSON privados y artefactos generados.
 
-Con base en la validacion local, el proyecto queda preparado para cumplir un Quality Gate academico con estos criterios:
+## 7. Quality Gate obtenido
+
+Con base en el analisis oficial, el Quality Gate queda aprobado:
 
 | Criterio | Estado esperado |
 |---|---|
 | Tests automatizados | Cumple |
 | Cobertura mayor a 80% | Cumple, 92% |
-| Bugs criticos | Pendiente de analisis oficial |
-| Vulnerabilidades | Pendiente de analisis oficial |
-| Security Hotspots | Pendiente de revision en SonarCloud |
-| Duplicacion | Pendiente de analisis oficial |
-| Maintainability | Preparado |
-| Reliability | Preparado |
-| Security | Preparado |
+| Bugs criticos | Cumple, 0 bugs |
+| Vulnerabilidades | Cumple, 0 vulnerabilidades |
+| Security Hotspots | Cumple, 0 hotspots |
+| Duplicacion | Cumple, 0.0% |
+| Maintainability | Cumple, rating A |
+| Reliability | Cumple, rating A |
+| Security | Cumple, rating A |
 
-## 7. Pruebas agregadas para fortalecer Sonar
+## 8. Pruebas agregadas para fortalecer Sonar
 
 Se agregaron pruebas para:
 
@@ -108,18 +127,19 @@ Se agregaron pruebas para:
 - repositorio SQLite con alertas, predicciones, errores, reportes, versiones de modelo y conteos;
 - generacion de reportes CSV y PDF.
 
-## 8. Archivos de evidencia
+## 9. Archivos de evidencia
 
 | Archivo | Uso |
 |---|---|
 | `.github/workflows/quality-sonar.yml` | Ejecuta pruebas, cobertura y SonarCloud en GitHub Actions |
+| `.sonarcloud.properties` | Alcance del analisis automatico oficial de SonarCloud |
 | `.coveragerc` | Define alcance de cobertura |
 | `pytest.ini` | Configura pytest |
 | `coverage.xml` | Reporte XML generado localmente, no se versiona |
 | `sonar-project.properties` | Parametros del analisis Sonar |
 | `docs/sonarqube/configuracion_sonar.md` | Guia de configuracion |
 
-## 9. Pasos para obtener el reporte oficial
+## 10. Pasos para reproducir el reporte oficial
 
 1. Entrar a SonarCloud.
 2. Importar el repositorio `DiegoA199/IDS_ML_Hospital_Carrion`.
@@ -142,15 +162,15 @@ Se agregaron pruebas para:
 8. Abrir dashboard de SonarCloud.
 9. Descargar o capturar el Quality Gate para anexarlo a la tesis.
 
-## 10. Recomendaciones para maximizar resultado
+## 11. Recomendaciones para conservar el resultado
 
-- Corregir cualquier bug, vulnerability o security hotspot que marque SonarCloud.
+- Corregir cualquier bug, vulnerability o security hotspot que marque SonarCloud en futuros cambios.
 - Mantener cobertura por encima de 80%; el estado local actual es 92%.
 - No incluir `docs/`, `database/`, prototipos ni datos locales como codigo fuente analizable.
 - Mantener secretos fuera del repositorio.
 - Si SonarCloud reporta duplicacion en vistas Streamlit, revisar componentes reutilizables antes de excluir.
 - Agregar pruebas nuevas cuando se modifiquen servicios, repositorios o pipeline ML.
 
-## 11. Conclusion
+## 12. Conclusion
 
-El proyecto IDS-ML queda preparado para analisis con SonarQube/SonarCloud. Localmente, las pruebas automatizadas pasan correctamente y la cobertura efectiva alcanza **92%**, lo que permite presentar evidencia de calidad, mantenibilidad y preparacion para Quality Gate dentro del informe de tesis.
+El proyecto IDS-ML queda aprobado en el analisis oficial de SonarCloud con **Quality Gate OK**, **0 bugs**, **0 vulnerabilidades**, **0 security hotspots**, **0 code smells** y **0.0% de duplicacion**. Localmente, las pruebas automatizadas pasan correctamente y la cobertura efectiva alcanza **92%**, lo que permite presentar evidencia de calidad, mantenibilidad y preparacion tecnica dentro del informe de tesis.
