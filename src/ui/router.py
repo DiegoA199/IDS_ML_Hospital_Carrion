@@ -27,7 +27,7 @@ def render_page(page: str, repo: IDSMLRepository) -> None:
         "Usuarios y roles": pages.render_users,
         "Configuración": pages.render_settings,
         "Estado del sistema": pages.render_system_status,
-        "Nube y despliegue": pages.render_cloud,
+        "Soporte operativo": pages.render_cloud,
     }
     fn = routes.get(page)
     if fn is None:

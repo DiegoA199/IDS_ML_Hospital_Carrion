@@ -13,24 +13,11 @@ SIDEBAR_SECTIONS: tuple[tuple[str, tuple[str, ...]], ...] = (
         "Administración",
         ("Base de datos", "Usuarios y roles", "Configuración", "Estado del sistema"),
     ),
-    ("Despliegue", ("Nube y despliegue",)),
+    ("Soporte", ("Soporte operativo",)),
 )
 
 SIDEBAR_MODULES = [module for _, modules in SIDEBAR_SECTIONS for module in modules]
 SECTION_MODULES = {section: modules for section, modules in SIDEBAR_SECTIONS}
-
-BACKEND_LABELS = {
-    "postgres": "PostgreSQL",
-    "postgresql": "PostgreSQL",
-    "sqlite": "SQLite local",
-    "firestore": "Firestore",
-    "auto": "Automático",
-}
-
-
-def _backend_label(backend_name: str) -> str:
-    return BACKEND_LABELS.get(str(backend_name).lower(), str(backend_name).upper())
-
 
 def _section_for_page(page: str) -> str:
     for section, modules in SIDEBAR_SECTIONS:
@@ -53,8 +40,7 @@ def _ensure_active_page() -> str:
     return str(active_page)
 
 
-def _render_sidebar_header(username: str, role: str, backend_name: str) -> None:
-    backend = _backend_label(backend_name)
+def _render_sidebar_header(username: str, role: str) -> None:
     st.sidebar.markdown(
         f"""
         <div class="ids-sidebar-brand">
@@ -68,7 +54,7 @@ def _render_sidebar_header(username: str, role: str, backend_name: str) -> None:
             <div class="ids-card-title">{escape(username)}</div>
             <div class="ids-card-subtitle">{escape(role)}</div>
             <div class="ids-pill-row">
-                <span class="ids-chip">{escape(backend)}</span>
+                <span class="ids-chip">Acceso verificado</span>
                 <span class="ids-chip">RBAC activo</span>
             </div>
         </div>
@@ -77,9 +63,9 @@ def _render_sidebar_header(username: str, role: str, backend_name: str) -> None:
     )
 
 
-def render_sidebar_navigation(username: str, role: str, backend_name: str) -> str:
+def render_sidebar_navigation(username: str, role: str) -> str:
     """Render grouped navigation and return the selected page."""
-    _render_sidebar_header(username, role, backend_name)
+    _render_sidebar_header(username, role)
     active_page = _ensure_active_page()
 
     for section_title, modules in SIDEBAR_SECTIONS:
@@ -133,7 +119,7 @@ def render_main_navigation(active_page: str) -> str:
         """
         <div class="ids-main-nav-note">
             <span>Navegación del sistema</span>
-            <strong>Seleccione el área y módulo para recorrer el prototipo IDS-ML.</strong>
+            <strong>Seleccione el área y el módulo operativo que desea revisar.</strong>
         </div>
         """,
         unsafe_allow_html=True,
@@ -167,7 +153,7 @@ def render_main_navigation(active_page: str) -> str:
             <div class="ids-main-nav-state">
                 <div class="ids-sidebar-label">Módulo activo</div>
                 <div class="ids-card-title">{escape(current_page)}</div>
-                <div class="ids-card-subtitle">La navegación lateral puede estar oculta; este selector siempre permanece visible.</div>
+                <div class="ids-card-subtitle">Use este selector para avanzar por el flujo de monitoreo, análisis y respuesta.</div>
             </div>
             """,
             unsafe_allow_html=True,

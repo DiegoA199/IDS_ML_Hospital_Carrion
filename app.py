@@ -44,7 +44,7 @@ if not require_auth():
 role = st.session_state.get("role", "")
 username = st.session_state.get("username", "usuario")
 
-page = render_sidebar_navigation(username=username, role=role, backend_name=repo.backend_name)
+page = render_sidebar_navigation(username=username, role=role)
 page = render_main_navigation(page)
 
 if st.sidebar.button("Cerrar sesión"):

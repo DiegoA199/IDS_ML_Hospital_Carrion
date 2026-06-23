@@ -124,17 +124,6 @@ def _results_dataframe(results: list[Any], best_name: str | None = None) -> pd.D
     return pd.DataFrame(rows)
 
 
-def _backend_label(backend_name: str) -> str:
-    labels = {
-        "postgres": "PostgreSQL",
-        "postgresql": "PostgreSQL",
-        "sqlite": "SQLite local",
-        "firestore": "Firestore",
-        "auto": "Automático",
-    }
-    return labels.get(str(backend_name).lower(), str(backend_name).upper())
-
-
 def _register_training_results(
     repo: "IDSMLRepository",
     prepared: "PreparedDataset",
@@ -221,7 +210,7 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
     page_header(
         "Dashboard ejecutivo",
         "Vista consolidada del prototipo IDS-ML: modelo activo, inferencias, alertas y auditoría.",
-        tag=f"Motor de datos: {_backend_label(repo.backend_name)}",
+        tag="Sistema en monitoreo",
     )
 
     ctx = build_dashboard_context(repo)
@@ -237,7 +226,7 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
     with c3:
         metric_card("Precisión ML", format_percent(active_f1, 2), active_model.get("model_name", "Sin modelo activo"), tone="green", progress=(float(active_f1 or 0) * 100))
     with c4:
-        metric_card("Alertas activas", format_int(counts.get("alerts", 0)), f"Persistencia {_backend_label(repo.backend_name)}", tone="amber")
+        metric_card("Alertas activas", format_int(counts.get("alerts", 0)), "Eventos bajo seguimiento", tone="amber")
 
     normal_rows = max(0, int(counts.get("prediction_rows", 0)) - int(counts.get("amenazas_detectadas", 0)))
     threat_rows = int(counts.get("amenazas_detectadas", 0))
@@ -708,7 +697,7 @@ def render_alerts(repo: "IDSMLRepository") -> None:
         with c3:
             metric_card("Confianza del modelo", format_percent(active_model.get("f1_score"), 2), active_model.get("model_name", "Sin modelo"), tone="blue")
         with c4:
-            metric_card("Persistencia", _backend_label(repo.backend_name), "Motor activo", tone="slate")
+            metric_card("Trazabilidad", "Activa", "Registro operativo", tone="slate")
         empty_state("Las alertas automáticas aparecerán después de persistir una inferencia.")
     else:
         severe_mask = alerts_df["severidad"].astype(str).str.lower().isin(["alta", "crítica", "critica", "critical"])
@@ -775,7 +764,7 @@ def render_alerts(repo: "IDSMLRepository") -> None:
         section_title("Cambiar estado", "Administradores TI pueden cerrar o marcar revisión de alertas.")
         aid_col, status_col, button_col = st.columns([1.1, 0.7, 0.5])
         with aid_col:
-            aid = st.text_input("ID alerta (UUID o id SQLite)", "")
+            aid = st.text_input("ID de alerta", "")
         with status_col:
             status = st.selectbox("Nuevo estado", ["nueva", "revisada", "cerrada"])
         with button_col:
@@ -862,7 +851,7 @@ def render_database_model(repo: "IDSMLRepository") -> None:
     with c3:
         metric_card("Módulos", format_int(modules_count), "Agrupación funcional", tone="amber")
     with c4:
-        metric_card("Motor objetivo", "PostgreSQL", "Docker / producción", tone="slate")
+        metric_card("Modelo objetivo", "Relacional", "Gestión institucional", tone="slate")
 
     overview_tab, diagram_tab, sql_tab = st.tabs(["Resumen", "Diagrama ER", "SQL y DBML"])
 
@@ -885,8 +874,8 @@ def render_database_model(repo: "IDSMLRepository") -> None:
         st.dataframe(
             pd.DataFrame(
                 [
-                    {"formato": "SQLite", "archivo": str(SQLITE_SCHEMA_PATH)},
-                    {"formato": "PostgreSQL", "archivo": str(POSTGRES_SCHEMA_PATH)},
+                    {"formato": "SQL de referencia", "archivo": str(SQLITE_SCHEMA_PATH)},
+                    {"formato": "SQL relacional", "archivo": str(POSTGRES_SCHEMA_PATH)},
                     {"formato": "DBML / dbdiagram.io", "archivo": str(DBML_PATH)},
                 ]
             ),
@@ -894,11 +883,11 @@ def render_database_model(repo: "IDSMLRepository") -> None:
             hide_index=True,
         )
 
-        with st.expander("Ver schema.sql para SQLite"):
+        with st.expander("Ver esquema SQL de referencia"):
             st.code(sqlite_schema, language="sql")
 
         if POSTGRES_SCHEMA_PATH.exists():
-            with st.expander("Ver schema.sql para PostgreSQL"):
+            with st.expander("Ver esquema SQL relacional"):
                 st.code(read_schema(POSTGRES_SCHEMA_PATH), language="sql")
 
         if DBML_PATH.exists():
@@ -966,18 +955,18 @@ def render_settings(repo: "IDSMLRepository") -> None:
 
     c1, c2, c3 = st.columns(3)
     with c1:
-        metric_card("Persistencia activa", _backend_label(repo.backend_name), "Repository factory", tone="blue")
+        metric_card("Registro operativo", "Activo", "Trazabilidad habilitada", tone="blue")
     with c2:
         metric_card("Alertas por lote", "100", "Límite operativo UI", tone="amber")
     with c3:
-        metric_card("Ejecución", "Streamlit", "Prototipo local/cloud", tone="green")
+        metric_card("Servicio", "Disponible", "Interfaz IDS-ML", tone="green")
 
-    section_title("Configuración no sensible", "Valores esperados por entorno.")
+    section_title("Configuración no sensible", "Parámetros visibles para operación y revisión.")
     settings_df = pd.DataFrame(
         [
-            {"clave": "IDSML_PERSISTENCE_BACKEND", "propósito": "postgres | sqlite | firestore | auto", "secreto": "no"},
-            {"clave": "FIREBASE_PROJECT_ID", "propósito": "Proyecto Firebase/Firestore", "secreto": "sí, fuera del repo"},
-            {"clave": "GOOGLE_APPLICATION_CREDENTIALS", "propósito": "Ruta segura a credencial", "secreto": "sí, fuera del repo"},
+            {"clave": "Modo de operación", "propósito": "Controla el entorno funcional del prototipo", "secreto": "no"},
+            {"clave": "Credenciales institucionales", "propósito": "Se gestionan fuera del código fuente", "secreto": "sí"},
+            {"clave": "Trazabilidad", "propósito": "Registra acciones relevantes del sistema", "secreto": "no"},
         ]
     )
     st.dataframe(settings_df, width="stretch", hide_index=True)
@@ -986,9 +975,8 @@ def render_settings(repo: "IDSMLRepository") -> None:
     chip_row(
         [
             ("Secrets fuera del repo", "green"),
-            ("PostgreSQL recomendado", "green"),
-            ("SQLite solo laboratorio", "slate"),
-            ("Firestore opcional", "blue"),
+            ("Trazabilidad activa", "green"),
+            ("Roles institucionales", "blue"),
             ("Pruebas pytest", "green"),
             ("Sonar configurado", "amber"),
         ]
@@ -1002,7 +990,7 @@ def render_system_status(repo: "IDSMLRepository") -> None:
 
     page_header(
         "Estado del sistema",
-        "Diagnóstico operativo de persistencia, auditoría, errores, reportes y conectividad Firestore.",
+        "Diagnóstico operativo de trazabilidad, errores, reportes y servicios auxiliares.",
         tag="Salud operativa",
     )
 
@@ -1010,7 +998,7 @@ def render_system_status(repo: "IDSMLRepository") -> None:
     counts = payload.get("conteos", {})
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        metric_card("Persistencia", _backend_label(payload.get("backend", repo.backend_name)), "Repositorio activo", tone="blue")
+        metric_card("Trazabilidad", "Activa", "Repositorio operativo", tone="blue")
     with c2:
         metric_card("Bitácora", format_int(counts.get("audit_events", 0)), "Eventos registrados", tone="green")
     with c3:
@@ -1018,16 +1006,16 @@ def render_system_status(repo: "IDSMLRepository") -> None:
     with c4:
         metric_card("Reportes", format_int(counts.get("reports", 0)), "Exportaciones", tone="amber")
 
-    section_title("Diagnóstico Firestore", "Ping de conectividad si el backend o las credenciales aplican.")
+    section_title("Servicios auxiliares", "Verificación de conectividad cuando existen integraciones configuradas.")
     ping = firestore_ping_ok()
     if ping is None:
-        st.info("Firestore no configurado o no aplica en este backend.")
+        st.info("No hay integraciones externas configuradas para este entorno.")
     elif ping:
-        st.success("Conexión Firestore respondió correctamente.")
+        st.success("La integración externa respondió correctamente.")
     else:
-        st.error("Firestore no respondió al ping. Revise credenciales o red.")
+        st.error("La integración externa no respondió. Revise credenciales o red.")
         try:
-            repo.save_system_error("firestore_ping", "Fallo ping Firestore", {"backend": repo.backend_name})
+            repo.save_system_error("integracion_externa", "Fallo de conectividad externa", {})
         except Exception:
             pass
 
@@ -1037,41 +1025,40 @@ def render_system_status(repo: "IDSMLRepository") -> None:
 
 def render_cloud(repo: "IDSMLRepository") -> None:
     page_header(
-        "Nube y despliegue",
-        "Opciones de ejecución local, Docker y cloud sin exponer secretos ni credenciales.",
-        tag="Despliegue",
+        "Soporte operativo",
+        "Controles y recomendaciones visibles para mantener el servicio IDS-ML disponible y seguro.",
+        tag="Operación",
     )
 
     c1, c2, c3 = st.columns(3)
     with c1:
         render_card(
-            "Streamlit Cloud / Render",
-            "Punto de entrada app.py con variables de entorno y secretos del proveedor cloud.",
+            "Disponibilidad del servicio",
+            "Monitoreo básico de acceso, continuidad de la interfaz y respuesta del sistema.",
             tone="blue",
         )
     with c2:
         render_card(
-            "PostgreSQL para producción",
-            "Render debe conectarse a un motor PostgreSQL externo mediante DATABASE_URL.",
+            "Protección de credenciales",
+            "Los secretos y credenciales institucionales se gestionan fuera del código fuente.",
             tone="green",
         )
     with c3:
         render_card(
-            "Docker",
-            "docker compose up levanta Streamlit, PostgreSQL y Adminer para laboratorio local.",
+            "Continuidad operativa",
+            "El prototipo conserva registros, alertas y reportes para revisión y auditoría.",
             tone="amber",
         )
 
-    section_title("Variables esperadas", "No escriba secretos en el repositorio.")
+    section_title("Buenas prácticas", "Lineamientos para operación institucional del prototipo.")
     st.code(
         "\n".join(
             [
-                "IDSML_PERSISTENCE_BACKEND=postgres|sqlite|firestore|auto",
-                "FIREBASE_PROJECT_ID=<project-id>",
-                "GOOGLE_APPLICATION_CREDENTIALS=<ruta-segura>",
-                "streamlit run app.py",
-                "docker compose up",
+                "Mantener credenciales fuera del repositorio.",
+                "Revisar alertas e incidentes con usuarios autorizados.",
+                "Registrar evidencias para auditoría y validación de tesis.",
+                "Actualizar pruebas y análisis de calidad después de cambios relevantes.",
             ]
         ),
-        language="bash",
+        language="text",
     )
