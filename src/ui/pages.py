@@ -1,4 +1,4 @@
-"""PÃ¡ginas Streamlit del IDS-ML (UI orquestadora, lÃ³gica ML en mÃ³dulos dedicados)."""
+"""Páginas Streamlit del IDS-ML (UI orquestadora, lógica ML en módulos dedicados)."""
 
 from __future__ import annotations
 
@@ -124,6 +124,17 @@ def _results_dataframe(results: list[Any], best_name: str | None = None) -> pd.D
     return pd.DataFrame(rows)
 
 
+def _backend_label(backend_name: str) -> str:
+    labels = {
+        "postgres": "PostgreSQL",
+        "postgresql": "PostgreSQL",
+        "sqlite": "SQLite local",
+        "firestore": "Firestore",
+        "auto": "Automático",
+    }
+    return labels.get(str(backend_name).lower(), str(backend_name).upper())
+
+
 def _register_training_results(
     repo: "IDSMLRepository",
     prepared: "PreparedDataset",
@@ -159,7 +170,7 @@ def _register_training_results(
             f"bundle={bundle_path}, version={version_label}"
         ),
     )
-    st.success(f"Mejor modelo: {best.name}. Artefacto: {bundle_path} (versiÃ³n {version_label}).")
+    st.success(f"Mejor modelo: {best.name}. Artefacto: {bundle_path} (versión {version_label}).")
 
 
 def _render_results_panel(results: list[Any]) -> None:
@@ -172,14 +183,14 @@ def _render_results_panel(results: list[Any]) -> None:
         with k1:
             metric_card("Accuracy", format_percent(best.metrics.get("accuracy")), best.name, tone="blue")
         with k2:
-            metric_card("PrecisiÃ³n", format_percent(best.metrics.get("precision")), "ComparaciÃ³n ponderada", tone="green")
+            metric_card("Precisión", format_percent(best.metrics.get("precision")), "Comparación ponderada", tone="green")
         with k3:
             metric_card("Recall", format_percent(best.metrics.get("recall")), "Cobertura de clases", tone="slate")
         with k4:
-            metric_card("F1-score", format_percent(best.metrics.get("f1_score")), "Criterio de selecciÃ³n", tone="amber")
+            metric_card("F1-score", format_percent(best.metrics.get("f1_score")), "Criterio de selección", tone="amber")
 
     section_title("Tabla comparativa", "El mejor modelo se selecciona por F1-score ponderado.")
-    st.dataframe(metrics_df, use_container_width=True, hide_index=True)
+    st.dataframe(metrics_df, width="stretch", hide_index=True)
 
     left, right = st.columns([1.2, 1])
     with left:
@@ -191,7 +202,7 @@ def _render_results_panel(results: list[Any]) -> None:
             color_discrete_map={"Mejor F1": PALETTE["green"], "Candidato": PALETTE["blue"]},
             title="F1-score por modelo",
         )
-        st.plotly_chart(themed_plotly(fig, height=360), use_container_width=True)
+        st.plotly_chart(themed_plotly(fig, height=360), width="stretch")
 
     with right:
         if best is not None:
@@ -200,17 +211,17 @@ def _render_results_panel(results: list[Any]) -> None:
                 cm,
                 text_auto=True,
                 color_continuous_scale=[[0, PALETTE["surface"]], [1, PALETTE["blue"]]],
-                title="Matriz de confusiÃ³n del mejor modelo",
+                title="Matriz de confusión del mejor modelo",
             )
-            st.plotly_chart(themed_plotly(fig, height=360), use_container_width=True)
+            st.plotly_chart(themed_plotly(fig, height=360), width="stretch")
 
 
 def render_dashboard(repo: "IDSMLRepository") -> None:
     _init_session()
     page_header(
         "Dashboard ejecutivo",
-        "Vista consolidada del prototipo IDS-ML: modelo activo, inferencias, alertas y auditorÃ­a.",
-        tag=f"Network status: {repo.backend_name}",
+        "Vista consolidada del prototipo IDS-ML: modelo activo, inferencias, alertas y auditoría.",
+        tag=f"Motor de datos: {_backend_label(repo.backend_name)}",
     )
 
     ctx = build_dashboard_context(repo)
@@ -224,15 +235,15 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
     with c2:
         metric_card("Amenazas detectadas", format_int(counts.get("amenazas_detectadas", 0)), "Predicciones no benignas", tone="red")
     with c3:
-        metric_card("PrecisiÃ³n ML", format_percent(active_f1, 2), active_model.get("model_name", "Sin modelo activo"), tone="green", progress=(float(active_f1 or 0) * 100))
+        metric_card("Precisión ML", format_percent(active_f1, 2), active_model.get("model_name", "Sin modelo activo"), tone="green", progress=(float(active_f1 or 0) * 100))
     with c4:
-        metric_card("Alertas activas", format_int(counts.get("alerts", 0)), f"Backend {repo.backend_name}", tone="amber")
+        metric_card("Alertas activas", format_int(counts.get("alerts", 0)), f"Persistencia {_backend_label(repo.backend_name)}", tone="amber")
 
     normal_rows = max(0, int(counts.get("prediction_rows", 0)) - int(counts.get("amenazas_detectadas", 0)))
     threat_rows = int(counts.get("amenazas_detectadas", 0))
     left, right = st.columns([0.9, 1.6])
     with left:
-        section_title("DistribuciÃ³n de trÃ¡fico", "ProporciÃ³n operacional basada en inferencias persistidas.")
+        section_title("Distribución de tráfico", "Proporción operacional basada en inferencias persistidas.")
         if normal_rows or threat_rows:
             fig = go.Figure(
                 data=[
@@ -244,7 +255,7 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
                     )
                 ]
             )
-            st.plotly_chart(themed_plotly(fig, height=330), use_container_width=True)
+            st.plotly_chart(themed_plotly(fig, height=330), width="stretch")
         else:
             empty_state("Ejecute una inferencia y persista predicciones para construir esta vista.")
 
@@ -260,49 +271,49 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
                 color="severidad",
                 color_discrete_map={
                     "Alta": PALETTE["red"],
-                    "CrÃ­tica": PALETTE["red"],
+                    "Crítica": PALETTE["red"],
                     "Media": PALETTE["amber"],
                     "Baja": PALETTE["green"],
                 },
                 title="Alertas por severidad",
             )
-            st.plotly_chart(themed_plotly(fig, height=330), use_container_width=True)
+            st.plotly_chart(themed_plotly(fig, height=330), width="stretch")
         else:
-            empty_state("AÃºn no hay alertas almacenadas.")
+            empty_state("Aún no hay alertas almacenadas.")
 
     if st.session_state.get("results"):
-        section_title("ComparaciÃ³n de la sesiÃ³n actual", "Resultados recientes aÃºn disponibles en memoria.")
+        section_title("Comparación de la sesión actual", "Resultados recientes aún disponibles en memoria.")
         _render_results_panel(st.session_state["results"])
 
-    section_title("Eventos de seguridad recientes", "Ãšltimas alertas generadas por inferencia o pruebas manuales.")
+    section_title("Eventos de seguridad recientes", "Últimas alertas generadas por inferencia o pruebas manuales.")
     recent_alerts = ctx.get("recent_alerts") or []
     if recent_alerts:
         alerts_df = pd.DataFrame(recent_alerts)
         columns = [c for c in ["created_at", "tipo", "severidad", "probabilidad", "modelo_usado", "estado"] if c in alerts_df.columns]
-        st.dataframe(alerts_df[columns], use_container_width=True, hide_index=True)
+        st.dataframe(alerts_df[columns], width="stretch", hide_index=True)
     else:
-        empty_state("El centro de alertas todavÃ­a no tiene eventos.")
+        empty_state("El centro de alertas todavía no tiene eventos.")
 
-    section_title("BitÃ¡cora estructurada", "Actividad operativa mÃ¡s reciente del sistema.")
+    section_title("Bitácora estructurada", "Actividad operativa más reciente del sistema.")
     recent_audit = ctx.get("recent_audit") or []
-    st.dataframe(pd.DataFrame(recent_audit) if recent_audit else pd.DataFrame(), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(recent_audit) if recent_audit else pd.DataFrame(), width="stretch", hide_index=True)
 
 
 def render_dataset(repo: "IDSMLRepository") -> None:
     _init_session()
     if not rbac.can_access_dataset(st.session_state.get("role", "")):
-        st.warning("Sin permisos para este mÃ³dulo.")
+        st.warning("Sin permisos para este módulo.")
         return
 
     page_header(
-        "GestiÃ³n de datasets",
+        "Gestión de datasets",
         "Carga y perfilado de CSV autorizados para entrenar y validar el prototipo IDS-ML.",
         tag="CSV controlado",
     )
 
     upload_col, status_col = st.columns([1.8, 0.9])
     with upload_col:
-        uploaded = st.file_uploader("Arrastra o selecciona un archivo CSV de trÃ¡fico IDS", type=["csv"])
+        uploaded = st.file_uploader("Arrastra o selecciona un archivo CSV de tráfico IDS", type=["csv"])
     with status_col:
         profile = st.session_state.get("dataset_profile")
         df = st.session_state.get("df")
@@ -336,13 +347,13 @@ def render_dataset(repo: "IDSMLRepository") -> None:
     df = st.session_state.get("df")
     profile = st.session_state.get("dataset_profile")
     if df is None or profile is None:
-        empty_state("Seleccione un CSV para activar el perfilado, la validaciÃ³n y el flujo de entrenamiento.")
+        empty_state("Seleccione un CSV para activar el perfilado, la validación y el flujo de entrenamiento.")
         return
 
     metrics = _profile_metrics(df, profile)
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        metric_card("TamaÃ±o total", f"{metrics['memory_mb']:.2f} MB", f"{format_int(profile['rows'])} registros", tone="blue")
+        metric_card("Tamaño total", f"{metrics['memory_mb']:.2f} MB", f"{format_int(profile['rows'])} registros", tone="blue")
     with c2:
         metric_card("Nulls / missing", f"{metrics['missing_pct']:.2f}%", "Valores ausentes", tone="green" if metrics["missing_pct"] < 5 else "amber", progress=100 - metrics["missing_pct"])
     with c3:
@@ -351,13 +362,13 @@ def render_dataset(repo: "IDSMLRepository") -> None:
         metric_card("Consistencia", f"{metrics['quality']:.1f}%", f"{int(metrics['numeric_cols'])} num / {int(metrics['categorical_cols'])} cat", tone="green", progress=metrics["quality"])
 
     section_title("Vista previa", "Primeras filas del dataset cargado.")
-    st.dataframe(df.head(30), use_container_width=True)
+    st.dataframe(df.head(30), width="stretch")
 
-    section_title("ExploraciÃ³n de columnas", "Tipos de datos, nulos, cardinalidad y muestra por columna.")
-    st.dataframe(_column_profile_df(df), use_container_width=True, hide_index=True)
+    section_title("Exploración de columnas", "Tipos de datos, nulos, cardinalidad y muestra por columna.")
+    st.dataframe(_column_profile_df(df), width="stretch", hide_index=True)
 
     if st.button("Validar dataset para preprocesamiento"):
-        st.success("Dataset validado para seleccionar columna objetivo en el mÃ³dulo Preprocesamiento.")
+        st.success("Dataset validado para seleccionar columna objetivo en el módulo Preprocesamiento.")
         log_action(
             repo,
             action="validacion_dataset",
@@ -375,19 +386,19 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
 
     page_header(
         "Preprocesamiento de datos",
-        "PreparaciÃ³n sin fuga de informaciÃ³n: limpieza, codificaciÃ³n, escalado, split train/test y SMOTE opcional.",
+        "Preparación sin fuga de información: limpieza, codificación, escalado, split train/test y SMOTE opcional.",
         tag="Pipeline ML",
     )
 
     df = st.session_state.get("df")
     if df is None:
-        empty_state("Primero cargue un dataset CSV en el mÃ³dulo Dataset.")
+        empty_state("Primero cargue un dataset CSV en el módulo Dataset.")
         return
 
     control_col, summary_col = st.columns([1.25, 0.9])
     with control_col:
         target_col = st.selectbox("Columna objetivo / clase", list(df.columns), key="preprocess_target_col")
-        test_size = st.slider("TamaÃ±o del conjunto de prueba", 0.10, 0.40, 0.25, 0.05)
+        test_size = st.slider("Tamaño del conjunto de prueba", 0.10, 0.40, 0.25, 0.05)
         apply_smote = st.checkbox("Aplicar SMOTE solo en entrenamiento", value=True)
         drop_na_rows = st.checkbox("Eliminar filas con cualquier NA antes del split", value=True)
         run_preprocessing = st.button("Ejecutar preprocesamiento")
@@ -436,10 +447,10 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
     if prepared is None:
         pipeline_steps(
             [
-                {"name": "Cleaning", "status": "pendiente", "state": "pending", "description": "ValidaciÃ³n de NA y filas Ãºtiles."},
-                {"name": "Encoding", "status": "pendiente", "state": "pending", "description": "One-hot para variables categÃ³ricas."},
-                {"name": "Normalization", "status": "pendiente", "state": "pending", "description": "ImputaciÃ³n y escalado numÃ©rico."},
-                {"name": "Split", "status": "pendiente", "state": "pending", "description": "SeparaciÃ³n train/test sin fuga."},
+                {"name": "Cleaning", "status": "pendiente", "state": "pending", "description": "Validación de NA y filas útiles."},
+                {"name": "Encoding", "status": "pendiente", "state": "pending", "description": "One-hot para variables categóricas."},
+                {"name": "Normalization", "status": "pendiente", "state": "pending", "description": "Imputación y escalado numérico."},
+                {"name": "Split", "status": "pendiente", "state": "pending", "description": "Separación train/test sin fuga."},
                 {"name": "SMOTE", "status": "opcional", "state": "pending", "description": "Balanceo solo sobre entrenamiento."},
             ]
         )
@@ -448,10 +459,10 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
     pipeline_steps(
         [
             {"name": "Cleaning", "status": "completed", "state": "done", "description": "Filas y objetivo preparados."},
-            {"name": "Encoding", "status": "completed", "state": "done", "description": "Variables categÃ³ricas codificadas."},
-            {"name": "Normalization", "status": "completed", "state": "done", "description": "NumÃ©ricas imputadas y escaladas."},
-            {"name": "Split", "status": "completed", "state": "done", "description": "ParticiÃ³n train/test generada."},
-            {"name": "Selection", "status": "ready", "state": "active", "description": "Listo para comparaciÃ³n de modelos."},
+            {"name": "Encoding", "status": "completed", "state": "done", "description": "Variables categóricas codificadas."},
+            {"name": "Normalization", "status": "completed", "state": "done", "description": "Numéricas imputadas y escaladas."},
+            {"name": "Split", "status": "completed", "state": "done", "description": "Partición train/test generada."},
+            {"name": "Selection", "status": "ready", "state": "active", "description": "Listo para comparación de modelos."},
         ]
     )
 
@@ -461,18 +472,18 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
     with k2:
         metric_card("Train rows", format_int(prepared.x_train.shape[0]), "Matriz transformada", tone="green")
     with k3:
-        metric_card("Test rows", format_int(prepared.x_test.shape[0]), "EvaluaciÃ³n retenida", tone="slate")
+        metric_card("Test rows", format_int(prepared.x_test.shape[0]), "Evaluación retenida", tone="slate")
     with k4:
-        metric_card("Features", format_int(prepared.x_train.shape[1]), "DespuÃ©s del transformador", tone="amber")
+        metric_card("Features", format_int(prepared.x_train.shape[1]), "Después del transformador", tone="amber")
 
-    section_title("Muestra transformada", "Primeras columnas numÃ©ricas que recibirÃ¡ scikit-learn.")
+    section_title("Muestra transformada", "Primeras columnas numéricas que recibirá scikit-learn.")
     try:
         feature_names = list(prepared.preprocessor.get_feature_names_out())
     except Exception:
         feature_names = [f"feature_{i + 1}" for i in range(prepared.x_train.shape[1])]
     n_cols = min(10, prepared.x_train.shape[1])
     sample_df = pd.DataFrame(prepared.x_train[:10, :n_cols], columns=feature_names[:n_cols])
-    st.dataframe(sample_df, use_container_width=True)
+    st.dataframe(sample_df, width="stretch")
 
 
 def render_training(repo: "IDSMLRepository") -> None:
@@ -482,19 +493,19 @@ def render_training(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "ComparaciÃ³n y entrenamiento",
-        "Entrena modelos candidatos, compara mÃ©tricas y registra como activo el mejor clasificador por F1-score.",
+        "Comparación y entrenamiento",
+        "Entrena modelos candidatos, compara métricas y registra como activo el mejor clasificador por F1-score.",
         tag="Model node active",
     )
 
     df = st.session_state.get("df")
     if df is None:
-        empty_state("Primero cargue un dataset en el mÃ³dulo Dataset.")
+        empty_state("Primero cargue un dataset en el módulo Dataset.")
         return
 
     left, right = st.columns([1.05, 1.6])
     with left:
-        section_title("Modelos candidatos", "ConfiguraciÃ³n actual de scikit-learn.")
+        section_title("Modelos candidatos", "Configuración actual de scikit-learn.")
         for model_name in MODELS:
             render_card(model_name, "Candidato listo para entrenamiento comparativo.", tone="blue")
     with right:
@@ -502,9 +513,9 @@ def render_training(repo: "IDSMLRepository") -> None:
         prepared = st.session_state.get("prepared_dataset")
         can_reuse = prepared is not None and st.session_state.get("prepared_target_col") == target_col
         if can_reuse:
-            st.info("Se reutilizarÃ¡ el preprocesamiento validado para esta columna objetivo.")
+            st.info("Se reutilizará el preprocesamiento validado para esta columna objetivo.")
         else:
-            st.info("Si no existe preprocesamiento validado para este objetivo, se ejecutarÃ¡ el pipeline antes de entrenar.")
+            st.info("Si no existe preprocesamiento validado para este objetivo, se ejecutará el pipeline antes de entrenar.")
 
         if st.button("Entrenar y comparar modelos"):
             try:
@@ -538,7 +549,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "AnÃ¡lisis de trÃ¡fico nuevo",
+        "Análisis de tráfico nuevo",
         "Carga registros sin columna objetivo, aplica el bundle activo y genera predicciones, alertas y persistencia.",
         tag="Traffic analysis",
     )
@@ -558,7 +569,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
             empty_state(f"No hay modelo en {default_bundle_path()}. Entrene primero o cargue un bundle.")
             return
 
-        metric_card("Motor de detecciÃ³n", bundle.model_name, f"F1 guardado {bundle.f1_score:.4f}", tone="blue", progress=bundle.f1_score * 100)
+        metric_card("Motor de detección", bundle.model_name, f"F1 guardado {bundle.f1_score:.4f}", tone="blue", progress=bundle.f1_score * 100)
         metric_card("Features esperadas", format_int(len(bundle.feature_columns)), f"Entrenado {bundle.trained_at}", tone="green")
 
     with upload_col:
@@ -566,7 +577,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
         if uploaded_infer is not None:
             df_new = pd.read_csv(uploaded_infer)
             st.caption(f"Archivo listo: {uploaded_infer.name} ({format_int(len(df_new))} filas).")
-            if st.button("Ejecutar anÃ¡lisis"):
+            if st.button("Ejecutar análisis"):
                 try:
                     with st.spinner("Aplicando preprocesamiento y modelo activo..."):
                         pred_df = predict_dataframe(bundle, df_new)
@@ -588,7 +599,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
 
     pred_df = st.session_state.get("last_pred_df")
     if pred_df is None:
-        empty_state("Cargue un CSV nuevo y ejecute el anÃ¡lisis para visualizar patrones y predicciones.")
+        empty_state("Cargue un CSV nuevo y ejecute el análisis para visualizar patrones y predicciones.")
         return
 
     labels = pred_df["prediccion_etiqueta"].astype(str)
@@ -601,13 +612,13 @@ def render_inference(repo: "IDSMLRepository") -> None:
     with c1:
         metric_card("System threat status", "THREAT" if threat_count else "NORMAL", f"{threat_count} hallazgos", tone="red" if threat_count else "green")
     with c2:
-        metric_card("Probabilidad mÃ¡x.", format_percent(max_confidence, 2), "Confianza del modelo", tone="red" if threat_count else "blue", progress=(max_confidence or 0) * 100)
+        metric_card("Probabilidad máx.", format_percent(max_confidence, 2), "Confianza del modelo", tone="red" if threat_count else "blue", progress=(max_confidence or 0) * 100)
     with c3:
         metric_card("Registros analizados", format_int(len(pred_df)), "Lote actual", tone="blue")
     with c4:
         metric_card("Modelo agente", bundle.model_name, "Bundle activo", tone="green")
 
-    section_title("VisualizaciÃ³n de patrÃ³n", "Primeros registros del lote con Ã©nfasis en anomalÃ­as.")
+    section_title("Visualización de patrón", "Primeros registros del lote con énfasis en anomalías.")
     plot_df = pred_df.head(80).copy()
     plot_df["_fila"] = range(len(plot_df))
     plot_df["_amenaza"] = threat_mask(plot_df["prediccion_etiqueta"].astype(str))
@@ -621,10 +632,10 @@ def render_inference(repo: "IDSMLRepository") -> None:
         color_discrete_map={True: PALETTE["red"], False: PALETTE["blue"]},
         title="Densidad de confianza por registro",
     )
-    st.plotly_chart(themed_plotly(fig, height=320), use_container_width=True)
+    st.plotly_chart(themed_plotly(fig, height=320), width="stretch")
 
     section_title("Predicciones del lote", "Resultado generado por el pipeline y modelo activo.")
-    st.dataframe(pred_df, use_container_width=True)
+    st.dataframe(pred_df, width="stretch")
 
     if st.button("Persistir predicciones, filas y alertas"):
         details_json = predictions_to_json_records(pred_df)
@@ -670,17 +681,17 @@ def render_inference(repo: "IDSMLRepository") -> None:
             result="ok",
             observation=f"run_id={run_id}, alertas={n_alert}",
         )
-        st.success(f"Run {run_id}: filas detalle, {n_alert} alertas y bitÃ¡cora registradas.")
+        st.success(f"Run {run_id}: filas detalle, {n_alert} alertas y bitácora registradas.")
 
 
 def render_alerts(repo: "IDSMLRepository") -> None:
     if not rbac.can_manage_alerts(st.session_state.get("role", "")):
-        st.warning("Sin permisos para gestiÃ³n de alertas.")
+        st.warning("Sin permisos para gestión de alertas.")
         return
 
     page_header(
         "Centro de alertas",
-        "RevisiÃ³n de eventos generados por inferencia, filtros por severidad y gestiÃ³n de estado.",
+        "Revisión de eventos generados por inferencia, filtros por severidad y gestión de estado.",
         tag="Alerts center",
     )
 
@@ -697,10 +708,10 @@ def render_alerts(repo: "IDSMLRepository") -> None:
         with c3:
             metric_card("Model confidence", format_percent(active_model.get("f1_score"), 2), active_model.get("model_name", "Sin modelo"), tone="blue")
         with c4:
-            metric_card("Backend", repo.backend_name, "Persistencia activa", tone="slate")
-        empty_state("Las alertas automÃ¡ticas aparecerÃ¡n despuÃ©s de persistir una inferencia.")
+            metric_card("Persistencia", _backend_label(repo.backend_name), "Motor activo", tone="slate")
+        empty_state("Las alertas automáticas aparecerán después de persistir una inferencia.")
     else:
-        severe_mask = alerts_df["severidad"].astype(str).str.lower().isin(["alta", "crÃ­tica", "critica", "critical"])
+        severe_mask = alerts_df["severidad"].astype(str).str.lower().isin(["alta", "crítica", "critica", "critical"])
         new_mask = alerts_df.get("estado", pd.Series(dtype=str)).astype(str).str.lower().eq("nueva")
         avg_prob = alerts_df["probabilidad"].dropna().mean() if "probabilidad" in alerts_df.columns else None
 
@@ -708,11 +719,11 @@ def render_alerts(repo: "IDSMLRepository") -> None:
         with c1:
             metric_card("System status", "Operacional", "Monitoreo activo", tone="green")
         with c2:
-            metric_card("Alertas crÃ­ticas/altas", format_int(severe_mask.sum()), "Prioridad de revisiÃ³n", tone="red")
+            metric_card("Alertas críticas/altas", format_int(severe_mask.sum()), "Prioridad de revisión", tone="red")
         with c3:
             metric_card("Confianza promedio", format_percent(avg_prob, 2), "Alertas con probabilidad", tone="blue", progress=(float(avg_prob or 0) * 100))
         with c4:
-            metric_card("Nuevas", format_int(new_mask.sum()), "Pendientes de gestiÃ³n", tone="amber")
+            metric_card("Nuevas", format_int(new_mask.sum()), "Pendientes de gestión", tone="amber")
 
         filter_col, table_col = st.columns([0.7, 1.8])
         with filter_col:
@@ -744,10 +755,10 @@ def render_alerts(repo: "IDSMLRepository") -> None:
                 for c in ["id", "alert_uuid", "created_at", "tipo", "severidad", "probabilidad", "modelo_usado", "estado"]
                 if c in filtered.columns
             ]
-            st.dataframe(filtered[columns], use_container_width=True, hide_index=True)
+            st.dataframe(filtered[columns], width="stretch", hide_index=True)
 
         if not filtered.empty:
-            section_title("Tendencia por severidad", "DistribuciÃ³n visual de la lista filtrada.")
+            section_title("Tendencia por severidad", "Distribución visual de la lista filtrada.")
             sev_counts = filtered["severidad"].value_counts().reset_index()
             sev_counts.columns = ["severidad", "alertas"]
             fig = px.bar(
@@ -758,10 +769,10 @@ def render_alerts(repo: "IDSMLRepository") -> None:
                 color_discrete_map={sev: PALETTE[severity_tone(sev)] for sev in sev_counts["severidad"]},
                 title="Alertas filtradas",
             )
-            st.plotly_chart(themed_plotly(fig, height=300), use_container_width=True)
+            st.plotly_chart(themed_plotly(fig, height=300), width="stretch")
 
     if rbac.can_change_alert_status(st.session_state.get("role", "")):
-        section_title("Cambiar estado", "Administradores TI pueden cerrar o marcar revisiÃ³n de alertas.")
+        section_title("Cambiar estado", "Administradores TI pueden cerrar o marcar revisión de alertas.")
         aid_col, status_col, button_col = st.columns([1.1, 0.7, 0.5])
         with aid_col:
             aid = st.text_input("ID alerta (UUID o id SQLite)", "")
@@ -772,20 +783,20 @@ def render_alerts(repo: "IDSMLRepository") -> None:
             st.write("")
             if st.button("Actualizar") and aid:
                 ok = repo.update_alert_status(aid, status, st.session_state.get("role", ""))
-                st.success("Actualizado.") if ok else st.error("No se encontrÃ³ la alerta.")
+                st.success("Actualizado.") if ok else st.error("No se encontró la alerta.")
 
-    section_title("Historial de inferencias", "Lotes persistidos con modelo, F1 y nÃºmero de filas.")
+    section_title("Historial de inferencias", "Lotes persistidos con modelo, F1 y número de filas.")
     runs = repo.list_prediction_runs(limit=30)
-    st.dataframe(pd.DataFrame(runs) if runs else pd.DataFrame(), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(runs) if runs else pd.DataFrame(), width="stretch", hide_index=True)
 
-    section_title("BitÃ¡cora estructurada", "Eventos de auditorÃ­a recientes.")
+    section_title("Bitácora estructurada", "Eventos de auditoría recientes.")
     logs = repo.list_audit_events(limit=60)
-    st.dataframe(pd.DataFrame(logs) if logs else pd.DataFrame(), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(logs) if logs else pd.DataFrame(), width="stretch", hide_index=True)
 
     errs = repo.list_system_errors(limit=20)
     if errs:
-        section_title("Errores recientes", "DiagnÃ³sticos persistidos por los flujos operativos.")
-        st.dataframe(pd.DataFrame(errs), use_container_width=True, hide_index=True)
+        section_title("Errores recientes", "Diagnósticos persistidos por los flujos operativos.")
+        st.dataframe(pd.DataFrame(errs), width="stretch", hide_index=True)
 
 
 def render_reports(repo: "IDSMLRepository") -> None:
@@ -795,20 +806,20 @@ def render_reports(repo: "IDSMLRepository") -> None:
 
     page_header(
         "Reportes exportables",
-        "GeneraciÃ³n de evidencias CSV/PDF con trazabilidad en el repositorio activo.",
+        "Generación de evidencias CSV/PDF con trazabilidad en el repositorio activo.",
         tag="Reports",
     )
 
     user = str(st.session_state.get("username", "usuario"))
     csv_col, pdf_col = st.columns(2)
     with csv_col:
-        render_card("CSV de experimentos", "Exporta mÃ©tricas de modelos, conteos y resumen operativo.", tone="blue")
+        render_card("CSV de experimentos", "Exporta métricas de modelos, conteos y resumen operativo.", tone="blue")
         if st.button("Generar CSV de experimentos"):
             path = report_gen.export_summary_csv(repo, user)
             log_action(repo, action="export_csv", module="reportes", result="ok", observation=str(path))
             st.success(f"CSV generado: {path}")
     with pdf_col:
-        render_card("PDF ejecutivo", "Resumen visual para revisiÃ³n acadÃ©mica o institucional.", tone="green")
+        render_card("PDF ejecutivo", "Resumen visual para revisión académica o institucional.", tone="green")
         if st.button("Generar PDF resumen"):
             path = report_gen.export_summary_pdf(repo, user)
             if path:
@@ -819,7 +830,7 @@ def render_reports(repo: "IDSMLRepository") -> None:
 
     section_title("Historial de reportes", "Archivos generados y registrados en persistencia.")
     reports = repo.list_reports(limit=20)
-    st.dataframe(pd.DataFrame(reports) if reports else pd.DataFrame(), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(reports) if reports else pd.DataFrame(), width="stretch", hide_index=True)
 
 
 def render_database_model(repo: "IDSMLRepository") -> None:
@@ -857,16 +868,16 @@ def render_database_model(repo: "IDSMLRepository") -> None:
 
     with overview_tab:
         section_title("Resumen por modulo", "Conteo de tablas, campos y relaciones documentadas.")
-        st.dataframe(summarize_modules(tables), use_container_width=True, hide_index=True)
+        st.dataframe(summarize_modules(tables), width="stretch", hide_index=True)
 
         section_title("Inventario de tablas", "Listado verificable para sustentacion y revision tecnica.")
-        st.dataframe(summarize_tables(tables), use_container_width=True, hide_index=True)
+        st.dataframe(summarize_tables(tables), width="stretch", hide_index=True)
 
     with diagram_tab:
         modules = ["Todos"] + sorted({table.module for table in tables})
         default_index = modules.index("Alertas IDS") if "Alertas IDS" in modules else 0
         selected_module = st.selectbox("Modulo del diagrama", modules, index=default_index)
-        st.graphviz_chart(build_relationship_dot(tables, selected_module), use_container_width=True)
+        st.graphviz_chart(build_relationship_dot(tables, selected_module), width="stretch")
         st.caption("Para revisar todo el modelo en detalle, use el archivo DBML en dbdiagram.io.")
 
     with sql_tab:
@@ -879,7 +890,7 @@ def render_database_model(repo: "IDSMLRepository") -> None:
                     {"formato": "DBML / dbdiagram.io", "archivo": str(DBML_PATH)},
                 ]
             ),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -897,18 +908,18 @@ def render_database_model(repo: "IDSMLRepository") -> None:
 
 def render_users(repo: "IDSMLRepository") -> None:
     if not rbac.can_system_status(st.session_state.get("role", "")):
-        st.warning("Solo roles TI pueden revisar administraciÃ³n de usuarios.")
+        st.warning("Solo roles TI pueden revisar administración de usuarios.")
         return
 
     page_header(
-        "AdministraciÃ³n de usuarios y roles",
+        "Administración de usuarios y roles",
         "Vista de roles demo y permisos operativos del prototipo. Lista para reemplazo por IAM institucional.",
         tag="RBAC",
     )
 
     users_df = pd.DataFrame(
         [
-            {"usuario": "admin", "rol": "Administrador TI", "estado": "activo", "alcance": "AdministraciÃ³n completa"},
+            {"usuario": "admin", "rol": "Administrador TI", "estado": "activo", "alcance": "Administración completa"},
             {"usuario": "analista", "rol": "Analista TI", "estado": "activo", "alcance": "Dataset, entrenamiento, inferencia y reportes"},
             {"usuario": "invitado", "rol": "Invitado/demo", "estado": "activo", "alcance": "Lectura y carga demostrativa"},
         ]
@@ -927,51 +938,51 @@ def render_users(repo: "IDSMLRepository") -> None:
     left, right = st.columns([1.25, 1])
     with left:
         section_title("Usuarios demo", "No contiene credenciales reales ni identidad institucional.")
-        st.dataframe(users_df, use_container_width=True, hide_index=True)
+        st.dataframe(users_df, width="stretch", hide_index=True)
     with right:
         section_title("Permisos por rol", "Resumen RBAC aplicado por la capa de seguridad.")
-        st.dataframe(role_df, use_container_width=True, hide_index=True)
+        st.dataframe(role_df, width="stretch", hide_index=True)
 
-    section_title("Trazabilidad de accesos", "Eventos recientes de autenticaciÃ³n y auditorÃ­a.")
+    section_title("Trazabilidad de accesos", "Eventos recientes de autenticación y auditoría.")
     logs = repo.list_audit_events(limit=50)
     log_df = pd.DataFrame(logs)
     if not log_df.empty:
         columns = [c for c in ["created_at", "username", "role", "action", "module", "result"] if c in log_df.columns]
-        st.dataframe(log_df[columns], use_container_width=True, hide_index=True)
+        st.dataframe(log_df[columns], width="stretch", hide_index=True)
     else:
-        empty_state("AÃºn no hay eventos de acceso registrados.")
+        empty_state("Aún no hay eventos de acceso registrados.")
 
 
 def render_settings(repo: "IDSMLRepository") -> None:
     if not rbac.can_system_status(st.session_state.get("role", "")):
-        st.warning("Solo roles TI pueden revisar configuraciÃ³n del sistema.")
+        st.warning("Solo roles TI pueden revisar configuración del sistema.")
         return
 
     page_header(
-        "ConfiguraciÃ³n del sistema",
-        "ParÃ¡metros operativos visibles para tesis. Los secretos siguen fuera del cÃ³digo fuente.",
+        "Configuración del sistema",
+        "Parámetros operativos visibles para tesis. Los secretos siguen fuera del código fuente.",
         tag="Settings",
     )
 
     c1, c2, c3 = st.columns(3)
     with c1:
-        metric_card("Persistencia activa", repo.backend_name, "Repository factory", tone="blue")
+        metric_card("Persistencia activa", _backend_label(repo.backend_name), "Repository factory", tone="blue")
     with c2:
-        metric_card("Alertas por lote", "100", "LÃ­mite operativo UI", tone="amber")
+        metric_card("Alertas por lote", "100", "Límite operativo UI", tone="amber")
     with c3:
-        metric_card("EjecuciÃ³n", "Streamlit", "Prototipo local/cloud", tone="green")
+        metric_card("Ejecución", "Streamlit", "Prototipo local/cloud", tone="green")
 
-    section_title("ConfiguraciÃ³n no sensible", "Valores esperados por entorno.")
+    section_title("Configuración no sensible", "Valores esperados por entorno.")
     settings_df = pd.DataFrame(
         [
-            {"clave": "IDSML_PERSISTENCE_BACKEND", "propÃ³sito": "sqlite | firestore | auto", "secreto": "no"},
-            {"clave": "FIREBASE_PROJECT_ID", "propÃ³sito": "Proyecto Firebase/Firestore", "secreto": "sÃ­, fuera del repo"},
-            {"clave": "GOOGLE_APPLICATION_CREDENTIALS", "propÃ³sito": "Ruta segura a credencial", "secreto": "sÃ­, fuera del repo"},
+            {"clave": "IDSML_PERSISTENCE_BACKEND", "propósito": "postgres | sqlite | firestore | auto", "secreto": "no"},
+            {"clave": "FIREBASE_PROJECT_ID", "propósito": "Proyecto Firebase/Firestore", "secreto": "sí, fuera del repo"},
+            {"clave": "GOOGLE_APPLICATION_CREDENTIALS", "propósito": "Ruta segura a credencial", "secreto": "sí, fuera del repo"},
         ]
     )
-    st.dataframe(settings_df, use_container_width=True, hide_index=True)
+    st.dataframe(settings_df, width="stretch", hide_index=True)
 
-    section_title("Buenas prÃ¡cticas activas", "Controles bÃ¡sicos para revisiÃ³n acadÃ©mica y Sonar.")
+    section_title("Buenas prácticas activas", "Controles básicos para revisión académica y Sonar.")
     chip_row(
         [
             ("Secrets fuera del repo", "green"),
@@ -990,7 +1001,7 @@ def render_system_status(repo: "IDSMLRepository") -> None:
 
     page_header(
         "Estado del sistema",
-        "DiagnÃ³stico operativo de persistencia, auditorÃ­a, errores, reportes y conectividad Firestore.",
+        "Diagnóstico operativo de persistencia, auditoría, errores, reportes y conectividad Firestore.",
         tag="System status",
     )
 
@@ -998,35 +1009,35 @@ def render_system_status(repo: "IDSMLRepository") -> None:
     counts = payload.get("conteos", {})
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        metric_card("Backend", payload.get("backend", repo.backend_name), "Repositorio activo", tone="blue")
+        metric_card("Persistencia", _backend_label(payload.get("backend", repo.backend_name)), "Repositorio activo", tone="blue")
     with c2:
-        metric_card("BitÃ¡cora", format_int(counts.get("audit_events", 0)), "Eventos registrados", tone="green")
+        metric_card("Bitácora", format_int(counts.get("audit_events", 0)), "Eventos registrados", tone="green")
     with c3:
-        metric_card("Errores", format_int(counts.get("system_errors", 0)), "DiagnÃ³sticos persistidos", tone="red" if counts.get("system_errors", 0) else "slate")
+        metric_card("Errores", format_int(counts.get("system_errors", 0)), "Diagnósticos persistidos", tone="red" if counts.get("system_errors", 0) else "slate")
     with c4:
         metric_card("Reportes", format_int(counts.get("reports", 0)), "Exportaciones", tone="amber")
 
-    section_title("DiagnÃ³stico Firestore", "Ping de conectividad si el backend o las credenciales aplican.")
+    section_title("Diagnóstico Firestore", "Ping de conectividad si el backend o las credenciales aplican.")
     ping = firestore_ping_ok()
     if ping is None:
         st.info("Firestore no configurado o no aplica en este backend.")
     elif ping:
-        st.success("ConexiÃ³n Firestore respondiÃ³ correctamente.")
+        st.success("Conexión Firestore respondió correctamente.")
     else:
-        st.error("Firestore no respondiÃ³ al ping. Revise credenciales o red.")
+        st.error("Firestore no respondió al ping. Revise credenciales o red.")
         try:
             repo.save_system_error("firestore_ping", "Fallo ping Firestore", {"backend": repo.backend_name})
         except Exception:
             pass
 
-    with st.expander("Payload tÃ©cnico"):
+    with st.expander("Payload técnico"):
         st.json(payload)
 
 
 def render_cloud(repo: "IDSMLRepository") -> None:
     page_header(
         "Nube y despliegue",
-        "Opciones de ejecuciÃ³n local, Docker y cloud sin exponer secretos ni credenciales.",
+        "Opciones de ejecución local, Docker y cloud sin exponer secretos ni credenciales.",
         tag="Deployment",
     )
 
@@ -1034,19 +1045,19 @@ def render_cloud(repo: "IDSMLRepository") -> None:
     with c1:
         render_card(
             "Streamlit Cloud / Render",
-            "Punto de entrada app.py, configuraciÃ³n por variables de entorno y secretos del proveedor.",
+            "Punto de entrada app.py, configuración por variables de entorno y secretos del proveedor.",
             tone="blue",
         )
     with c2:
         render_card(
             "Firestore + SQLite",
-            "Repository Pattern con fallback automÃ¡tico a SQLite cuando Firestore no estÃ¡ disponible.",
+            "Repository Pattern con fallback automático a SQLite cuando Firestore no está disponible.",
             tone="green",
         )
     with c3:
         render_card(
             "Docker",
-            "docker compose up conserva data y artifacts mediante volÃºmenes del proyecto.",
+            "docker compose up conserva data y artifacts mediante volúmenes del proyecto.",
             tone="amber",
         )
 
@@ -1054,7 +1065,7 @@ def render_cloud(repo: "IDSMLRepository") -> None:
     st.code(
         "\n".join(
             [
-                "IDSML_PERSISTENCE_BACKEND=auto|sqlite|firestore",
+                "IDSML_PERSISTENCE_BACKEND=postgres|sqlite|firestore|auto",
                 "FIREBASE_PROJECT_ID=<project-id>",
                 "GOOGLE_APPLICATION_CREDENTIALS=<ruta-segura>",
                 "streamlit run app.py",

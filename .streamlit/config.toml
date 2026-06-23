@@ -4,3 +4,12 @@ primaryColor = "#7bd0ff"
 backgroundColor = "#031427"
 secondaryBackgroundColor = "#0b1c30"
 textColor = "#d3e4fe"
+
+[client]
+toolbarMode = "viewer"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

@@ -20,6 +20,8 @@ idsml_local.db
 # --- Artefactos de modelo / serialización ---
 *.pkl
 *.joblib
+artifacts/*.png
+artifacts/edge-profile-review*/
 artifacts/models/*
 !artifacts/models/.gitkeep
 

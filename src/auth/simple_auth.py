@@ -7,7 +7,7 @@ from src.ui.theme import page_header
 def login(repo=None):
     page_header(
         "Acceso institucional",
-        "Plataforma IDS-ML para monitoreo de trafico, evaluacion de amenazas y trazabilidad de alertas.",
+        "Plataforma IDS-ML para monitoreo de tráfico, evaluación de amenazas y trazabilidad de alertas.",
         kicker="IDS-ML Core",
         tag="Acceso seguro",
     )
@@ -20,7 +20,7 @@ def login(repo=None):
                 <div class="ids-card-title">Ingreso al sistema</div>
                 <div class="ids-card-subtitle">
                     Acceso autorizado para personal responsable de seguridad, redes y soporte TI.
-                    Las operaciones relevantes quedan registradas para auditoria.
+                    Las operaciones relevantes quedan registradas para auditoría.
                 </div>
             </div>
             """,
@@ -28,7 +28,7 @@ def login(repo=None):
         )
         with st.form("idsml_login_form", clear_on_submit=False):
             username = st.text_input("Usuario", placeholder="Usuario institucional")
-            password = st.text_input("Contrasena", type="password", placeholder="Ingrese su contrasena")
+            password = st.text_input("Contraseña", type="password", placeholder="Ingrese su contraseña")
             submitted = st.form_submit_button("Ingresar al sistema")
 
         if submitted:
@@ -51,7 +51,7 @@ def login(repo=None):
                         pass
                 st.rerun()
             else:
-                st.error("Credenciales no validas.")
+                st.error("Credenciales no válidas.")
 
         st.caption("Uso restringido. Solicite credenciales al administrador del sistema IDS-ML.")
     return st.session_state.get("authenticated", False)

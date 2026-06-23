@@ -79,6 +79,14 @@ def apply_global_theme() -> None:
             backdrop-filter: blur(12px);
         }}
 
+        [data-testid="stToolbar"],
+        [data-testid="stDecoration"],
+        [data-testid="stStatusWidget"] {{
+            visibility: hidden;
+            height: 0;
+            position: fixed;
+        }}
+
         [data-testid="stSidebar"] {{
             background: #03111f;
             border-right: 1px solid var(--ids-border);
