@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: ids-ml-hospital-carrion
+    runtime: docker
+    plan: free
+    branch: main
+    dockerCommand: /bin/sh scripts/start_render.sh
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: IDSML_PERSISTENCE_BACKEND
+        value: postgres
+      - key: DATABASE_URL
+        fromDatabase:
+          name: idsml-hospital-carrion-db
+          property: connectionString
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        sync: false
+
+databases:
+  - name: idsml-hospital-carrion-db
+    databaseName: idsml
+    user: idsml
+    postgresMajorVersion: "16"
+    ipAllowList: []

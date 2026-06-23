@@ -230,6 +230,42 @@ No versionar:
 
 ## Despliegue en servidor
 
+### Render
+
+El repo esta preparado para Render con Docker y PostgreSQL administrado:
+
+- `render.yaml` define el web service y la base PostgreSQL.
+- `scripts/start_render.sh` inicializa las 60 tablas y arranca Streamlit.
+- `database/init_postgres.py` ejecuta `database/postgresql/schema.sql` y carga seed demo si la base esta vacia.
+
+Flujo recomendado:
+
+1. Subir cambios a GitHub.
+2. En Render: **New > Blueprint**.
+3. Conectar este repositorio.
+4. Confirmar el archivo `render.yaml`.
+5. Crear el Blueprint y esperar el deploy.
+
+La URL final sera similar a:
+
+```text
+https://ids-ml-hospital-carrion.onrender.com
+```
+
+Guia completa: `docs/deployment/render.md`.
+
+Variables relevantes si se configura manualmente:
+
+```text
+IDSML_PERSISTENCE_BACKEND=postgres
+DATABASE_URL=<Internal Database URL de Render PostgreSQL>
+PYTHONUNBUFFERED=1
+```
+
+Render debe arrancar Streamlit con el puerto asignado por `PORT`; el `Dockerfile` ya esta preparado para eso.
+
+### VPS o servidor propio
+
 En un VPS o servidor con Docker:
 
 ```bash
