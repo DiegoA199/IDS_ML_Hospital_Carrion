@@ -96,6 +96,61 @@ def apply_global_theme() -> None:
             color: var(--ids-text);
         }}
 
+        [data-testid="stSidebar"] .ids-sidebar-user {{
+            background: rgba(16, 32, 52, 0.92);
+            border: 1px solid var(--ids-border);
+            border-radius: 8px;
+            padding: 0.95rem;
+            margin-bottom: 1rem;
+        }}
+
+        [data-testid="stSidebar"] .ids-sidebar-label {{
+            color: var(--ids-blue);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }}
+
+        [data-testid="stSidebar"] .ids-sidebar-section-title {{
+            color: var(--ids-muted);
+            font-size: 0.72rem;
+            font-weight: 850;
+            text-transform: uppercase;
+            margin: 1rem 0 0.35rem 0;
+        }}
+
+        [data-testid="stSidebar"] .stButton > button {{
+            width: 100%;
+            justify-content: flex-start;
+            text-align: left;
+            min-height: 2.35rem;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--ids-text);
+            font-weight: 700;
+            padding-left: 0.75rem;
+        }}
+
+        [data-testid="stSidebar"] .stButton > button:hover {{
+            background: rgba(123, 208, 255, 0.09);
+            border-color: rgba(123, 208, 255, 0.24);
+            color: var(--ids-text);
+        }}
+
+        [data-testid="stSidebar"] .stButton > button[kind="primary"] {{
+            background: #0898c7;
+            border-color: #16b7e8;
+            color: #001e2c;
+            box-shadow: 0 0 0 1px rgba(123, 208, 255, 0.22);
+        }}
+
+        [data-testid="stSidebar"] .stButton > button p {{
+            white-space: normal;
+            line-height: 1.1rem;
+        }}
+
         [data-testid="stSidebar"] [role="radiogroup"] label {{
             border-radius: 8px;
             padding: 0.55rem 0.7rem;

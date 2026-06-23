@@ -7,7 +7,7 @@ La lógica de páginas vive en ``src/ui/pages.py`` y el enrutador en ``src/ui/ro
 import streamlit as st
 
 from src.auth.simple_auth import login, require_auth
-from src.app.components.sidebar import SIDEBAR_MODULES
+from src.app.components.sidebar import render_sidebar_navigation
 from src.storage.repository_factory import get_repository
 from src.ui.router import render_page
 from src.ui.theme import apply_global_theme
@@ -31,6 +31,7 @@ repo = get_repository()
 
 if not st.session_state.get("authenticated", False):
     login(repo)
+    st.stop()
 
 if not require_auth():
     st.stop()
@@ -38,31 +39,11 @@ if not require_auth():
 role = st.session_state.get("role", "")
 username = st.session_state.get("username", "usuario")
 
-st.sidebar.markdown(
-    f"""
-    <div class="ids-sidebar-brand">
-        <div class="ids-brand">IDS-ML Core</div>
-        <div class="ids-sidebar-meta">Hospital Regional Docente Clínico Quirúrgico Daniel Alcides Carrión</div>
-    </div>
-    <div class="ids-card" style="margin-bottom: 1rem;">
-        <div class="ids-card-title">{username}</div>
-        <div class="ids-card-subtitle">{role}</div>
-        <div class="ids-pill-row">
-            <span class="ids-chip">Persistencia activa</span>
-        </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+page = render_sidebar_navigation(username=username, role=role, backend_name=repo.backend_name)
 
 if st.sidebar.button("Cerrar sesión"):
-    for key in ["authenticated", "username", "role"]:
+    for key in ["authenticated", "username", "role", "active_page"]:
         st.session_state.pop(key, None)
     st.rerun()
-
-page = st.sidebar.radio(
-    "Módulo",
-    SIDEBAR_MODULES,
-)
 
 render_page(page, repo)

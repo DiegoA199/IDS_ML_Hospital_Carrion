@@ -405,7 +405,7 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
     with summary_col:
         profile = st.session_state.get("dataset_profile") or profile_dataframe(df)
         metrics = _profile_metrics(df, profile)
-        metric_card("Data quality score", f"{metrics['quality']:.1f}%", "Antes del pipeline", tone="green", progress=metrics["quality"])
+        metric_card("Calidad de datos", f"{metrics['quality']:.1f}%", "Antes del pipeline", tone="green", progress=metrics["quality"])
 
     if run_preprocessing:
         try:
@@ -447,10 +447,10 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
     if prepared is None:
         pipeline_steps(
             [
-                {"name": "Cleaning", "status": "pendiente", "state": "pending", "description": "Validación de NA y filas útiles."},
-                {"name": "Encoding", "status": "pendiente", "state": "pending", "description": "One-hot para variables categóricas."},
-                {"name": "Normalization", "status": "pendiente", "state": "pending", "description": "Imputación y escalado numérico."},
-                {"name": "Split", "status": "pendiente", "state": "pending", "description": "Separación train/test sin fuga."},
+                {"name": "Limpieza", "status": "pendiente", "state": "pending", "description": "Validación de NA y filas útiles."},
+                {"name": "Codificación", "status": "pendiente", "state": "pending", "description": "One-hot para variables categóricas."},
+                {"name": "Normalización", "status": "pendiente", "state": "pending", "description": "Imputación y escalado numérico."},
+                {"name": "Partición", "status": "pendiente", "state": "pending", "description": "Separación train/test sin fuga."},
                 {"name": "SMOTE", "status": "opcional", "state": "pending", "description": "Balanceo solo sobre entrenamiento."},
             ]
         )
@@ -458,11 +458,11 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
 
     pipeline_steps(
         [
-            {"name": "Cleaning", "status": "completed", "state": "done", "description": "Filas y objetivo preparados."},
-            {"name": "Encoding", "status": "completed", "state": "done", "description": "Variables categóricas codificadas."},
-            {"name": "Normalization", "status": "completed", "state": "done", "description": "Numéricas imputadas y escaladas."},
-            {"name": "Split", "status": "completed", "state": "done", "description": "Partición train/test generada."},
-            {"name": "Selection", "status": "ready", "state": "active", "description": "Listo para comparación de modelos."},
+            {"name": "Limpieza", "status": "completado", "state": "done", "description": "Filas y objetivo preparados."},
+            {"name": "Codificación", "status": "completado", "state": "done", "description": "Variables categóricas codificadas."},
+            {"name": "Normalización", "status": "completado", "state": "done", "description": "Numéricas imputadas y escaladas."},
+            {"name": "Partición", "status": "completado", "state": "done", "description": "Partición train/test generada."},
+            {"name": "Selección", "status": "listo", "state": "active", "description": "Listo para comparación de modelos."},
         ]
     )
 
@@ -470,11 +470,11 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
     with k1:
         metric_card("Target", prepared_target, "Variable objetivo seleccionada", tone="blue")
     with k2:
-        metric_card("Train rows", format_int(prepared.x_train.shape[0]), "Matriz transformada", tone="green")
+        metric_card("Filas entrenamiento", format_int(prepared.x_train.shape[0]), "Matriz transformada", tone="green")
     with k3:
-        metric_card("Test rows", format_int(prepared.x_test.shape[0]), "Evaluación retenida", tone="slate")
+        metric_card("Filas prueba", format_int(prepared.x_test.shape[0]), "Evaluación retenida", tone="slate")
     with k4:
-        metric_card("Features", format_int(prepared.x_train.shape[1]), "Después del transformador", tone="amber")
+        metric_card("Características", format_int(prepared.x_train.shape[1]), "Después del transformador", tone="amber")
 
     section_title("Muestra transformada", "Primeras columnas numéricas que recibirá scikit-learn.")
     try:
@@ -495,7 +495,7 @@ def render_training(repo: "IDSMLRepository") -> None:
     page_header(
         "Comparación y entrenamiento",
         "Entrena modelos candidatos, compara métricas y registra como activo el mejor clasificador por F1-score.",
-        tag="Model node active",
+        tag="Nodo de modelos",
     )
 
     df = st.session_state.get("df")
@@ -551,7 +551,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
     page_header(
         "Análisis de tráfico nuevo",
         "Carga registros sin columna objetivo, aplica el bundle activo y genera predicciones, alertas y persistencia.",
-        tag="Traffic analysis",
+        tag="Análisis de tráfico",
     )
 
     config_col, upload_col = st.columns([0.9, 1.4])
@@ -570,7 +570,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
             return
 
         metric_card("Motor de detección", bundle.model_name, f"F1 guardado {bundle.f1_score:.4f}", tone="blue", progress=bundle.f1_score * 100)
-        metric_card("Features esperadas", format_int(len(bundle.feature_columns)), f"Entrenado {bundle.trained_at}", tone="green")
+        metric_card("Características esperadas", format_int(len(bundle.feature_columns)), f"Entrenado {bundle.trained_at}", tone="green")
 
     with upload_col:
         uploaded_infer = st.file_uploader("CSV de registros nuevos", type=["csv"], key="infer_csv")
@@ -610,13 +610,13 @@ def render_inference(repo: "IDSMLRepository") -> None:
 
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        metric_card("System threat status", "THREAT" if threat_count else "NORMAL", f"{threat_count} hallazgos", tone="red" if threat_count else "green")
+        metric_card("Estado de amenaza", "Amenaza" if threat_count else "Normal", f"{threat_count} hallazgos", tone="red" if threat_count else "green")
     with c2:
         metric_card("Probabilidad máx.", format_percent(max_confidence, 2), "Confianza del modelo", tone="red" if threat_count else "blue", progress=(max_confidence or 0) * 100)
     with c3:
         metric_card("Registros analizados", format_int(len(pred_df)), "Lote actual", tone="blue")
     with c4:
-        metric_card("Modelo agente", bundle.model_name, "Bundle activo", tone="green")
+        metric_card("Modelo activo", bundle.model_name, "Bundle validado", tone="green")
 
     section_title("Visualización de patrón", "Primeros registros del lote con énfasis en anomalías.")
     plot_df = pred_df.head(80).copy()
@@ -692,7 +692,7 @@ def render_alerts(repo: "IDSMLRepository") -> None:
     page_header(
         "Centro de alertas",
         "Revisión de eventos generados por inferencia, filtros por severidad y gestión de estado.",
-        tag="Alerts center",
+        tag="Centro SOC",
     )
 
     alerts = repo.list_alerts(limit=200)
@@ -702,11 +702,11 @@ def render_alerts(repo: "IDSMLRepository") -> None:
     if alerts_df.empty:
         c1, c2, c3, c4 = st.columns(4)
         with c1:
-            metric_card("System status", "Operacional", "Sin alertas registradas", tone="green")
+            metric_card("Estado del sistema", "Operacional", "Sin alertas registradas", tone="green")
         with c2:
-            metric_card("Critical alerts", "0", "Muestra actual", tone="red")
+            metric_card("Alertas críticas", "0", "Muestra actual", tone="red")
         with c3:
-            metric_card("Model confidence", format_percent(active_model.get("f1_score"), 2), active_model.get("model_name", "Sin modelo"), tone="blue")
+            metric_card("Confianza del modelo", format_percent(active_model.get("f1_score"), 2), active_model.get("model_name", "Sin modelo"), tone="blue")
         with c4:
             metric_card("Persistencia", _backend_label(repo.backend_name), "Motor activo", tone="slate")
         empty_state("Las alertas automáticas aparecerán después de persistir una inferencia.")
@@ -717,7 +717,7 @@ def render_alerts(repo: "IDSMLRepository") -> None:
 
         c1, c2, c3, c4 = st.columns(4)
         with c1:
-            metric_card("System status", "Operacional", "Monitoreo activo", tone="green")
+            metric_card("Estado del sistema", "Operacional", "Monitoreo activo", tone="green")
         with c2:
             metric_card("Alertas críticas/altas", format_int(severe_mask.sum()), "Prioridad de revisión", tone="red")
         with c3:
@@ -807,7 +807,7 @@ def render_reports(repo: "IDSMLRepository") -> None:
     page_header(
         "Reportes exportables",
         "Generación de evidencias CSV/PDF con trazabilidad en el repositorio activo.",
-        tag="Reports",
+        tag="Reportes",
     )
 
     user = str(st.session_state.get("username", "usuario"))
@@ -840,8 +840,8 @@ def render_database_model(repo: "IDSMLRepository") -> None:
 
     page_header(
         "Modelo de base de datos",
-        "Vista academica del esquema relacional IDS-ML: tablas, modulos y relaciones principales.",
-        tag="Data model",
+        "Vista académica del esquema relacional IDS-ML: tablas, módulos y relaciones principales.",
+        tag="Modelo relacional",
     )
 
     try:
@@ -860,9 +860,9 @@ def render_database_model(repo: "IDSMLRepository") -> None:
     with c2:
         metric_card("Relaciones FK", format_int(relationships_count), "Integridad referencial", tone="green")
     with c3:
-        metric_card("Modulos", format_int(modules_count), "Agrupacion funcional", tone="amber")
+        metric_card("Módulos", format_int(modules_count), "Agrupación funcional", tone="amber")
     with c4:
-        metric_card("Motor objetivo", "PostgreSQL", "Docker / produccion", tone="slate")
+        metric_card("Motor objetivo", "PostgreSQL", "Docker / producción", tone="slate")
 
     overview_tab, diagram_tab, sql_tab = st.tabs(["Resumen", "Diagrama ER", "SQL y DBML"])
 
@@ -870,13 +870,13 @@ def render_database_model(repo: "IDSMLRepository") -> None:
         section_title("Resumen por modulo", "Conteo de tablas, campos y relaciones documentadas.")
         st.dataframe(summarize_modules(tables), width="stretch", hide_index=True)
 
-        section_title("Inventario de tablas", "Listado verificable para sustentacion y revision tecnica.")
+        section_title("Inventario de tablas", "Listado verificable para sustentación y revisión técnica.")
         st.dataframe(summarize_tables(tables), width="stretch", hide_index=True)
 
     with diagram_tab:
         modules = ["Todos"] + sorted({table.module for table in tables})
         default_index = modules.index("Alertas IDS") if "Alertas IDS" in modules else 0
-        selected_module = st.selectbox("Modulo del diagrama", modules, index=default_index)
+        selected_module = st.selectbox("Módulo del diagrama", modules, index=default_index)
         st.graphviz_chart(build_relationship_dot(tables, selected_module), width="stretch")
         st.caption("Para revisar todo el modelo en detalle, use el archivo DBML en dbdiagram.io.")
 
@@ -961,7 +961,7 @@ def render_settings(repo: "IDSMLRepository") -> None:
     page_header(
         "Configuración del sistema",
         "Parámetros operativos visibles para tesis. Los secretos siguen fuera del código fuente.",
-        tag="Settings",
+        tag="Configuración",
     )
 
     c1, c2, c3 = st.columns(3)
@@ -986,8 +986,9 @@ def render_settings(repo: "IDSMLRepository") -> None:
     chip_row(
         [
             ("Secrets fuera del repo", "green"),
-            ("SQLite local", "blue"),
-            ("Firestore desacoplado", "blue"),
+            ("PostgreSQL recomendado", "green"),
+            ("SQLite solo laboratorio", "slate"),
+            ("Firestore opcional", "blue"),
             ("Pruebas pytest", "green"),
             ("Sonar configurado", "amber"),
         ]
@@ -1002,7 +1003,7 @@ def render_system_status(repo: "IDSMLRepository") -> None:
     page_header(
         "Estado del sistema",
         "Diagnóstico operativo de persistencia, auditoría, errores, reportes y conectividad Firestore.",
-        tag="System status",
+        tag="Salud operativa",
     )
 
     payload = build_status_payload(repo)
@@ -1038,26 +1039,26 @@ def render_cloud(repo: "IDSMLRepository") -> None:
     page_header(
         "Nube y despliegue",
         "Opciones de ejecución local, Docker y cloud sin exponer secretos ni credenciales.",
-        tag="Deployment",
+        tag="Despliegue",
     )
 
     c1, c2, c3 = st.columns(3)
     with c1:
         render_card(
             "Streamlit Cloud / Render",
-            "Punto de entrada app.py, configuración por variables de entorno y secretos del proveedor.",
+            "Punto de entrada app.py con variables de entorno y secretos del proveedor cloud.",
             tone="blue",
         )
     with c2:
         render_card(
-            "Firestore + SQLite",
-            "Repository Pattern con fallback automático a SQLite cuando Firestore no está disponible.",
+            "PostgreSQL para producción",
+            "Render debe conectarse a un motor PostgreSQL externo mediante DATABASE_URL.",
             tone="green",
         )
     with c3:
         render_card(
             "Docker",
-            "docker compose up conserva data y artifacts mediante volúmenes del proyecto.",
+            "docker compose up levanta Streamlit, PostgreSQL y Adminer para laboratorio local.",
             tone="amber",
         )
 
