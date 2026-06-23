@@ -9,7 +9,7 @@
 | Proyecto SonarCloud | `DiegoA199_IDS_ML_Hospital_Carrion` |
 | Organizacion SonarCloud | `diegoa199` |
 | Herramienta | SonarQube Cloud / SonarCloud |
-| Fecha de verificacion | 2026-06-02 |
+| Fecha de verificacion | 2026-06-23 |
 | Rama revisada | `main` |
 | Revision | Consultar dashboard/API de SonarCloud; se actualiza con cada push |
 
@@ -20,12 +20,14 @@
 | Dashboard SonarCloud | <https://sonarcloud.io/project/overview?id=DiegoA199_IDS_ML_Hospital_Carrion> |
 | Quality Gate por API | <https://sonarcloud.io/api/qualitygates/project_status?projectKey=DiegoA199_IDS_ML_Hospital_Carrion> |
 | Metricas por API | <https://sonarcloud.io/api/measures/component?component=DiegoA199_IDS_ML_Hospital_Carrion&metricKeys=bugs,vulnerabilities,code_smells,duplicated_lines_density,reliability_rating,security_rating,sqale_rating,security_hotspots,ncloc> |
-| Corrida de GitHub Actions usada como evidencia | <https://github.com/DiegoA199/IDS_ML_Hospital_Carrion/actions/runs/26839546997> |
+| Corrida de GitHub Actions usada como evidencia | <https://github.com/DiegoA199/IDS_ML_Hospital_Carrion/actions/runs/28049612664> |
 
 ## 3. Resultado oficial de SonarCloud
 
-La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub mediante SonarCloud Automatic Analysis.
-Las metricas siguientes corresponden al estado oficial verificado el 2026-06-02; el dashboard puede mostrar una revision posterior si se realizaron nuevos commits de documentacion.
+La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub y revisada nuevamente el 2026-06-23.
+Las metricas siguientes corresponden al estado oficial visible en SonarCloud y a la corrida de GitHub Actions asociada al commit `f67055f`.
+
+![Evidencia visual SonarCloud](../evidencias/sonarqube_quality_gate.png)
 
 | Indicador | Resultado |
 |---|---:|

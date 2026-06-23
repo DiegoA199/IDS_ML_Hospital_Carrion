@@ -1,31 +1,43 @@
-# Justificación del modelo de base de datos IDS-ML
+# Justificacion del modelo de base de datos IDS-ML
 
 ## Contexto
 
-El proyecto IDS-ML requiere almacenar información técnica y académica relacionada con detección de intrusiones, entrenamiento de modelos, eventos de red, alertas, incidentes y reportes. En una red institucional hospitalaria, la trazabilidad y la separación de responsabilidades son esenciales para justificar resultados y auditoría.
+El proyecto IDS-ML requiere almacenar informacion tecnica y academica relacionada con deteccion de intrusiones, entrenamiento de modelos, eventos de red, alertas, incidentes y reportes. En una red institucional hospitalaria, la trazabilidad y la separacion de responsabilidades son esenciales para justificar resultados, auditoria y mejora continua.
 
-## Criterios de diseño
+## Evidencia visual del modelo
 
-1. **Normalización:** las entidades se separan para reducir duplicidad y permitir relaciones claras.
-2. **Trazabilidad:** se registran usuarios, accesos, auditoría, entrenamientos, predicciones, alertas y reportes.
-3. **Contexto institucional:** se modelan institución, sedes, áreas, responsables y activos.
-4. **Explicabilidad académica:** se documentan datasets, preprocesamiento, métricas y selección por F1-score.
+![Resumen visual de base de datos](../evidencias/base_datos_60_tablas.png)
+
+El diseno documenta 60 tablas formales para la tesis. En PostgreSQL pueden visualizarse 68 tablas porque la aplicacion agrega 8 tablas operativas para guardar datos reales del prototipo: alertas, experimentos, predicciones, auditoria, errores, reportes y versiones de modelo.
+
+## Criterios de diseno
+
+1. **Normalizacion:** las entidades se separan para reducir duplicidad y permitir relaciones claras.
+2. **Trazabilidad:** se registran usuarios, accesos, auditoria, entrenamientos, predicciones, alertas y reportes.
+3. **Contexto institucional:** se modelan institucion, sedes, areas, responsables y activos.
+4. **Explicabilidad academica:** se documentan datasets, preprocesamiento, metricas y seleccion por F1-score.
 5. **Escalabilidad:** el esquema funciona en SQLite para pruebas y puede migrar a PostgreSQL.
 6. **Seguridad:** no se almacenan secretos reales; los campos sensibles deben contener referencias seguras o hashes.
+7. **Cumplimiento:** se incluyen normas de referencia y controles para relacionar el prototipo con ISO/IEC 27001, ISO/IEC 25010 y NIST CSF.
 
-## Razón del número de tablas
+## Razon del numero de tablas
 
-El modelo contiene 60 tablas porque el sistema IDS-ML no es solo un clasificador ML; también incluye gestión de datasets, arquitectura institucional, activos de red, eventos, alertas, incidentes, reportes y cumplimiento. Separar estos conceptos permite defender el modelo en una tesis y demostrar que el prototipo puede evolucionar hacia un sistema institucional.
+El modelo contiene 60 tablas porque el sistema IDS-ML no es solo un clasificador ML; tambien incluye gestion de datasets, arquitectura institucional, activos de red, eventos, alertas, incidentes, reportes y cumplimiento. Separar estos conceptos permite defender el modelo en una tesis y demostrar que el prototipo puede evolucionar hacia un sistema institucional.
+
+## Orientacion normativa
+
+![Orientacion ISO NIST](../evidencias/orientacion_iso_nist_ids_ml.png)
+
+La base de datos se relaciona con buenas practicas de seguridad porque registra eventos, alertas, incidentes, responsables, evidencias y reportes. Esta trazabilidad ayuda a sustentar controles como monitoreo de actividades, seguridad de redes, respuesta a incidentes, aprendizaje de incidentes y mejora continua.
 
 ## Beneficios para la tesis
 
-- Permite generar un diagrama entidad-relación completo.
+- Permite generar un diagrama entidad-relacion completo.
 - Facilita el diccionario de datos.
-- Ayuda a explicar cómo se relaciona la evaluación ML con alertas IDS.
-- Permite evidenciar trazabilidad y cumplimiento con prácticas de seguridad.
-- Prepara el proyecto para una futura migración a PostgreSQL o integración con SIEM/SOC.
+- Ayuda a explicar como se relaciona la evaluacion ML con alertas IDS.
+- Permite evidenciar trazabilidad y cumplimiento con practicas de seguridad.
+- Prepara el proyecto para una futura migracion a PostgreSQL o integracion con SIEM/SOC.
 
 ## Limitaciones
 
-El proyecto Streamlit actual conserva una persistencia operativa ligera para el MVP. El modelo relacional formal queda preparado para evolución, integración o migración progresiva mediante la capa repository.
-
+El proyecto Streamlit conserva una persistencia operativa ligera para el MVP. El modelo relacional formal queda preparado para evolucion, integracion o migracion progresiva mediante la capa repository.

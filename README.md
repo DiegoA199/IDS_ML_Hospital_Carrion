@@ -214,6 +214,21 @@ Dashboard oficial:
 https://sonarcloud.io/project/overview?id=DiegoA199_IDS_ML_Hospital_Carrion
 ```
 
+## Evidencias para tesis
+
+El repositorio incluye evidencias visuales listas para anexar al informe:
+
+- `docs/evidencias/informe_evidencias_ids_ml.md`
+- `docs/INFORME_EVIDENCIAS_TECNICAS_IDSML.docx`
+- `docs/evidencias/sonarqube_quality_gate.png`
+- `docs/evidencias/base_datos_60_tablas.png`
+- `docs/evidencias/base_datos_listado_60_tablas.png`
+- `docs/evidencias/proceso_hospital_ids_ml_bpmn.png`
+- `docs/evidencias/orientacion_iso_nist_ids_ml.png`
+- `docs/procesos/procesos_hospital_ids_ml.md`
+
+El informe principal `docs/INFORME_FINAL_IDSML_HOSPITAL_CARRION.docx` tambien contiene un anexo de evidencias tecnicas con estas imagenes.
+
 ## Seguridad de credenciales
 
 No versionar:

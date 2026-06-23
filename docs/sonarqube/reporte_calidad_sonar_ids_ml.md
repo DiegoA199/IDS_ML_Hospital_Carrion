@@ -43,6 +43,10 @@ Resultado:
 
 ## 4. Resultado oficial SonarCloud
 
+La evidencia visual para anexar al informe se encuentra en:
+
+![Evidencia visual SonarCloud](../evidencias/sonarqube_quality_gate.png)
+
 | Indicador SonarCloud | Resultado oficial |
 |---|---:|
 | Quality Gate | OK |
@@ -55,8 +59,8 @@ Resultado:
 | Security Rating | A |
 | Maintainability Rating | A |
 | Lineas de codigo analizadas | 1615 |
-| Fecha del snapshot documentado | 2026-06-02 |
-| Revision | Consultar dashboard/API de SonarCloud; se actualiza con cada push |
+| Fecha de verificacion documentada | 2026-06-23 |
+| Revision | Commit `f67055f` y corrida GitHub Actions `28049612664` |
 
 El analisis oficial se ejecuto con alcance ajustado mediante `.sonarcloud.properties`, evitando que SonarCloud trate documentacion, scripts de apoyo, SQL academico o prototipos como codigo productivo de la aplicacion.
 
@@ -140,6 +144,7 @@ Se agregaron pruebas para:
 | `sonar-project.properties` | Parametros del analisis Sonar |
 | `docs/sonarqube/configuracion_sonar.md` | Guia de configuracion |
 | `docs/sonarqube/evidencia_quality_gate_sonarcloud.md` | Evidencia oficial del Quality Gate |
+| `docs/evidencias/sonarqube_quality_gate.png` | Imagen lista para anexar al informe |
 
 ## 10. Pasos para reproducir el reporte oficial
 
