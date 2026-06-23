@@ -31,8 +31,8 @@ Las metricas siguientes corresponden al estado oficial visible en SonarCloud y a
 
 Archivo tecnico real:
 
-- `docs/evidencias/reales/sonarcloud_quality_gate_api_real.json`
-- `docs/evidencias/reales/sonarcloud_metrics_api_real.json`
+- `docs/evidencias/reales/sonarcloud_quality_gate_api_real.txt`
+- `docs/evidencias/reales/sonarcloud_metrics_api_real.txt`
 
 | Indicador | Resultado |
 |---|---:|

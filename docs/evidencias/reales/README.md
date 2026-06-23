@@ -8,9 +8,9 @@ Esta carpeta contiene capturas y archivos reales obtenidos desde herramientas ej
 | `github_actions_success_real.png` | GitHub Actions | Evidencia visual del workflow `Quality and Sonar` en estado `success`. |
 | `adminer_postgresql_tablas_real.png` | Adminer conectado a PostgreSQL Docker | Evidencia fisica de las tablas en el motor de base de datos. |
 | `streamlit_dashboard_real.png` | Aplicacion Streamlit local | Evidencia de la interfaz real del sistema ejecutandose. |
-| `sonarcloud_quality_gate_api_real.json` | API publica de SonarCloud | Respuesta tecnica del Quality Gate. |
-| `sonarcloud_metrics_api_real.json` | API publica de SonarCloud | Metricas reales: bugs, vulnerabilidades, code smells, hotspots y duplicacion. |
-| `github_actions_latest_run_real.json` | API publica de GitHub | Datos reales de la ultima corrida del workflow. |
+| `sonarcloud_quality_gate_api_real.txt` | API publica de SonarCloud | Respuesta tecnica del Quality Gate. |
+| `sonarcloud_metrics_api_real.txt` | API publica de SonarCloud | Metricas reales: bugs, vulnerabilidades, code smells, hotspots y duplicacion. |
+| `github_actions_latest_run_real.txt` | API publica de GitHub | Datos reales de la ultima corrida del workflow. |
 | `postgresql_tablas_reales.txt` | `psql` dentro del contenedor PostgreSQL | Listado real de tablas en el esquema `public`. |
 | `postgresql_conteo_tablas_reales.txt` | `psql` dentro del contenedor PostgreSQL | Conteo real de tablas visibles. |
 

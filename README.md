@@ -226,7 +226,7 @@ Evidencias reales capturadas desde herramientas:
 - `docs/evidencias/reales/sonarcloud_dashboard_real.png`
 - `docs/evidencias/reales/github_actions_success_real.png`
 - `docs/evidencias/reales/postgresql_tablas_reales.txt`
-- `docs/evidencias/reales/sonarcloud_quality_gate_api_real.json`
+- `docs/evidencias/reales/sonarcloud_quality_gate_api_real.txt`
 
 Material explicativo/referencial:
 

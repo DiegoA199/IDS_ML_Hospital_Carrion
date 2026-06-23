@@ -145,7 +145,7 @@ Se agregaron pruebas para:
 | `docs/sonarqube/configuracion_sonar.md` | Guia de configuracion |
 | `docs/sonarqube/evidencia_quality_gate_sonarcloud.md` | Evidencia oficial del Quality Gate |
 | `docs/evidencias/reales/sonarcloud_dashboard_real.png` | Captura real del dashboard SonarCloud |
-| `docs/evidencias/reales/sonarcloud_quality_gate_api_real.json` | Respuesta real de la API Quality Gate |
+| `docs/evidencias/reales/sonarcloud_quality_gate_api_real.txt` | Respuesta real de la API Quality Gate |
 
 ## 10. Pasos para reproducir el reporte oficial
 

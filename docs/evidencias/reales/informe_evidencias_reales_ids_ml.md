@@ -29,8 +29,8 @@ La siguiente captura corresponde al dashboard real de SonarCloud vinculado al re
 
 Archivos tecnicos relacionados:
 
-- `sonarcloud_quality_gate_api_real.json`
-- `sonarcloud_metrics_api_real.json`
+- `sonarcloud_quality_gate_api_real.txt`
+- `sonarcloud_metrics_api_real.txt`
 
 ## 5. GitHub Actions real
 
@@ -40,7 +40,7 @@ La siguiente captura corresponde a la corrida real del workflow `Quality and Son
 
 Archivo tecnico relacionado:
 
-- `github_actions_latest_run_real.json`
+- `github_actions_latest_run_real.txt`
 
 ## 6. Procesos hospitalarios y Bizagi
 
