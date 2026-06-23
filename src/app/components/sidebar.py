@@ -17,6 +17,7 @@ SIDEBAR_SECTIONS: tuple[tuple[str, tuple[str, ...]], ...] = (
 )
 
 SIDEBAR_MODULES = [module for _, modules in SIDEBAR_SECTIONS for module in modules]
+SECTION_MODULES = {section: modules for section, modules in SIDEBAR_SECTIONS}
 
 BACKEND_LABELS = {
     "postgres": "PostgreSQL",
@@ -31,11 +32,24 @@ def _backend_label(backend_name: str) -> str:
     return BACKEND_LABELS.get(str(backend_name).lower(), str(backend_name).upper())
 
 
+def _section_for_page(page: str) -> str:
+    for section, modules in SIDEBAR_SECTIONS:
+        if page in modules:
+            return section
+    return SIDEBAR_SECTIONS[0][0]
+
+
+def _activate_page(page: str) -> None:
+    st.session_state["active_page"] = page
+    st.session_state["main_nav_section"] = _section_for_page(page)
+    st.session_state["main_nav_page"] = page
+
+
 def _ensure_active_page() -> str:
     active_page = st.session_state.get("active_page")
     if active_page not in SIDEBAR_MODULES:
         active_page = "Dashboard"
-        st.session_state["active_page"] = active_page
+        _activate_page(active_page)
     return str(active_page)
 
 
@@ -81,7 +95,82 @@ def render_sidebar_navigation(username: str, role: str, backend_name: str) -> st
                 use_container_width=True,
                 type="primary" if is_active else "secondary",
             ):
-                st.session_state["active_page"] = module
+                _activate_page(module)
                 st.rerun()
 
     return str(st.session_state.get("active_page", "Dashboard"))
+
+
+def _on_main_section_change() -> None:
+    section = st.session_state.get("main_nav_section", SIDEBAR_SECTIONS[0][0])
+    first_page = SECTION_MODULES[str(section)][0]
+    _activate_page(first_page)
+
+
+def _on_main_page_change() -> None:
+    page = st.session_state.get("main_nav_page", "Dashboard")
+    if page in SIDEBAR_MODULES:
+        _activate_page(str(page))
+
+
+def _sync_main_navigation(active_page: str) -> None:
+    section = _section_for_page(active_page)
+    modules = SECTION_MODULES[section]
+    if st.session_state.get("main_nav_section") != section:
+        st.session_state["main_nav_section"] = section
+    if st.session_state.get("main_nav_page") not in modules:
+        st.session_state["main_nav_page"] = active_page
+    if st.session_state.get("main_nav_page") != active_page:
+        st.session_state["main_nav_page"] = active_page
+
+
+def render_main_navigation(active_page: str) -> str:
+    """Render always-visible in-page navigation for collapsed sidebar scenarios."""
+    active_page = _ensure_active_page()
+    _sync_main_navigation(active_page)
+
+    st.markdown(
+        """
+        <div class="ids-main-nav-note">
+            <span>Navegación del sistema</span>
+            <strong>Seleccione el área y módulo para recorrer el prototipo IDS-ML.</strong>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    section_col, module_col, state_col = st.columns([0.9, 1.15, 1.45])
+    with section_col:
+        st.selectbox(
+            "Área de trabajo",
+            [section for section, _ in SIDEBAR_SECTIONS],
+            key="main_nav_section",
+            on_change=_on_main_section_change,
+        )
+
+    modules = SECTION_MODULES[str(st.session_state["main_nav_section"])]
+    if st.session_state.get("main_nav_page") not in modules:
+        st.session_state["main_nav_page"] = modules[0]
+
+    with module_col:
+        st.selectbox(
+            "Módulo",
+            modules,
+            key="main_nav_page",
+            on_change=_on_main_page_change,
+        )
+
+    current_page = str(st.session_state.get("active_page", "Dashboard"))
+    with state_col:
+        st.markdown(
+            f"""
+            <div class="ids-main-nav-state">
+                <div class="ids-sidebar-label">Módulo activo</div>
+                <div class="ids-card-title">{escape(current_page)}</div>
+                <div class="ids-card-subtitle">La navegación lateral puede estar oculta; este selector siempre permanece visible.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    return current_page

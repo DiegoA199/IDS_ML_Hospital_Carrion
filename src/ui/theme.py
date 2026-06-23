@@ -248,6 +248,39 @@ def apply_global_theme() -> None:
             margin-bottom: 1.35rem;
         }}
 
+        .ids-main-nav-note {{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.65rem;
+            margin: 0.1rem 0 0.7rem 0;
+            padding: 0.7rem 0.85rem;
+            border: 1px solid var(--ids-border);
+            border-radius: 8px;
+            background: rgba(16, 32, 52, 0.64);
+        }}
+
+        .ids-main-nav-note span {{
+            color: var(--ids-blue);
+            font-size: 0.72rem;
+            font-weight: 850;
+            text-transform: uppercase;
+        }}
+
+        .ids-main-nav-note strong {{
+            color: var(--ids-text);
+            font-size: 0.86rem;
+            font-weight: 700;
+        }}
+
+        .ids-main-nav-state {{
+            min-height: 4.65rem;
+            background: rgba(16, 32, 52, 0.72);
+            border: 1px solid var(--ids-border);
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+        }}
+
         .ids-title {{
             font-size: 2rem;
             line-height: 2.4rem;
