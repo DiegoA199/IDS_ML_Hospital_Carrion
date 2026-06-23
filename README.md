@@ -216,7 +216,19 @@ https://sonarcloud.io/project/overview?id=DiegoA199_IDS_ML_Hospital_Carrion
 
 ## Evidencias para tesis
 
-El repositorio incluye evidencias visuales listas para anexar al informe:
+El repositorio incluye evidencias reales y material visual listo para anexar al informe.
+
+Evidencias reales capturadas desde herramientas:
+
+- `docs/evidencias/reales/informe_evidencias_reales_ids_ml.md`
+- `docs/evidencias/reales/streamlit_dashboard_real.png`
+- `docs/evidencias/reales/adminer_postgresql_tablas_real.png`
+- `docs/evidencias/reales/sonarcloud_dashboard_real.png`
+- `docs/evidencias/reales/github_actions_success_real.png`
+- `docs/evidencias/reales/postgresql_tablas_reales.txt`
+- `docs/evidencias/reales/sonarcloud_quality_gate_api_real.json`
+
+Material explicativo/referencial:
 
 - `docs/evidencias/informe_evidencias_ids_ml.md`
 - `docs/INFORME_EVIDENCIAS_TECNICAS_IDSML.docx`
@@ -227,7 +239,7 @@ El repositorio incluye evidencias visuales listas para anexar al informe:
 - `docs/evidencias/orientacion_iso_nist_ids_ml.png`
 - `docs/procesos/procesos_hospital_ids_ml.md`
 
-El informe principal `docs/INFORME_FINAL_IDSML_HOSPITAL_CARRION.docx` tambien contiene un anexo de evidencias tecnicas con estas imagenes.
+Nota: no se encontro un archivo real de Bizagi/BPMN del proceso hospitalario; ese insumo debe exportarse desde Bizagi Modeler si el asesor lo exige como evidencia externa.
 
 ## Seguridad de credenciales
 

@@ -8,6 +8,17 @@ El modelo logico relacional del sistema IDS-ML organiza la informacion requerida
 
 El modelo formal de tesis contiene 60 tablas academicas. Al ejecutarse en PostgreSQL tambien se visualizan 8 tablas operativas que usa la aplicacion para guardar ejecuciones reales, por lo que el motor puede mostrar 68 tablas.
 
+La evidencia real capturada desde Adminer/PostgreSQL es:
+
+![Captura real Adminer PostgreSQL](../evidencias/reales/adminer_postgresql_tablas_real.png)
+
+Archivos tecnicos reales:
+
+- `docs/evidencias/reales/postgresql_tablas_reales.txt`
+- `docs/evidencias/reales/postgresql_conteo_tablas_reales.txt`
+
+Las siguientes laminas son referenciales para explicar el modelo:
+
 ![Resumen visual de base de datos](../evidencias/base_datos_60_tablas.png)
 
 ![Listado visual de 60 tablas](../evidencias/base_datos_listado_60_tablas.png)

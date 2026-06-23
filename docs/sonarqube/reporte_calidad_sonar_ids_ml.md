@@ -43,9 +43,9 @@ Resultado:
 
 ## 4. Resultado oficial SonarCloud
 
-La evidencia visual para anexar al informe se encuentra en:
+La evidencia visual real para anexar al informe se encuentra en:
 
-![Evidencia visual SonarCloud](../evidencias/sonarqube_quality_gate.png)
+![Captura real SonarCloud](../evidencias/reales/sonarcloud_dashboard_real.png)
 
 | Indicador SonarCloud | Resultado oficial |
 |---|---:|
@@ -144,7 +144,8 @@ Se agregaron pruebas para:
 | `sonar-project.properties` | Parametros del analisis Sonar |
 | `docs/sonarqube/configuracion_sonar.md` | Guia de configuracion |
 | `docs/sonarqube/evidencia_quality_gate_sonarcloud.md` | Evidencia oficial del Quality Gate |
-| `docs/evidencias/sonarqube_quality_gate.png` | Imagen lista para anexar al informe |
+| `docs/evidencias/reales/sonarcloud_dashboard_real.png` | Captura real del dashboard SonarCloud |
+| `docs/evidencias/reales/sonarcloud_quality_gate_api_real.json` | Respuesta real de la API Quality Gate |
 
 ## 10. Pasos para reproducir el reporte oficial
 

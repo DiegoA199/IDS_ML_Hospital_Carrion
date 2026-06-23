@@ -2,7 +2,18 @@
 
 ## 1. Proposito
 
-Este documento consolida evidencias visuales para anexar al informe de tesis del sistema IDS-ML orientado a redes institucionales hospitalarias. Las imagenes muestran calidad del codigo, base de datos fisica, proceso operativo de la entidad hospitalaria y alineacion con normas de seguridad y calidad.
+Este documento consolida laminas explicativas para anexar al informe de tesis del sistema IDS-ML orientado a redes institucionales hospitalarias. Para capturas reales de herramientas use `docs/evidencias/reales/informe_evidencias_reales_ids_ml.md`.
+
+## 1.1. Evidencias reales disponibles
+
+Las capturas reales se encuentran en:
+
+- `docs/evidencias/reales/streamlit_dashboard_real.png`
+- `docs/evidencias/reales/adminer_postgresql_tablas_real.png`
+- `docs/evidencias/reales/sonarcloud_dashboard_real.png`
+- `docs/evidencias/reales/github_actions_success_real.png`
+
+Las imagenes siguientes son laminas referenciales generadas para explicar los resultados.
 
 ## 2. Evidencia SonarQube/SonarCloud
 

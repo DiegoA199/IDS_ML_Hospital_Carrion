@@ -6,6 +6,17 @@ El proyecto IDS-ML requiere almacenar informacion tecnica y academica relacionad
 
 ## Evidencia visual del modelo
 
+La evidencia real del motor PostgreSQL se muestra en la captura de Adminer:
+
+![Captura real Adminer PostgreSQL](../evidencias/reales/adminer_postgresql_tablas_real.png)
+
+Archivo de respaldo:
+
+- `docs/evidencias/reales/postgresql_tablas_reales.txt`
+- `docs/evidencias/reales/postgresql_conteo_tablas_reales.txt`
+
+Lamina explicativa del modelo:
+
 ![Resumen visual de base de datos](../evidencias/base_datos_60_tablas.png)
 
 El diseno documenta 60 tablas formales para la tesis. En PostgreSQL pueden visualizarse 68 tablas porque la aplicacion agrega 8 tablas operativas para guardar datos reales del prototipo: alertas, experimentos, predicciones, auditoria, errores, reportes y versiones de modelo.
@@ -26,7 +37,7 @@ El modelo contiene 60 tablas porque el sistema IDS-ML no es solo un clasificador
 
 ## Orientacion normativa
 
-![Orientacion ISO NIST](../evidencias/orientacion_iso_nist_ids_ml.png)
+![Orientacion ISO NIST referencial](../evidencias/orientacion_iso_nist_ids_ml.png)
 
 La base de datos se relaciona con buenas practicas de seguridad porque registra eventos, alertas, incidentes, responsables, evidencias y reportes. Esta trazabilidad ayuda a sustentar controles como monitoreo de actividades, seguridad de redes, respuesta a incidentes, aprendizaje de incidentes y mejora continua.
 

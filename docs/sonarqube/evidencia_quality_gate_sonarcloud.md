@@ -27,7 +27,12 @@
 La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub y revisada nuevamente el 2026-06-23.
 Las metricas siguientes corresponden al estado oficial visible en SonarCloud y a la corrida de GitHub Actions asociada al commit `f67055f`.
 
-![Evidencia visual SonarCloud](../evidencias/sonarqube_quality_gate.png)
+![Captura real SonarCloud](../evidencias/reales/sonarcloud_dashboard_real.png)
+
+Archivo tecnico real:
+
+- `docs/evidencias/reales/sonarcloud_quality_gate_api_real.json`
+- `docs/evidencias/reales/sonarcloud_metrics_api_real.json`
 
 | Indicador | Resultado |
 |---|---:|

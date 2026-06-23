@@ -1,0 +1,77 @@
+COMMAND: docker compose exec -T db psql -U idsml -d idsml -c SELECT table_name FROM information_schema.tables WHERE table_schema='public' ORDER BY table_name;
+
+STDOUT:
+        table_name         
+---------------------------
+ acciones_recomendadas
+ activos_red
+ alertas
+ alerts
+ amenazas_detectadas
+ areas_hospitalarias
+ atencion_incidente
+ audit_events
+ auditoria_sistema
+ bitacora_accesos
+ calidad_dataset
+ cargos
+ clases_trafico
+ columnas_dataset
+ comparaciones_modelo
+ configuracion_sistema
+ controles_cumplimiento
+ datasets
+ direcciones_ip
+ dispositivos_red
+ entrenamientos
+ escalamiento_incidente
+ estados_alerta
+ eventos_red
+ evidencias_alerta
+ experiments
+ exportaciones_reporte
+ flujos_trafico
+ historial_alerta
+ incidentes_seguridad
+ instituciones
+ metricas_entrenamiento
+ model_versions
+ modelos_ml
+ modelos_seleccionados
+ niveles_severidad
+ normas_referencia
+ parametros_modelo
+ particiones_dataset
+ pasos_preprocesamiento
+ perfilado_dataset
+ permisos
+ predicciones
+ prediction_rows
+ prediction_runs
+ preprocesamientos
+ protocolos_red
+ reportes
+ reportes_generados
+ reports
+ responsables_ti
+ roles
+ roles_permisos
+ sedes
+ segmentos_red
+ seleccion_caracteristicas
+ servicios_red
+ sesiones_usuario
+ system_errors
+ tipos_activo
+ tipos_amenaza
+ tipos_modelo_ml
+ tipos_reporte
+ transformaciones_datos
+ umbrales_alerta
+ usuarios
+ usuarios_roles
+ versiones_dataset
+(68 rows)
+
+
+STDERR:

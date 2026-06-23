@@ -6,9 +6,16 @@ Documentar el proceso institucional que seguiria un hospital para operar un prot
 
 ## 2. Diagrama tipo Bizagi/BPMN
 
-La siguiente imagen puede usarse como referencia visual para modelar el proceso en Bizagi o como diagrama BPMN conceptual dentro del informe de tesis.
+No se encontro en el repositorio ni en las carpetas locales un archivo real de Bizagi (`.bpm`, `.bpmn`) ni una imagen externa del proceso hospitalario ya elaborada. Por ese motivo, la siguiente imagen debe tratarse como referencia conceptual, no como evidencia real externa.
 
 ![Proceso hospitalario IDS-ML](../evidencias/proceso_hospital_ids_ml_bpmn.png)
+
+Para presentar evidencia real, se debe exportar desde Bizagi Modeler alguno de estos archivos:
+
+- `.bpm`
+- `.bpmn`
+- `.png` o `.jpg`
+- `.pdf`
 
 ## 3. Actores del proceso
 
