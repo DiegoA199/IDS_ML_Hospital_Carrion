@@ -259,19 +259,22 @@ No versionar:
 
 ### Render
 
-El repo esta preparado para Render con Docker y PostgreSQL administrado:
+El repo esta preparado para Render con Docker y PostgreSQL externo. Esta configuracion evita que Render cree una base administrada propia y pida pago por el motor de base de datos.
 
-- `render.yaml` define el web service y la base PostgreSQL.
+- `render.yaml` define solo el web service.
 - `scripts/start_render.sh` inicializa las 60 tablas y arranca Streamlit.
 - `database/init_postgres.py` ejecuta `database/postgresql/schema.sql` y carga seed demo si la base esta vacia.
 
 Flujo recomendado:
 
 1. Subir cambios a GitHub.
-2. En Render: **New > Blueprint**.
-3. Conectar este repositorio.
-4. Confirmar el archivo `render.yaml`.
-5. Crear el Blueprint y esperar el deploy.
+2. Crear una base PostgreSQL gratuita externa, por ejemplo en Neon o Supabase.
+3. Copiar la cadena de conexion PostgreSQL.
+4. En Render: **New > Blueprint**.
+5. Conectar este repositorio.
+6. Confirmar el archivo `render.yaml`.
+7. Cuando Render solicite `DATABASE_URL`, pegar la cadena de conexion externa.
+8. Crear el Blueprint y esperar el deploy.
 
 La URL final sera similar a:
 
@@ -285,7 +288,7 @@ Variables relevantes si se configura manualmente:
 
 ```text
 IDSML_PERSISTENCE_BACKEND=postgres
-DATABASE_URL=<Internal Database URL de Render PostgreSQL>
+DATABASE_URL=<URL externa de PostgreSQL>
 PYTHONUNBUFFERED=1
 ```
 

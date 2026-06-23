@@ -10,19 +10,10 @@ services:
       - key: IDSML_PERSISTENCE_BACKEND
         value: postgres
       - key: DATABASE_URL
-        fromDatabase:
-          name: idsml-hospital-carrion-db
-          property: connectionString
+        sync: false
       - key: PYTHONUNBUFFERED
         value: "1"
       - key: FIREBASE_PROJECT_ID
         sync: false
       - key: GOOGLE_APPLICATION_CREDENTIALS
         sync: false
-
-databases:
-  - name: idsml-hospital-carrion-db
-    databaseName: idsml
-    user: idsml
-    postgresMajorVersion: "16"
-    ipAllowList: []
