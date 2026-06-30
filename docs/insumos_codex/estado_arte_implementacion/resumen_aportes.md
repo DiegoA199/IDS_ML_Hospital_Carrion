@@ -2,28 +2,28 @@
 
 ## Arquitectura y diseño IDS
 
-Las referencias A03, A06 y A30 orientan la separación por fases, la taxonomía de técnicas de detección y las alternativas de procesamiento distribuido. Su aporte debe traducirse en componentes desacoplados y contratos claros entre carga, preparación, entrenamiento, inferencia y alertas.
+Las referencias A03, A13 y A24 orientan una arquitectura por fases, componentes multicapa y frameworks de detección desplegables. Su aporte debe traducirse en contratos claros entre carga, preparación, entrenamiento, inferencia y alertas.
 
 ## Implementación de prototipos IDS
 
-A16, A39 y A40 respaldan el desarrollo de un prototipo reproducible con Python, scikit-learn y estructuras de datos adecuadas. También ayudan a justificar el uso de componentes verificables y persistencia independiente de la interfaz.
+A04, A13 y A16 respaldan decisiones sobre ensambles, separación por capas, selección de modelos y criterios de implementación del prototipo.
 
 ## Procesamiento de datos
 
-A02, A18 y A40 sirven para organizar la carga, validación, limpieza y transformación de datos, considerando trazabilidad y crecimiento del volumen de tráfico.
+A02 y A06 sirven para discutir volumen de datos, series temporales y selección de características, considerando trazabilidad y crecimiento del tráfico.
 
 ## Evaluación y métricas
 
-A21, A27, A29 y A35 sustentan la comparación de modelos, la selección de características, el uso de datasets benchmark y la evaluación mediante métricas complementarias como Accuracy, Precision, Recall y F1-score.
+A04, A13, A15 y A19 sustentan la comparación de modelos y la evaluación mediante métricas complementarias como Accuracy, Precision, Recall y F1-score.
 
 ## Interpretabilidad y trazabilidad
 
-A33 orienta la explicación de predicciones y alertas. Para el IDS-ML, esto implica conservar modelo, confianza, contexto de ejecución y evidencia suficiente para la revisión del personal TI.
+A18 y A19 orientan la explicación de predicciones y alertas. Para el IDS-ML, esto implica conservar modelo, confianza, contexto de ejecución y evidencia suficiente para la revisión del personal TI.
 
 ## Despliegue y eficiencia
 
-A02, A17 y A30 aportan criterios de escalabilidad, ejecución eficiente y distribución. Estas referencias permiten discutir límites del prototipo y alternativas futuras para infraestructura institucional o nube.
+A02, A12, A15 y A24 aportan criterios de escalabilidad, edge, ejecución eficiente y cloud. Estas referencias permiten discutir límites del prototipo y alternativas futuras para infraestructura institucional.
 
 ## Relación con el sistema IDS-ML
 
-En conjunto, los artículos justifican una arquitectura modular, el pipeline reproducible de datos, la comparación de algoritmos, la trazabilidad operacional y la evolución controlada del prototipo. La matriz asociada debe actualizarse cuando una referencia se descarte, reemplace o se vincule con una decisión técnica concreta.
+En conjunto, los artículos justifican una arquitectura modular, el pipeline reproducible de datos, la comparación de algoritmos, la trazabilidad y la evolución controlada del prototipo. A26 aporta el vínculo más directo con redes médicas e IoMT. La matriz asociada debe actualizarse cuando una referencia se descarte, reemplace o se vincule con una decisión técnica concreta.
