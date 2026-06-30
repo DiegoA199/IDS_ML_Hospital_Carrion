@@ -31,6 +31,7 @@ Archivos tecnicos relacionados:
 
 - `sonarcloud_quality_gate_api_real.txt`
 - `sonarcloud_metrics_api_real.txt`
+- `sonarcloud_pr2_verificacion_real.txt`
 
 ## 5. GitHub Actions real
 

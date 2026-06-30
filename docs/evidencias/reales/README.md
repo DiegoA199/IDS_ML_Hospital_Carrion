@@ -10,6 +10,7 @@ Esta carpeta contiene capturas y archivos reales obtenidos desde herramientas ej
 | `streamlit_dashboard_real.png` | Aplicacion Streamlit local | Evidencia de la interfaz real del sistema ejecutandose. |
 | `sonarcloud_quality_gate_api_real.txt` | API publica de SonarCloud | Respuesta tecnica del Quality Gate. |
 | `sonarcloud_metrics_api_real.txt` | API publica de SonarCloud | Metricas reales: bugs, vulnerabilidades, code smells, hotspots y duplicacion. |
+| `sonarcloud_pr2_verificacion_real.txt` | API publica de SonarCloud | Snapshot del Quality Gate y metricas del commit funcional del PR #2. |
 | `github_actions_latest_run_real.txt` | API publica de GitHub | Datos reales de la ultima corrida del workflow. |
 | `postgresql_tablas_reales.txt` | `psql` dentro del contenedor PostgreSQL | Listado real de tablas en el esquema `public`. |
 | `postgresql_conteo_tablas_reales.txt` | `psql` dentro del contenedor PostgreSQL | Conteo real de tablas visibles. |

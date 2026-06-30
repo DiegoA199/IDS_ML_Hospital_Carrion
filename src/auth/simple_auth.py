@@ -1,15 +1,20 @@
 import streamlit as st
 
 from src.domain.services.auth_service import authenticate
-from src.ui.theme import page_header
 
 
 def login(repo=None):
-    page_header(
-        "Acceso institucional",
-        "Plataforma IDS-ML para monitoreo de tráfico, evaluación de amenazas y trazabilidad de alertas.",
-        kicker="IDS-ML Core",
-        tag="Acceso seguro",
+    st.markdown(
+        """
+        <div class="ids-login-hero">
+            <div class="ids-login-mark">+</div>
+            <div class="ids-title">IDS-ML Hospital Carrión</div>
+            <div class="ids-subtitle" style="max-width:none;">
+                Sistema institucional de monitoreo y detección de amenazas
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     left, center, right = st.columns([1, 1.25, 1])
@@ -17,7 +22,7 @@ def login(repo=None):
         st.markdown(
             """
             <div class="ids-login-card ids-card">
-                <div class="ids-card-title">Ingreso al sistema</div>
+                <div class="ids-card-title">Acceso institucional</div>
                 <div class="ids-card-subtitle">
                     Acceso autorizado para personal responsable de seguridad, redes y soporte TI.
                     Las operaciones relevantes quedan registradas para auditoría.
@@ -29,7 +34,7 @@ def login(repo=None):
         with st.form("idsml_login_form", clear_on_submit=False):
             username = st.text_input("Usuario", placeholder="Usuario institucional")
             password = st.text_input("Contraseña", type="password", placeholder="Ingrese su contraseña")
-            submitted = st.form_submit_button("Ingresar al sistema")
+            submitted = st.form_submit_button("Iniciar sesión", type="primary")
 
         if submitted:
             user = authenticate(username, password)

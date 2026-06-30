@@ -11,20 +11,20 @@ import plotly.graph_objects as go
 import streamlit as st
 
 PALETTE = {
-    "background": "#031427",
-    "surface": "#0b1c30",
-    "surface_high": "#102034",
-    "surface_higher": "#1b2b3f",
-    "border": "#26364a",
-    "border_soft": "#1e293b",
-    "text": "#d3e4fe",
-    "muted": "#9ca3af",
-    "blue": "#7bd0ff",
-    "blue_deep": "#0ea5d8",
-    "green": "#4edea3",
-    "amber": "#fbbf24",
-    "red": "#ffaaa5",
-    "slate": "#c1c6db",
+    "background": "#f8f9ff",
+    "surface": "#ffffff",
+    "surface_high": "#eff4ff",
+    "surface_higher": "#e5eeff",
+    "border": "#c6cbd5",
+    "border_soft": "#e2e8f0",
+    "text": "#0b1c30",
+    "muted": "#5f6673",
+    "blue": "#0058be",
+    "blue_deep": "#004395",
+    "green": "#07885f",
+    "amber": "#a85d00",
+    "red": "#ba1a1a",
+    "slate": "#526071",
 }
 
 TONE_COLORS = {
@@ -41,7 +41,7 @@ def _html(markup: str) -> None:
 
 
 def apply_global_theme() -> None:
-    """Apply the dark SOC-inspired visual system used across pages."""
+    """Apply the clinical monitoring visual system used across pages."""
     _html(
         f"""
         <style>
@@ -65,16 +65,12 @@ def apply_global_theme() -> None:
         }}
 
         .stApp {{
-            background:
-                linear-gradient(90deg, rgba(123, 208, 255, 0.035) 1px, transparent 1px),
-                linear-gradient(0deg, rgba(123, 208, 255, 0.035) 1px, transparent 1px),
-                var(--ids-bg);
-            background-size: 48px 48px;
+            background: var(--ids-bg);
             color: var(--ids-text);
         }}
 
         [data-testid="stHeader"] {{
-            background: rgba(3, 20, 39, 0.78);
+            background: rgba(248, 249, 255, 0.94);
             border-bottom: 1px solid var(--ids-border);
             backdrop-filter: blur(12px);
         }}
@@ -88,24 +84,24 @@ def apply_global_theme() -> None:
         }}
 
         [data-testid="stSidebar"] {{
-            background: #03111f;
-            border-right: 1px solid var(--ids-border);
+            background: #111b2f;
+            border-right: 1px solid #26354f;
         }}
 
         [data-testid="stSidebar"] * {{
-            color: var(--ids-text);
+            color: #dce6f7;
         }}
 
         [data-testid="stSidebar"] .ids-sidebar-user {{
-            background: rgba(16, 32, 52, 0.92);
-            border: 1px solid var(--ids-border);
+            background: #18263f;
+            border: 1px solid #2c3c57;
             border-radius: 8px;
             padding: 0.95rem;
             margin-bottom: 1rem;
         }}
 
         [data-testid="stSidebar"] .ids-sidebar-label {{
-            color: var(--ids-blue);
+            color: #adc6ff;
             font-size: 0.72rem;
             font-weight: 800;
             text-transform: uppercase;
@@ -113,7 +109,7 @@ def apply_global_theme() -> None:
         }}
 
         [data-testid="stSidebar"] .ids-sidebar-section-title {{
-            color: var(--ids-muted);
+            color: #8e9bb0;
             font-size: 0.72rem;
             font-weight: 850;
             text-transform: uppercase;
@@ -134,16 +130,17 @@ def apply_global_theme() -> None:
         }}
 
         [data-testid="stSidebar"] .stButton > button:hover {{
-            background: rgba(123, 208, 255, 0.09);
-            border-color: rgba(123, 208, 255, 0.24);
-            color: var(--ids-text);
+            background: rgba(33, 112, 228, 0.14);
+            border-color: rgba(173, 198, 255, 0.26);
+            color: #ffffff;
         }}
 
         [data-testid="stSidebar"] .stButton > button[kind="primary"] {{
-            background: #0898c7;
-            border-color: #16b7e8;
-            color: #001e2c;
-            box-shadow: 0 0 0 1px rgba(123, 208, 255, 0.22);
+            background: #0864ca;
+            border-color: #2170e4;
+            border-left: 4px solid #adc6ff;
+            color: #ffffff;
+            box-shadow: none;
         }}
 
         [data-testid="stSidebar"] .stButton > button p {{
@@ -159,14 +156,14 @@ def apply_global_theme() -> None:
         }}
 
         [data-testid="stSidebar"] [role="radiogroup"] label:hover {{
-            background: rgba(123, 208, 255, 0.09);
-            border-color: rgba(123, 208, 255, 0.24);
+            background: rgba(33, 112, 228, 0.14);
+            border-color: rgba(173, 198, 255, 0.26);
         }}
 
         [data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) {{
-            background: #0898c7;
-            border-color: #16b7e8;
-            box-shadow: 0 0 0 1px rgba(123, 208, 255, 0.22);
+            background: #0864ca;
+            border-color: #2170e4;
+            box-shadow: none;
         }}
 
         .main .block-container {{
@@ -189,29 +186,35 @@ def apply_global_theme() -> None:
         button[kind="primary"],
         button[kind="secondary"] {{
             border-radius: 8px;
-            border: 1px solid rgba(123, 208, 255, 0.42);
-            background: #7bd0ff;
-            color: #001e2c;
+            border: 1px solid #0058be;
+            background: #0058be;
+            color: #ffffff;
             font-weight: 700;
             min-height: 2.7rem;
         }}
 
+        button[kind="secondary"] {{
+            background: #ffffff;
+            color: #0058be;
+            border-color: #9aabc2;
+        }}
+
         .stButton > button:hover,
         .stDownloadButton > button:hover {{
-            border-color: #a8e1ff;
-            background: #a8e1ff;
-            color: #001e2c;
+            border-color: #004395;
+            background: #004395;
+            color: #ffffff;
         }}
 
         div[data-testid="stFileUploader"] section {{
-            background: rgba(16, 32, 52, 0.72);
-            border: 1px dashed rgba(193, 198, 219, 0.42);
+            background: #ffffff;
+            border: 1px dashed #9aabc2;
             border-radius: 8px;
         }}
 
         div[data-testid="stFileUploader"] section:hover {{
             border-color: var(--ids-blue);
-            box-shadow: 0 0 0 2px rgba(123, 208, 255, 0.12);
+            box-shadow: 0 0 0 2px rgba(0, 88, 190, 0.10);
         }}
 
         div[data-baseweb="select"] > div,
@@ -219,8 +222,8 @@ def apply_global_theme() -> None:
         div[data-baseweb="textarea"] > div,
         [data-testid="stTextInput"] input,
         [data-testid="stNumberInput"] input {{
-            background: #07182b;
-            border-color: rgba(193, 198, 219, 0.32);
+            background: #ffffff;
+            border-color: #9aabc2;
             color: var(--ids-text);
             border-radius: 8px;
         }}
@@ -234,8 +237,8 @@ def apply_global_theme() -> None:
 
         .stAlert {{
             border-radius: 8px;
-            border: 1px solid rgba(123, 208, 255, 0.2);
-            background: rgba(16, 32, 52, 0.72);
+            border: 1px solid #c8d7ed;
+            background: #eff4ff;
         }}
 
         .ids-page-head {{
@@ -257,7 +260,7 @@ def apply_global_theme() -> None:
             padding: 0.7rem 0.85rem;
             border: 1px solid var(--ids-border);
             border-radius: 8px;
-            background: rgba(16, 32, 52, 0.64);
+            background: #ffffff;
         }}
 
         .ids-main-nav-note span {{
@@ -275,7 +278,7 @@ def apply_global_theme() -> None:
 
         .ids-main-nav-state {{
             min-height: 4.65rem;
-            background: rgba(16, 32, 52, 0.72);
+            background: #ffffff;
             border: 1px solid var(--ids-border);
             border-radius: 8px;
             padding: 0.75rem 0.9rem;
@@ -313,19 +316,19 @@ def apply_global_theme() -> None:
             padding: 0.24rem 0.58rem;
             font-size: 0.76rem;
             font-weight: 800;
-            border: 1px solid rgba(123, 208, 255, 0.32);
-            background: rgba(123, 208, 255, 0.10);
+            border: 1px solid rgba(0, 88, 190, 0.28);
+            background: rgba(0, 88, 190, 0.08);
             color: var(--ids-blue);
             white-space: nowrap;
         }}
 
         .ids-card {{
-            background: linear-gradient(180deg, rgba(16, 32, 52, 0.94), rgba(11, 28, 48, 0.94));
+            background: #ffffff;
             border: 1px solid var(--ids-border);
             border-radius: 8px;
             padding: 1rem;
             min-height: 100%;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.035);
         }}
 
         .ids-card-title {{
@@ -342,7 +345,7 @@ def apply_global_theme() -> None:
         }}
 
         .ids-metric-title {{
-            color: #c6c6cd;
+            color: #45464d;
             font-size: 0.78rem;
             font-weight: 800;
             text-transform: uppercase;
@@ -366,7 +369,7 @@ def apply_global_theme() -> None:
         .ids-progress {{
             height: 0.34rem;
             border-radius: 999px;
-            background: rgba(193, 198, 219, 0.14);
+            background: #d8e2ff;
             overflow: hidden;
             margin-top: 0.75rem;
         }}
@@ -394,7 +397,7 @@ def apply_global_theme() -> None:
         .ids-step {{
             border: 1px solid var(--ids-border);
             border-radius: 8px;
-            background: rgba(16, 32, 52, 0.78);
+            background: #ffffff;
             padding: 0.95rem;
         }}
 
@@ -404,11 +407,11 @@ def apply_global_theme() -> None:
 
         .ids-step[data-state="active"] {{
             border-left: 4px solid var(--ids-blue);
-            box-shadow: 0 0 0 1px rgba(123, 208, 255, 0.18);
+            box-shadow: 0 0 0 1px rgba(0, 88, 190, 0.16);
         }}
 
         .ids-step[data-state="pending"] {{
-            border-left: 4px solid rgba(193, 198, 219, 0.38);
+            border-left: 4px solid #c6cbd5;
         }}
 
         .ids-step-name {{
@@ -435,6 +438,26 @@ def apply_global_theme() -> None:
             margin: 0 auto;
         }}
 
+        .ids-login-hero {{
+            max-width: 620px;
+            margin: 3.5rem auto 1.5rem auto;
+            text-align: center;
+        }}
+
+        .ids-login-mark {{
+            width: 64px;
+            height: 64px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #111b2f;
+            color: #ffffff;
+            font-size: 1.75rem;
+            font-weight: 850;
+            margin-bottom: 1rem;
+        }}
+
         .ids-sidebar-brand {{
             border-bottom: 1px solid var(--ids-border);
             padding-bottom: 1rem;
@@ -442,13 +465,13 @@ def apply_global_theme() -> None:
         }}
 
         .ids-brand {{
-            color: var(--ids-text);
+            color: #ffffff;
             font-size: 1.25rem;
             font-weight: 850;
         }}
 
         .ids-sidebar-meta {{
-            color: var(--ids-muted);
+            color: #8e9bb0;
             font-size: 0.82rem;
             margin-top: 0.35rem;
         }}

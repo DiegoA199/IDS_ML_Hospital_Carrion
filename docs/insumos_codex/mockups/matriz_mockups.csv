@@ -1,0 +1,11 @@
+codigo_mockup,pantalla,descripcion_funcional,requisito_relacionado,dimension_tesis,estado,archivo_imagen,observaciones
+MK-01,Login,Pantalla de autenticación del sistema,Control de acceso,Implementación del prototipo software,Aplicado,imagenes/login.png,Sistema visual clínico aplicado sin funciones ficticias
+MK-02,Dashboard,Panel principal de indicadores IDS-ML,Visualización de eventos e indicadores,Interpretabilidad y utilidad institucional,Aplicado,imagenes/dashboard.png,Métricas y gráficos conservan datos reales
+MK-03,Carga de datos,Pantalla para cargar y validar datos de tráfico,Gestión del dataset,Gestión y preparación del dataset,Aplicado,imagenes/carga_datos.png,Se mantiene carga CSV autorizada
+MK-04,Preparación de datos,Pantalla para limpieza normalización y preparación,Preprocesamiento de datos,Gestión y preparación del dataset,Aplicado,imagenes/preparacion_datos.png,Flujo real conserva prevención de fuga
+MK-05,Entrenamiento,Pantalla para ejecutar entrenamiento de modelos,Entrenamiento de modelos,Entrenamiento y comparación de modelos,Aplicado,imagenes/entrenamiento.png,Se mantienen algoritmos y permisos actuales
+MK-06,Comparación,Pantalla de comparación de métricas de modelos,Evaluación comparativa,Evaluación integral del desempeño,Aplicado,imagenes/comparacion.png,Vista funcional agregada sobre resultados reales
+MK-07,Predicción,Pantalla para analizar tráfico nuevo,Predicción de tráfico,Detección de intrusiones,Aplicado,imagenes/prediccion.png,No se incorporan acciones defensivas simuladas
+MK-08,Alertas,Centro funcional de alertas del sistema,Gestión de alertas,Interpretabilidad y utilidad institucional,Aplicado,imagenes/alertas.png,Se conserva RBAC para cambios de estado
+MK-09,Reportes,Pantalla de descarga de reportes y resultados,Generación de reportes,Implementación del prototipo software,Aplicado,imagenes/reportes.png,Exportaciones existentes preservadas
+MK-10,Configuración,Pantalla de configuración funcional del sistema,Preferencias del sistema,Implementación del prototipo software,Aplicado,imagenes/configuracion.png,No se muestran credenciales ni infraestructura sensible

@@ -9,23 +9,24 @@
 | Proyecto SonarCloud | `DiegoA199_IDS_ML_Hospital_Carrion` |
 | Organizacion SonarCloud | `diegoa199` |
 | Herramienta | SonarQube Cloud / SonarCloud |
-| Fecha de verificacion | 2026-06-23 |
-| Rama revisada | `main` |
-| Revision | Consultar dashboard/API de SonarCloud; se actualiza con cada push |
+| Fecha de verificacion | 2026-06-30 |
+| Rama revisada | `codex/organizar-insumos-stitch` mediante PR #2 hacia `main` |
+| Revision funcional | Commit `565901b` |
 
 ## 2. Enlaces de consulta
 
 | Recurso | Enlace |
 |---|---|
 | Dashboard SonarCloud | <https://sonarcloud.io/project/overview?id=DiegoA199_IDS_ML_Hospital_Carrion> |
+| Analisis SonarCloud del PR #2 | <https://sonarcloud.io/dashboard?id=DiegoA199_IDS_ML_Hospital_Carrion&pullRequest=2> |
 | Quality Gate por API | <https://sonarcloud.io/api/qualitygates/project_status?projectKey=DiegoA199_IDS_ML_Hospital_Carrion> |
 | Metricas por API | <https://sonarcloud.io/api/measures/component?component=DiegoA199_IDS_ML_Hospital_Carrion&metricKeys=bugs,vulnerabilities,code_smells,duplicated_lines_density,reliability_rating,security_rating,sqale_rating,security_hotspots,ncloc> |
-| Corrida de GitHub Actions usada como evidencia | <https://github.com/DiegoA199/IDS_ML_Hospital_Carrion/actions/runs/28049612664> |
+| Corrida de GitHub Actions usada como evidencia | <https://github.com/DiegoA199/IDS_ML_Hospital_Carrion/actions/runs/28429302845> |
 
 ## 3. Resultado oficial de SonarCloud
 
-La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub y revisada nuevamente el 2026-06-23.
-Las metricas siguientes corresponden al estado oficial visible en SonarCloud y a la corrida de GitHub Actions asociada al commit `f67055f`.
+La verificacion oficial fue realizada sobre el proyecto vinculado a GitHub y revisada nuevamente el 2026-06-30.
+SonarCloud Automatic Analysis proceso el commit `565901b` del PR #2. Las metricas siguientes corresponden al resultado oficial de ese analisis y a la corrida de GitHub Actions `28429302845`.
 
 ![Captura real SonarCloud](../evidencias/reales/sonarcloud_dashboard_real.png)
 
@@ -33,6 +34,7 @@ Archivo tecnico real:
 
 - `docs/evidencias/reales/sonarcloud_quality_gate_api_real.txt`
 - `docs/evidencias/reales/sonarcloud_metrics_api_real.txt`
+- `docs/evidencias/reales/sonarcloud_pr2_verificacion_real.txt`
 
 | Indicador | Resultado |
 |---|---:|
@@ -73,8 +75,8 @@ pytest --cov=src --cov-report=xml --cov-report=term
 
 | Indicador local | Resultado |
 |---|---:|
-| Pruebas ejecutadas | 44 |
-| Pruebas exitosas | 44 |
+| Pruebas ejecutadas | 46 |
+| Pruebas exitosas | 46 |
 | Pruebas fallidas | 0 |
 | Cobertura efectiva | 92% |
 | Reporte generado | `coverage.xml` |
@@ -91,9 +93,9 @@ El workflow `.github/workflows/quality-sonar.yml` queda preparado para:
 4. subir el reporte como artefacto;
 5. ejecutar el scanner de SonarCloud cuando exista el secreto `SONAR_TOKEN`.
 
-La corrida publica de GitHub Actions revisada finalizo en estado `success` para la rama `main`.
+La corrida publica de GitHub Actions revisada finalizo en estado `success` para el PR #2 desde la rama `codex/organizar-insumos-stitch`.
 
-Nota tecnica: SonarCloud Automatic Analysis ya entrego un resultado oficial aprobado. El secreto `SONAR_TOKEN` se requiere solo si se desea que el scanner se ejecute desde GitHub Actions importando tambien `coverage.xml` en cada push.
+Nota tecnica: SonarCloud Automatic Analysis entrego el resultado oficial aprobado para el commit funcional actual. El paso del scanner dentro de GitHub Actions se omitio porque falta el secreto `SONAR_TOKEN`; este secreto se requiere para importar `coverage.xml` y reflejar la cobertura de 92% directamente en SonarCloud.
 
 ## 7. Interpretacion para la tesis
 
