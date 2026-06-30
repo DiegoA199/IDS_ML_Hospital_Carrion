@@ -6,17 +6,19 @@ Registrar cómo los insumos visuales y académicos fueron traducidos a decisione
 
 ## Decisiones visuales aplicadas
 
+La segunda navegación interna del prototipo anterior fue retirada. La interfaz usa ahora la composición común de Stitch: barra lateral fija de nueve módulos, cabecera superior compacta, tarjetas blancas sobre lienzo clínico y jerarquía azul/rojo para operación y riesgo.
+
 | Insumo | Aplicación en el producto |
 |---|---|
 | MK-01 Login | Acceso centrado, identidad hospitalaria, tarjeta blanca y acción primaria azul. |
-| MK-02 Dashboard | Lienzo clínico claro, métricas jerarquizadas, gráficos sobrios y rojo reservado para amenazas. |
+| MK-02 Dashboard | Cinco indicadores operativos, barra superior, distribución normal/sospechosa, amenazas por tipo y eventos recientes. |
 | MK-03 Carga de datos | Nombre funcional, carga destacada, métricas de calidad y vista previa tabular. |
 | MK-04 Preparación | Flujo visible de limpieza, codificación, normalización y partición. |
 | MK-05 Entrenamiento | Configuración separada de resultados y acción principal inequívoca. |
-| MK-06 Comparación | Módulo funcional con modelo recomendado, métricas, gráfico, tabla y exportación CSV. |
+| MK-06 Comparación | Gráfico comparativo junto a panel oscuro de modelo recomendado, matriz detallada y exportación CSV. |
 | MK-07 Predicción | Entrada y resultado diferenciados, confianza visible y persistencia controlada. |
 | MK-08 Alertas | Severidad semántica, filtros, trazabilidad y cambio de estado según rol. |
-| MK-09 Reportes | Acciones de exportación e historial persistido. |
+| MK-09 Reportes | Filtros, secciones de resumen, modelos, alertas, historial y acciones de exportación. |
 | MK-10 Configuración | Agrupación de controles administrativos sin mostrar secretos. |
 
 ## Decisiones técnicas sustentadas
