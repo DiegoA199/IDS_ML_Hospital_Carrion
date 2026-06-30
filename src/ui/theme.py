@@ -85,9 +85,23 @@ def apply_global_theme() -> None:
         }}
 
         [data-testid="stHeader"] {{
-            height: 0;
-            min-height: 0;
+            height: 3rem;
+            min-height: 3rem;
             background: transparent;
+            pointer-events: none;
+        }}
+
+        [data-testid="stHeader"] button,
+        [data-testid="stSidebarCollapsedControl"] {{
+            visibility: visible !important;
+            pointer-events: auto;
+        }}
+
+        [data-testid="stSidebarCollapsedControl"] {{
+            position: fixed;
+            top: 0.5rem;
+            left: 0.55rem;
+            z-index: 1002;
         }}
 
         [data-testid="stToolbar"],
@@ -194,6 +208,57 @@ def apply_global_theme() -> None:
         .main .block-container {{
             max-width: none;
             padding: 0 2rem 3rem 2rem !important;
+        }}
+
+        .st-key-global_navigation {{
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            margin: 0 -2rem;
+            padding: 0.65rem 2rem 0.55rem 2rem;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--ids-border);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+            backdrop-filter: blur(8px);
+        }}
+
+        .st-key-global_navigation [data-testid="stHorizontalBlock"] {{
+            align-items: end;
+        }}
+
+        .st-key-global_navigation [data-testid="stSelectbox"] label p {{
+            color: var(--ids-text);
+            font-weight: 800;
+        }}
+
+        .ids-global-nav-label {{
+            min-height: 3.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--ids-text);
+        }}
+
+        .ids-global-nav-label > span {{
+            width: 2.35rem;
+            height: 2.35rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            color: #ffffff;
+            background: var(--ids-blue);
+        }}
+
+        .ids-global-nav-label strong,
+        .ids-global-nav-label small {{
+            display: block;
+        }}
+
+        .ids-global-nav-label small {{
+            color: var(--ids-muted);
+            font-size: 0.72rem;
+            margin-top: 0.1rem;
         }}
 
         h1, h2, h3 {{
@@ -645,8 +710,25 @@ def apply_global_theme() -> None:
         }}
 
         @media (max-width: 900px) {{
+            [data-testid="stMainBlockContainer"],
+            .main .block-container {{
+                padding: 0 1rem 2rem 1rem !important;
+            }}
+
+            .st-key-global_navigation {{
+                margin: 0 -1rem;
+                padding: 0.65rem 1rem;
+            }}
+
+            .st-key-global_navigation [data-testid="column"]:first-child {{
+                display: none;
+            }}
+
             .ids-page-head {{
                 display: block;
+                min-height: auto;
+                padding: 0.9rem 1rem;
+                margin: 0 -1rem 1rem -1rem;
             }}
 
             .ids-title {{
@@ -654,7 +736,6 @@ def apply_global_theme() -> None:
                 line-height: 1.5rem;
             }}
 
-            .ids-search-box,
             .ids-user-meta {{
                 display: none;
             }}
@@ -682,9 +763,7 @@ def page_header(title: str, subtitle: str = "", kicker: str = "IDS-ML", tag: str
                 <div class="ids-title">{escape(title)}</div>
             </div>
             <div class="ids-head-actions">
-                <div class="ids-search-box"><span class="material-symbols-rounded">search</span>&nbsp; Buscar eventos, registros...</div>
-                <div class="ids-head-icon"><span class="material-symbols-rounded">notifications</span></div>
-                <div class="ids-head-icon"><span class="material-symbols-rounded">help</span></div>
+                <span class="ids-top-tag"><span class="material-symbols-rounded">lock</span> Sesión activa</span>
                 <div class="ids-user-avatar">{escape(initial)}</div>
                 <div class="ids-user-meta">
                     <div style="font-weight:800; color:var(--ids-text);">{escape(username)}</div>

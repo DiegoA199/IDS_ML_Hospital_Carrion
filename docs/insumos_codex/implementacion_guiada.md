@@ -6,7 +6,7 @@ Registrar cómo los insumos visuales y académicos fueron traducidos a decisione
 
 ## Decisiones visuales aplicadas
 
-La segunda navegación interna del prototipo anterior fue retirada. La interfaz usa ahora la composición común de Stitch: barra lateral fija de nueve módulos, cabecera superior compacta, tarjetas blancas sobre lienzo clínico y jerarquía azul/rojo para operación y riesgo.
+La segunda navegación interna del prototipo anterior fue retirada. La interfaz usa ahora la composición común de Stitch: barra lateral de nueve módulos, cabecera superior compacta, tarjetas blancas sobre lienzo clínico y jerarquía azul/rojo para operación y riesgo. Un selector global sincronizado conserva el acceso a todos los módulos cuando Streamlit colapsa el lateral o la aplicación se usa desde un móvil.
 
 | Insumo | Aplicación en el producto |
 |---|---|
@@ -18,8 +18,8 @@ La segunda navegación interna del prototipo anterior fue retirada. La interfaz 
 | MK-06 Comparación | Gráfico comparativo junto a panel oscuro de modelo recomendado, matriz detallada y exportación CSV. |
 | MK-07 Predicción | Entrada y resultado diferenciados, confianza visible y persistencia controlada. |
 | MK-08 Alertas | Severidad semántica, filtros, trazabilidad y cambio de estado según rol. |
-| MK-09 Reportes | Filtros, secciones de resumen, modelos, alertas, historial y acciones de exportación. |
-| MK-10 Configuración | Agrupación de controles administrativos sin mostrar secretos. |
+| MK-09 Reportes | Filtros automáticos y funcionales por fecha, contenido y estado; secciones de modelos, alertas, historial, actividad y exportación. |
+| MK-10 Configuración | Preferencias reales de sesión, estado de persistencia y controles administrativos sin mostrar secretos. |
 
 ## Decisiones técnicas sustentadas
 
@@ -31,6 +31,8 @@ La segunda navegación interna del prototipo anterior fue retirada. La interfaz 
 | A16 | Comparar varios algoritmos mediante métricas homogéneas y seleccionar por F1-score. |
 | A18 y A19 | Mostrar modelo, confianza, severidad, recomendación y trazabilidad para apoyar explicación humana. |
 | A26 | Mantener lenguaje, controles y contexto orientados a una red institucional hospitalaria. |
+
+La revisión de usabilidad eliminó controles puramente decorativos (búsqueda, ayuda, notificaciones, recordar sesión y recuperación de contraseña sin servicio asociado). Todo elemento que conserva apariencia interactiva ejecuta ahora una acción o comunica explícitamente que es un estado de solo lectura.
 
 ## Límites
 

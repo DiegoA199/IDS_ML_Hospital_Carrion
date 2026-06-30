@@ -31,11 +31,7 @@ def login(repo=None):
             )
             username = st.text_input("Usuario", placeholder="Ingrese su usuario")
             password = st.text_input("Contraseña", type="password", placeholder="Ingrese su contraseña")
-            remember_col, help_col = st.columns(2)
-            with remember_col:
-                st.checkbox("Recordarme")
-            with help_col:
-                st.markdown('<div class="ids-login-help">¿Olvidó su contraseña?</div>', unsafe_allow_html=True)
+            st.caption("Acceso demostrativo: la sesión permanece activa en esta pestaña hasta que la cierre.")
             submitted = st.form_submit_button("Iniciar sesión  →", type="primary", use_container_width=True)
             st.markdown(
                 '<div class="ids-login-secure">♢ &nbsp; ACCESO RESTRINGIDO Y MONITOREADO</div>',

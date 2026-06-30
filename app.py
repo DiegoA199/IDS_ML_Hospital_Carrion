@@ -7,7 +7,7 @@ La lógica de páginas vive en ``src/ui/pages.py`` y el enrutador en ``src/ui/ro
 import streamlit as st
 
 from src.auth.simple_auth import login, require_auth
-from src.app.components.sidebar import render_sidebar_navigation
+from src.app.components.sidebar import render_global_navigation, render_sidebar_navigation
 from src.storage.repository_factory import get_repository
 from src.ui.router import render_page
 from src.ui.theme import apply_global_theme
@@ -45,9 +45,11 @@ role = st.session_state.get("role", "")
 username = st.session_state.get("username", "usuario")
 
 page = render_sidebar_navigation(username=username, role=role)
+page, logout_from_main = render_global_navigation(page)
 
-if st.sidebar.button("Cerrar sesión", key="logout", icon=":material/logout:"):
-    for key in ["authenticated", "username", "role", "active_page"]:
+logout_from_sidebar = st.sidebar.button("Cerrar sesión", key="logout_sidebar", icon=":material/logout:")
+if logout_from_sidebar or logout_from_main:
+    for key in ["authenticated", "username", "role", "active_page", "global_navigation_page"]:
         st.session_state.pop(key, None)
     st.rerun()
 

@@ -65,3 +65,47 @@ def render_sidebar_navigation(username: str, role: str) -> str:
             st.rerun()
 
     return str(st.session_state.get("active_page", "Dashboard"))
+
+
+def _sync_global_navigation() -> None:
+    """Mantiene el selector principal y la ruta activa en un único estado."""
+    selected = st.session_state.get("global_navigation_page")
+    if selected in SIDEBAR_MODULES:
+        _activate_page(str(selected))
+
+
+def render_global_navigation(active_page: str) -> tuple[str, bool]:
+    """Ofrece navegación accesible incluso cuando Streamlit colapsa el lateral."""
+    if active_page not in SIDEBAR_MODULES:
+        active_page = _ensure_active_page()
+
+    # Un clic en el lateral debe reflejarse en el selector antes de instanciarlo.
+    if st.session_state.get("global_navigation_page") != active_page:
+        st.session_state["global_navigation_page"] = active_page
+
+    with st.container(key="global_navigation"):
+        label_col, menu_col, exit_col = st.columns([0.24, 0.58, 0.18])
+        with label_col:
+            st.markdown(
+                '<div class="ids-global-nav-label">'
+                '<span class="material-symbols-rounded">menu</span>'
+                '<div><strong>Menú principal</strong><small>IDS-ML Hospital Carrión</small></div>'
+                "</div>",
+                unsafe_allow_html=True,
+            )
+        with menu_col:
+            st.selectbox(
+                "Ir a módulo",
+                SIDEBAR_MODULES,
+                key="global_navigation_page",
+                on_change=_sync_global_navigation,
+            )
+        with exit_col:
+            logout = st.button(
+                "Cerrar sesión",
+                key="logout_global",
+                icon=":material/logout:",
+                use_container_width=True,
+            )
+
+    return str(st.session_state.get("active_page", active_page)), logout

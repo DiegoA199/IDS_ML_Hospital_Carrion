@@ -38,6 +38,7 @@ from src.services.database_model_service import (
     summarize_tables,
 )
 from src.services.system_status_service import build_status_payload, firestore_ping_ok
+from src.storage.config import load_persistence_settings
 from src.ui.theme import (
     PALETTE,
     chip_row,
@@ -73,6 +74,7 @@ def _init_session() -> None:
         "results": None,
         "best_model": None,
         "last_pred_df": None,
+        "show_demo_dashboard": True,
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -111,6 +113,25 @@ def _column_profile_df(df: pd.DataFrame) -> pd.DataFrame:
             }
         )
     return pd.DataFrame(rows)
+
+
+def _filter_dataframe_by_date(
+    frame: pd.DataFrame,
+    date_range: Any,
+    columns: tuple[str, ...] = ("created_at", "generated_at", "updated_at"),
+) -> pd.DataFrame:
+    """Filtra registros persistidos por la primera fecha disponible."""
+    if frame.empty or not isinstance(date_range, (tuple, list)) or len(date_range) != 2:
+        return frame.copy()
+
+    date_column = next((column for column in columns if column in frame.columns), None)
+    if date_column is None:
+        return frame.copy()
+
+    start, end = date_range
+    parsed = pd.to_datetime(frame[date_column], errors="coerce", format="mixed")
+    mask = parsed.dt.date.between(start, end, inclusive="both")
+    return frame.loc[mask.fillna(False)].copy()
 
 
 def _results_dataframe(results: list[Any], best_name: str | None = None) -> pd.DataFrame:
@@ -217,7 +238,11 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
     active_model = ctx.get("active_model") or {}
     persisted_rows = int(counts.get("prediction_rows", 0))
     persisted_alerts = ctx.get("recent_alerts") or []
-    demo_mode = persisted_rows == 0 and not persisted_alerts
+    demo_mode = (
+        bool(st.session_state.get("show_demo_dashboard", True))
+        and persisted_rows == 0
+        and not persisted_alerts
+    )
 
     page_header(
         "Dashboard principal",
@@ -972,64 +997,91 @@ def render_reports(repo: "IDSMLRepository") -> None:
     )
 
     user = str(st.session_state.get("username", "usuario"))
-    filter_date, filter_type, filter_state, filter_action = st.columns([1.2, 1, 1, 0.75])
+    filter_date, filter_type, filter_state = st.columns([1.2, 1, 1])
     with filter_date:
-        st.date_input("Rango de fechas", value=(datetime.now().date().replace(day=1), datetime.now().date()))
+        date_range = st.date_input(
+            "Rango de fechas",
+            value=(datetime.now().date().replace(day=1), datetime.now().date()),
+            key="report_date_range",
+        )
     with filter_type:
-        st.selectbox("Tipo de reporte", ["Todos los reportes", "Modelos", "Alertas", "Actividad"])
+        report_type = st.selectbox(
+            "Contenido",
+            ["Todos", "Modelos", "Alertas", "Actividad"],
+            key="report_type",
+        )
     with filter_state:
-        st.selectbox("Estado de modelo", ["Todos", "Activos", "Históricos"])
-    with filter_action:
-        st.write("")
-        st.write("")
-        st.button("Aplicar filtros", use_container_width=True)
+        model_state = st.selectbox(
+            "Estado de modelo",
+            ["Todos", "Activos", "Históricos"],
+            key="report_model_state",
+        )
+    st.caption("Los filtros se aplican automáticamente a las tablas visibles.")
 
-    section_title("Secciones del reporte", "Exportaciones y resúmenes construidos con los registros persistidos.")
-    summary_col, model_col = st.columns([0.72, 1.55])
-    with summary_col:
-        render_card("Resumen de análisis", "Perspectiva general del tráfico de red, modelos y anomalías detectadas.", tone="blue")
-        if st.button("Exportar CSV", use_container_width=True):
+    experiments_df = _filter_dataframe_by_date(pd.DataFrame(repo.list_experiments(limit=200)), date_range)
+    alerts_df = _filter_dataframe_by_date(pd.DataFrame(repo.list_alerts(limit=200)), date_range)
+    reports_df = _filter_dataframe_by_date(pd.DataFrame(repo.list_reports(limit=100)), date_range)
+    audit_df = _filter_dataframe_by_date(pd.DataFrame(repo.list_audit_events(limit=200)), date_range)
+
+    active_model = repo.get_active_model_version() or {}
+    active_name = str(active_model.get("model_name", ""))
+    if not experiments_df.empty and active_name and "model_name" in experiments_df.columns:
+        is_active = experiments_df["model_name"].astype(str).eq(active_name)
+        if model_state == "Activos":
+            experiments_df = experiments_df.loc[is_active].copy()
+        elif model_state == "Históricos":
+            experiments_df = experiments_df.loc[~is_active].copy()
+
+    section_title("Exportación general", "Genera evidencia completa con los registros persistidos.")
+    export_info, export_csv, export_pdf = st.columns([1.4, 0.55, 0.55])
+    with export_info:
+        render_card(
+            "Resumen trazable",
+            "Incluye tráfico, modelos, alertas y actividad disponibles en el repositorio.",
+            tone="blue",
+        )
+    with export_csv:
+        if st.button("Generar CSV", key="report_export_csv", use_container_width=True):
             path = report_gen.export_summary_csv(repo, user)
             log_action(repo, action="export_csv", module="reportes", result="ok", observation=str(path))
             st.success(f"CSV generado: {path}")
-        if st.button("Descargar PDF", use_container_width=True):
+    with export_pdf:
+        if st.button("Generar PDF", key="report_export_pdf", use_container_width=True):
             path = report_gen.export_summary_pdf(repo, user)
             if path:
                 log_action(repo, action="export_pdf", module="reportes", result="ok", observation=str(path))
                 st.success(f"PDF generado: {path}")
             else:
                 st.warning("No se pudo generar PDF. Revise dependencias o registros disponibles.")
-    with model_col:
+    if report_type in {"Todos", "Modelos"}:
         section_title("Resultados de modelos predictivos", "Métricas verificables de los experimentos registrados.")
-        experiments = repo.list_experiments(limit=30)
-        experiments_df = pd.DataFrame(experiments)
         if experiments_df.empty:
-            empty_state("Aún no hay experimentos para incorporar al reporte.")
+            empty_state("No hay experimentos que coincidan con el periodo y estado seleccionados.")
         else:
             columns = [c for c in ["created_at", "model_name", "precision", "recall", "f1_score"] if c in experiments_df.columns]
             st.dataframe(experiments_df[columns], width="stretch", hide_index=True)
 
-    alerts_col, history_col = st.columns([1.25, 0.9])
-    with alerts_col:
+    if report_type in {"Todos", "Alertas"}:
         section_title("Alertas generadas recientemente", "Incidentes registrados por los ciclos de predicción.")
-        alerts = repo.list_alerts(limit=10)
-        alerts_df = pd.DataFrame(alerts)
         if alerts_df.empty:
-            empty_state("No hay alertas disponibles en el periodo actual.")
+            empty_state("No hay alertas que coincidan con el periodo seleccionado.")
         else:
             columns = [c for c in ["created_at", "tipo", "severidad", "estado"] if c in alerts_df.columns]
             st.dataframe(alerts_df[columns], width="stretch", hide_index=True)
-    with history_col:
-        section_title("Historial de descargas", "Archivos generados y registrados en persistencia.")
-        reports = repo.list_reports(limit=20)
-        if reports:
-            st.dataframe(pd.DataFrame(reports), width="stretch", hide_index=True)
-        else:
-            empty_state("Todavía no se han generado reportes.")
 
-    section_title("Registro detallado de actividad", "Bitácora trazable del sistema para revisión institucional.")
-    audit = repo.list_audit_events(limit=60)
-    st.dataframe(pd.DataFrame(audit) if audit else pd.DataFrame(), width="stretch", hide_index=True)
+    if report_type == "Todos":
+        section_title("Historial de descargas", "Archivos generados y registrados en persistencia.")
+        if not reports_df.empty:
+            st.dataframe(reports_df, width="stretch", hide_index=True)
+        else:
+            empty_state("No hay reportes generados en el periodo seleccionado.")
+
+    if report_type in {"Todos", "Actividad"}:
+        section_title("Registro detallado de actividad", "Bitácora trazable del sistema para revisión institucional.")
+        if audit_df.empty:
+            empty_state("No hay actividad que coincida con el periodo seleccionado.")
+        else:
+            st.dataframe(audit_df, width="stretch", hide_index=True)
 
 
 def render_database_model(repo: "IDSMLRepository") -> None:
@@ -1157,39 +1209,66 @@ def render_settings(repo: "IDSMLRepository") -> None:
         st.warning("Solo roles TI pueden revisar configuración del sistema.")
         return
 
+    _init_session()
     page_header(
         "Configuración del sistema",
-        "Parámetros operativos visibles para tesis. Los secretos siguen fuera del código fuente.",
+        "Preferencias funcionales de la sesión y estado del entorno activo.",
         tag="Configuración",
     )
 
+    persistence = load_persistence_settings()
+    backend = str(persistence.get("backend", "auto")).upper()
+    repository_name = type(repo).__name__.replace("Repository", "")
     c1, c2, c3 = st.columns(3)
     with c1:
-        metric_card("Registro operativo", "Activo", "Trazabilidad habilitada", tone="blue")
+        metric_card("Persistencia", repository_name, f"Configuración: {backend}", tone="blue")
     with c2:
-        metric_card("Alertas por lote", "100", "Límite operativo UI", tone="amber")
+        metric_card("Auditoría", "Activa", "Acciones relevantes trazadas", tone="green")
     with c3:
-        metric_card("Servicio", "Disponible", "Interfaz IDS-ML", tone="green")
+        demo_label = "Activa" if st.session_state.get("show_demo_dashboard", True) else "Inactiva"
+        metric_card("Vista demostrativa", demo_label, "Solo cuando no existen datos reales", tone="amber")
 
-    section_title("Configuración no sensible", "Parámetros visibles para operación y revisión.")
-    settings_df = pd.DataFrame(
-        [
-            {"clave": "Modo de operación", "propósito": "Controla el entorno funcional del prototipo", "secreto": "no"},
-            {"clave": "Credenciales institucionales", "propósito": "Se gestionan fuera del código fuente", "secreto": "sí"},
-            {"clave": "Trazabilidad", "propósito": "Registra acciones relevantes del sistema", "secreto": "no"},
-        ]
+    section_title("Preferencias de esta sesión", "Estos controles tienen efecto inmediato y no modifican secretos.")
+    st.toggle(
+        "Mostrar datos demostrativos en el dashboard cuando no existan inferencias reales",
+        key="show_demo_dashboard",
+        help="Los datos de demostración siempre aparecen identificados y nunca se mezclan con registros reales.",
     )
-    st.dataframe(settings_df, width="stretch", hide_index=True)
+    st.caption("La preferencia se conserva mientras la sesión del navegador permanezca activa.")
 
-    section_title("Buenas prácticas activas", "Controles básicos para revisión académica y Sonar.")
+    transient_keys = [
+        "df",
+        "dataset_profile",
+        "dataset_upload_key",
+        "prepared_dataset",
+        "prepared_target_col",
+        "preprocessing_options",
+        "results",
+        "best_model",
+        "last_pred_df",
+    ]
+    if st.button(
+        "Limpiar datos temporales de trabajo",
+        key="clear_session_workspace",
+        icon=":material/delete_sweep:",
+    ):
+        for key in transient_keys:
+            st.session_state[key] = None
+        st.success("Se limpiaron los datos temporales de esta sesión. Los registros persistidos no fueron eliminados.")
+
+    section_title("Controles operativos", "Estado verificable del prototipo desplegado.")
     chip_row(
         [
-            ("Secrets fuera del repo", "green"),
+            ("Secrets fuera del repositorio", "green"),
             ("Trazabilidad activa", "green"),
-            ("Roles institucionales", "blue"),
-            ("Pruebas pytest", "green"),
-            ("Sonar configurado", "amber"),
+            ("Acceso por roles", "blue"),
+            ("Datos demo identificados", "amber"),
         ]
+    )
+    st.info(
+        "Este despliegue está preparado para demostración y evaluación académica. "
+        "Antes de operar con tráfico hospitalario real se debe sustituir el acceso demo por IAM/LDAP/OAuth "
+        "y completar el endurecimiento institucional."
     )
 
 
