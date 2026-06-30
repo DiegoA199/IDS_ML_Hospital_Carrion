@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import streamlit as st
 
+from src.ui.theme import institution_logo
+
 NAV_ITEMS: tuple[tuple[str, str], ...] = (
     (":material/dashboard:", "Dashboard"),
     (":material/upload_file:", "Carga de datos"),
@@ -33,18 +35,8 @@ def _ensure_active_page() -> str:
 
 
 def _render_sidebar_header(username: str, role: str) -> None:
-    st.sidebar.markdown(
-        f"""
-        <div class="ids-sidebar-brand">
-            <div class="ids-brand-mark">+</div>
-            <div>
-                <div class="ids-brand">IDS-ML</div>
-                <div class="ids-sidebar-meta">Hospital Carrión</div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    with st.sidebar.container(key="sidebar_branding"):
+        institution_logo()
 
 
 def render_sidebar_navigation(username: str, role: str) -> str:

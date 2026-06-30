@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+import base64
+from functools import lru_cache
 from html import escape
+from pathlib import Path
 from textwrap import dedent
 from typing import Any
 
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+
+INSTITUTION_LOGO_PATH = (
+    Path(__file__).resolve().parents[2] / "assets" / "branding" / "hospital_carrion_junin.png"
+)
 
 PALETTE = {
     "background": "#f6f8fd",
@@ -613,8 +620,17 @@ def apply_global_theme() -> None:
 
         .ids-login-hero {{
             max-width: 620px;
-            margin: 4.5rem auto 1.6rem auto;
+            margin: 0.7rem auto 1.35rem auto;
             text-align: center;
+        }}
+
+        .st-key-login_brand {{
+            width: min(100%, 470px);
+            margin: 3.2rem auto 0.8rem auto;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--ids-border-soft);
+            border-radius: 10px;
+            background: #ffffff;
         }}
 
         .ids-login-hero .ids-title {{
@@ -623,53 +639,47 @@ def apply_global_theme() -> None:
             line-height: 2.4rem;
         }}
 
-        .ids-login-mark {{
-            width: 72px;
-            height: 72px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            background: #111b2f;
-            color: #46a5c8;
-            font-size: 1.75rem;
-            font-weight: 850;
-            margin-bottom: 1rem;
+        .st-key-sidebar_branding {{
+            margin: 1rem 1rem 0.85rem 1rem;
+            padding: 0.7rem;
+            border-radius: 9px;
+            background: #ffffff;
+            border: 1px solid #31415e;
         }}
 
-        .ids-sidebar-brand {{
-            height: 7rem;
+        .ids-institution-logo img {{
+            display: block;
+            width: 100%;
+            height: auto;
+        }}
+
+        .ids-empty-state {{
+            min-height: 165px;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 0 1.45rem;
-            border-bottom: 1px solid #26354f;
-            margin: 0 0 0.75rem 0;
+            gap: 1rem;
+            padding: 1.25rem;
+            border: 1px dashed #9aabc2;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #f3f7ff 100%);
         }}
 
-        .ids-brand-mark {{
-            width: 2.65rem;
-            height: 2.65rem;
+        .ids-empty-icon {{
+            width: 3rem;
+            height: 3rem;
+            flex: 0 0 3rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: 5px;
-            background: #0b4b68;
-            color: #63c4df;
-            font-size: 1.45rem;
-            font-weight: 900;
+            border-radius: 9px;
+            background: #dbe9ff;
+            color: var(--ids-blue);
         }}
 
-        .ids-brand {{
-            color: #ffffff;
-            font-size: 1.35rem;
-            font-weight: 850;
-        }}
-
-        .ids-sidebar-meta {{
-            color: #8e9bb0;
+        .ids-empty-hint {{
+            color: var(--ids-muted);
             font-size: 0.78rem;
-            margin-top: 0.2rem;
+            margin-top: 0.55rem;
         }}
 
         [data-testid="stForm"] {{
@@ -710,6 +720,17 @@ def apply_global_theme() -> None:
         }}
 
         @media (max-width: 900px) {{
+            .st-key-login_brand {{
+                margin: 1rem auto 0.6rem auto;
+                padding: 0.55rem 0.7rem;
+            }}
+
+            .ids-empty-state {{
+                min-height: 145px;
+                align-items: flex-start;
+                padding: 1rem;
+            }}
+
             [data-testid="stMainBlockContainer"],
             .main .block-container {{
                 padding: 0 1rem 2rem 1rem !important;
@@ -873,12 +894,32 @@ def pipeline_steps(steps: list[dict[str, str]]) -> None:
     _html(f'<div class="ids-steps">{"".join(html_parts)}</div>')
 
 
-def empty_state(message: str) -> None:
+@lru_cache(maxsize=1)
+def _institution_logo_data_uri() -> str:
+    encoded = base64.b64encode(INSTITUTION_LOGO_PATH.read_bytes()).decode("ascii")
+    return f"data:image/png;base64,{encoded}"
+
+
+def institution_logo() -> None:
+    """Renderiza el activo institucional aprobado en el contenedor actual."""
+    _html(
+        f'<div class="ids-institution-logo">'
+        f'<img src="{_institution_logo_data_uri()}" '
+        'alt="Gobierno Regional de Junín y Hospital Nacional Daniel Alcides Carrión de Huancayo">'
+        "</div>"
+    )
+
+
+def empty_state(message: str, *, hint: str = "Este panel se actualizará cuando existan resultados disponibles.") -> None:
     _html(
         f"""
-        <div class="ids-card">
-            <div class="ids-card-title">Sin datos todavía</div>
-            <div class="ids-card-subtitle">{escape(message)}</div>
+        <div class="ids-empty-state" role="status">
+            <div class="ids-empty-icon"><span class="material-symbols-rounded">inbox</span></div>
+            <div>
+                <div class="ids-card-title">Sin datos todavía</div>
+                <div class="ids-card-subtitle">{escape(message)}</div>
+                <div class="ids-empty-hint">{escape(hint)}</div>
+            </div>
         </div>
         """
     )

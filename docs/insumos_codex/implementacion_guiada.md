@@ -21,6 +21,8 @@ La segunda navegación interna del prototipo anterior fue retirada. La interfaz 
 | MK-09 Reportes | Filtros automáticos y funcionales por fecha, contenido y estado; secciones de modelos, alertas, historial, actividad y exportación. |
 | MK-10 Configuración | Preferencias reales de sesión, estado de persistencia y controles administrativos sin mostrar secretos. |
 
+La identidad visual usa el logotipo institucional proporcionado para el Hospital Nacional Daniel Alcides Carrión y la región Junín. Se muestra en el acceso y en la navegación lateral sin alterar el archivo original. Los espacios sin registros se presentan como estados vacíos informativos, con una explicación y el siguiente paso recomendado, en lugar de simular información operativa.
+
 ## Decisiones técnicas sustentadas
 
 | Artículo | Decisión relacionada |

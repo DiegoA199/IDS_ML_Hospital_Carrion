@@ -1,13 +1,16 @@
 import streamlit as st
 
 from src.domain.services.auth_service import authenticate
+from src.ui.theme import institution_logo
 
 
 def login(repo=None):
+    with st.container(key="login_brand"):
+        institution_logo()
+
     st.markdown(
         """
         <div class="ids-login-hero">
-            <div class="ids-login-mark"><span>+</span></div>
             <div class="ids-title">IDS-ML Hospital Carrión</div>
             <div class="ids-subtitle" style="max-width:none;">
                 Sistema institucional de monitoreo y detección de amenazas

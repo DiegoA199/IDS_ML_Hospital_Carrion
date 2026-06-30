@@ -1056,7 +1056,10 @@ def render_reports(repo: "IDSMLRepository") -> None:
     if report_type in {"Todos", "Modelos"}:
         section_title("Resultados de modelos predictivos", "Métricas verificables de los experimentos registrados.")
         if experiments_df.empty:
-            empty_state("No hay experimentos que coincidan con el periodo y estado seleccionados.")
+            empty_state(
+                "No hay experimentos que coincidan con el periodo y estado seleccionados.",
+                hint="Entrene un modelo o amplíe el rango de fechas para consultar resultados.",
+            )
         else:
             columns = [c for c in ["created_at", "model_name", "precision", "recall", "f1_score"] if c in experiments_df.columns]
             st.dataframe(experiments_df[columns], width="stretch", hide_index=True)
@@ -1064,7 +1067,10 @@ def render_reports(repo: "IDSMLRepository") -> None:
     if report_type in {"Todos", "Alertas"}:
         section_title("Alertas generadas recientemente", "Incidentes registrados por los ciclos de predicción.")
         if alerts_df.empty:
-            empty_state("No hay alertas que coincidan con el periodo seleccionado.")
+            empty_state(
+                "No hay alertas que coincidan con el periodo seleccionado.",
+                hint="Ejecute una predicción o amplíe el rango de fechas para revisar alertas.",
+            )
         else:
             columns = [c for c in ["created_at", "tipo", "severidad", "estado"] if c in alerts_df.columns]
             st.dataframe(alerts_df[columns], width="stretch", hide_index=True)
@@ -1074,12 +1080,18 @@ def render_reports(repo: "IDSMLRepository") -> None:
         if not reports_df.empty:
             st.dataframe(reports_df, width="stretch", hide_index=True)
         else:
-            empty_state("No hay reportes generados en el periodo seleccionado.")
+            empty_state(
+                "No hay reportes generados en el periodo seleccionado.",
+                hint="Use Generar CSV o Generar PDF para crear la primera evidencia.",
+            )
 
     if report_type in {"Todos", "Actividad"}:
         section_title("Registro detallado de actividad", "Bitácora trazable del sistema para revisión institucional.")
         if audit_df.empty:
-            empty_state("No hay actividad que coincida con el periodo seleccionado.")
+            empty_state(
+                "No hay actividad que coincida con el periodo seleccionado.",
+                hint="Amplíe el rango de fechas para consultar la bitácora histórica.",
+            )
         else:
             st.dataframe(audit_df, width="stretch", hide_index=True)
 
