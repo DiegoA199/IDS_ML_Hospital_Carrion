@@ -1,0 +1,8 @@
+codigo_prueba,modulo,tipo_prueba,descripcion,resultado_esperado,evidencia,estado
+CP-01,carga_datos,funcional,Validar carga correcta de archivo de datos,Archivo cargado y registros visibles,,Pendiente
+CP-02,preparacion_datos,unitaria,Validar limpieza de datos,Datos procesados sin errores,,Pendiente
+CP-03,entrenamiento,integracion,Validar entrenamiento de modelos,Entrenamiento finalizado correctamente,,Pendiente
+CP-04,comparacion,funcional,Validar cálculo de métricas,Resultados comparativos visibles,,Pendiente
+CP-05,prediccion,funcional,Validar análisis de tráfico nuevo,Resultado normal sospechoso o amenaza,,Pendiente
+CP-06,alertas,seguridad,Validar generación de alertas,Alerta registrada con nivel de riesgo,,Pendiente
+CP-07,reportes,funcional,Validar exportación de reportes,Reporte descargado correctamente,,Pendiente
