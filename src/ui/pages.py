@@ -295,7 +295,7 @@ def render_dataset(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "Gestión de datasets",
+        "Carga de datos",
         "Carga y perfilado de CSV autorizados para entrenar y validar el prototipo IDS-ML.",
         tag="CSV controlado",
     )
@@ -357,7 +357,7 @@ def render_dataset(repo: "IDSMLRepository") -> None:
     st.dataframe(_column_profile_df(df), width="stretch", hide_index=True)
 
     if st.button("Validar dataset para preprocesamiento"):
-        st.success("Dataset validado para seleccionar columna objetivo en el módulo Preprocesamiento.")
+        st.success("Dataset validado para seleccionar la columna objetivo en Preparación de datos.")
         log_action(
             repo,
             action="validacion_dataset",
@@ -374,14 +374,14 @@ def render_preprocessing(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "Preprocesamiento de datos",
+        "Preparación de datos",
         "Preparación sin fuga de información: limpieza, codificación, escalado, split train/test y SMOTE opcional.",
         tag="Pipeline ML",
     )
 
     df = st.session_state.get("df")
     if df is None:
-        empty_state("Primero cargue un dataset CSV en el módulo Dataset.")
+        empty_state("Primero cargue un dataset CSV en Carga de datos.")
         return
 
     control_col, summary_col = st.columns([1.25, 0.9])
@@ -482,14 +482,14 @@ def render_training(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "Comparación y entrenamiento",
+        "Entrenamiento de modelos",
         "Entrena modelos candidatos, compara métricas y registra como activo el mejor clasificador por F1-score.",
         tag="Nodo de modelos",
     )
 
     df = st.session_state.get("df")
     if df is None:
-        empty_state("Primero cargue un dataset en el módulo Dataset.")
+        empty_state("Primero cargue un dataset en Carga de datos.")
         return
 
     left, right = st.columns([1.05, 1.6])
@@ -531,6 +531,88 @@ def render_training(repo: "IDSMLRepository") -> None:
         _render_results_panel(st.session_state["results"])
 
 
+def render_comparison(repo: "IDSMLRepository") -> None:
+    """Presenta la comparación de modelos de la sesión y del historial persistido."""
+    _init_session()
+    if not rbac.can_train(st.session_state.get("role", "")):
+        st.warning("Solo personal TI autorizado puede revisar la comparación de modelos.")
+        return
+
+    page_header(
+        "Comparación de resultados",
+        "Contraste de Accuracy, Precision, Recall y F1-score para seleccionar el modelo IDS-ML más equilibrado.",
+        tag="Evaluación comparativa",
+    )
+
+    current_results = st.session_state.get("results") or []
+    if current_results:
+        section_title("Resultados de la sesión", "Comparación generada por el último entrenamiento ejecutado.")
+        _render_results_panel(current_results)
+
+    experiments = repo.list_experiments(limit=200)
+    if not experiments:
+        if not current_results:
+            empty_state("Ejecute Entrenamiento para generar una comparación de modelos.")
+        return
+
+    history_df = pd.DataFrame(experiments)
+    metric_columns = ["accuracy", "precision", "recall", "f1_score"]
+    for column in metric_columns:
+        if column in history_df.columns:
+            history_df[column] = pd.to_numeric(history_df[column], errors="coerce").fillna(0.0)
+
+    best_index = history_df["f1_score"].idxmax()
+    best_row = history_df.loc[best_index]
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        metric_card("Modelo recomendado", best_row.get("model_name", "Sin nombre"), "Mayor F1 persistido", tone="blue")
+    with c2:
+        metric_card("Accuracy", format_percent(best_row.get("accuracy"), 2), "Exactitud global", tone="green")
+    with c3:
+        metric_card("Recall", format_percent(best_row.get("recall"), 2), "Cobertura de amenazas", tone="amber")
+    with c4:
+        metric_card(
+            "F1-score",
+            format_percent(best_row.get("f1_score"), 2),
+            "Balance Precision/Recall",
+            tone="blue",
+            progress=float(best_row.get("f1_score", 0)) * 100,
+        )
+
+    section_title("Rendimiento comparativo", "Historial de experimentos persistidos por modelo.")
+    chart_source = history_df.tail(30).copy()
+    chart_df = chart_source.melt(
+        id_vars=["model_name"],
+        value_vars=[column for column in metric_columns if column in chart_source.columns],
+        var_name="métrica",
+        value_name="valor",
+    )
+    fig = px.bar(
+        chart_df,
+        x="model_name",
+        y="valor",
+        color="métrica",
+        barmode="group",
+        title="Métricas por modelo",
+        color_discrete_sequence=[PALETTE["blue"], PALETTE["green"], PALETTE["amber"], PALETTE["slate"]],
+    )
+    st.plotly_chart(themed_plotly(fig, height=380), width="stretch")
+
+    section_title("Matriz de métricas detalladas", "Registro verificable para selección y trazabilidad del modelo.")
+    display_columns = [
+        column
+        for column in ["created_at", "model_name", "accuracy", "precision", "recall", "f1_score"]
+        if column in history_df.columns
+    ]
+    st.dataframe(history_df[display_columns], width="stretch", hide_index=True)
+    st.download_button(
+        "Exportar comparación CSV",
+        data=history_df[display_columns].to_csv(index=False).encode("utf-8-sig"),
+        file_name="comparacion_modelos_ids_ml.csv",
+        mime="text/csv",
+    )
+
+
 def render_inference(repo: "IDSMLRepository") -> None:
     _init_session()
     if not rbac.can_infer(st.session_state.get("role", "")):
@@ -538,7 +620,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "Análisis de tráfico nuevo",
+        "Predicción de tráfico",
         "Carga registros sin columna objetivo, aplica el bundle activo y genera predicciones, alertas y persistencia.",
         tag="Análisis de tráfico",
     )

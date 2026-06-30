@@ -7,8 +7,11 @@ from html import escape
 import streamlit as st
 
 SIDEBAR_SECTIONS: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("Monitoreo IDS", ("Dashboard", "Alertas e historial", "Reportes")),
-    ("Pipeline ML", ("Dataset", "Preprocesamiento", "Entrenamiento", "Inferencia")),
+    ("Monitoreo IDS", ("Dashboard", "Alertas", "Reportes")),
+    (
+        "Pipeline ML",
+        ("Carga de datos", "Preparación de datos", "Entrenamiento", "Comparación", "Predicción"),
+    ),
     (
         "Administración",
         ("Base de datos", "Usuarios y roles", "Configuración", "Estado del sistema"),
@@ -118,8 +121,8 @@ def render_main_navigation(active_page: str) -> str:
     st.markdown(
         """
         <div class="ids-main-nav-note">
-            <span>Navegación del sistema</span>
-            <strong>Seleccione el área y el módulo operativo que desea revisar.</strong>
+            <span>Navegación clínica IDS-ML</span>
+            <strong>Seleccione un área y una función operativa del sistema.</strong>
         </div>
         """,
         unsafe_allow_html=True,

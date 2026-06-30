@@ -81,6 +81,7 @@ Estas credenciales son solo para laboratorio y sustentacion. Antes de produccion
 - Carga y perfilado de dataset.
 - Preprocesamiento de datos.
 - Entrenamiento y comparacion de modelos.
+- Comparacion visual e historial exportable de metricas por modelo.
 - Seleccion automatica del mejor modelo por F1-score.
 - Analisis de trafico nuevo.
 - Centro de alertas TI.

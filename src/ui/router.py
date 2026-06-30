@@ -17,6 +17,12 @@ def render_page(page: str, repo: IDSMLRepository) -> None:
 
     routes: dict[str, Callable[[IDSMLRepository], None]] = {
         "Dashboard": pages.render_dashboard,
+        "Carga de datos": pages.render_dataset,
+        "Preparación de datos": pages.render_preprocessing,
+        "Comparación": pages.render_comparison,
+        "Predicción": pages.render_inference,
+        "Alertas": pages.render_alerts,
+        # Alias internos para conservar sesiones o enlaces de versiones anteriores.
         "Dataset": pages.render_dataset,
         "Preprocesamiento": pages.render_preprocessing,
         "Entrenamiento": pages.render_training,
