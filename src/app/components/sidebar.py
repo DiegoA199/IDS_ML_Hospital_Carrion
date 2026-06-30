@@ -5,15 +5,15 @@ from __future__ import annotations
 import streamlit as st
 
 NAV_ITEMS: tuple[tuple[str, str], ...] = (
-    ("▦", "Dashboard"),
-    ("⇧", "Carga de datos"),
-    ("▥", "Preparación de datos"),
-    ("◉", "Entrenamiento"),
-    ("↔", "Comparación"),
-    ("◌", "Predicción"),
-    ("♟", "Alertas"),
-    ("▥", "Reportes"),
-    ("⚙", "Configuración"),
+    (":material/dashboard:", "Dashboard"),
+    (":material/upload_file:", "Carga de datos"),
+    (":material/table_chart:", "Preparación de datos"),
+    (":material/model_training:", "Entrenamiento"),
+    (":material/compare_arrows:", "Comparación"),
+    (":material/online_prediction:", "Predicción"),
+    (":material/notifications_active:", "Alertas"),
+    (":material/assessment:", "Reportes"),
+    (":material/settings:", "Configuración"),
 )
 
 SIDEBAR_MODULES = [module for _, module in NAV_ITEMS]
@@ -55,10 +55,11 @@ def render_sidebar_navigation(username: str, role: str) -> str:
     for icon, module in NAV_ITEMS:
         is_active = module == active_page
         if st.sidebar.button(
-            f"{icon}  {module}",
+            module,
             key=f"nav_{module}",
             use_container_width=True,
             type="primary" if is_active else "secondary",
+            icon=icon,
         ):
             _activate_page(module)
             st.rerun()

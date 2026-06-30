@@ -46,7 +46,7 @@ username = st.session_state.get("username", "usuario")
 
 page = render_sidebar_navigation(username=username, role=role)
 
-if st.sidebar.button("↪  Cerrar sesión", key="logout"):
+if st.sidebar.button("Cerrar sesión", key="logout", icon=":material/logout:"):
     for key in ["authenticated", "username", "role", "active_page"]:
         st.session_state.pop(key, None)
     st.rerun()

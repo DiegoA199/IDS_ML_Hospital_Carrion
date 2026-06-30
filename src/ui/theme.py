@@ -64,6 +64,21 @@ def apply_global_theme() -> None:
             letter-spacing: 0 !important;
         }}
 
+        .material-symbols-rounded {{
+            font-family: "Material Symbols Rounded";
+            font-weight: normal;
+            font-style: normal;
+            font-size: 1.25rem;
+            line-height: 1;
+            letter-spacing: normal !important;
+            text-transform: none;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: "liga";
+            -webkit-font-smoothing: antialiased;
+        }}
+
         .stApp {{
             background: var(--ids-bg);
             color: var(--ids-text);
@@ -91,7 +106,26 @@ def apply_global_theme() -> None:
         }}
 
         [data-testid="stSidebarHeader"] {{
-            display: none;
+            display: flex;
+            position: absolute;
+            top: 0.75rem;
+            right: 0.65rem;
+            z-index: 50;
+            width: 2.5rem;
+            height: 2.5rem;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }}
+
+        [data-testid="stSidebarHeader"] button {{
+            color: #dce6f7;
+            background: #1b2943;
+            border-radius: 8px;
+        }}
+
+        [data-testid="stSidebarHeader"] [data-testid="stIconMaterial"] {{
+            color: #dce6f7 !important;
         }}
 
         [data-testid="stSidebarContent"] {{
@@ -156,10 +190,10 @@ def apply_global_theme() -> None:
             box-shadow: none;
         }}
 
+        [data-testid="stMainBlockContainer"],
         .main .block-container {{
             max-width: none;
-            padding: 0 2rem 3rem 2rem;
-            padding-bottom: 3rem;
+            padding: 0 2rem 3rem 2rem !important;
         }}
 
         h1, h2, h3 {{
@@ -274,6 +308,20 @@ def apply_global_theme() -> None:
             color: #111827;
             font-weight: 800;
             font-size: 1.1rem;
+        }}
+
+        .ids-demo-notice {{
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin: -0.35rem 0 1.1rem 0;
+            padding: 0.75rem 0.95rem;
+            border: 1px solid #a9c4ee;
+            border-left: 4px solid var(--ids-blue);
+            border-radius: 8px;
+            background: #eef4ff;
+            color: #25344d;
+            font-size: 0.86rem;
         }}
 
         .ids-user-avatar {{
@@ -634,9 +682,9 @@ def page_header(title: str, subtitle: str = "", kicker: str = "IDS-ML", tag: str
                 <div class="ids-title">{escape(title)}</div>
             </div>
             <div class="ids-head-actions">
-                <div class="ids-search-box">⌕ &nbsp; Buscar eventos, registros...</div>
-                <div class="ids-head-icon">♟</div>
-                <div class="ids-head-icon">?</div>
+                <div class="ids-search-box"><span class="material-symbols-rounded">search</span>&nbsp; Buscar eventos, registros...</div>
+                <div class="ids-head-icon"><span class="material-symbols-rounded">notifications</span></div>
+                <div class="ids-head-icon"><span class="material-symbols-rounded">help</span></div>
                 <div class="ids-user-avatar">{escape(initial)}</div>
                 <div class="ids-user-meta">
                     <div style="font-weight:800; color:var(--ids-text);">{escape(username)}</div>
@@ -684,7 +732,15 @@ def metric_card(
     progress: float | None = None,
 ) -> None:
     color = TONE_COLORS.get(tone, PALETTE["blue"])
-    icon = {"blue": "▣", "green": "✓", "red": "!", "amber": "◇", "slate": "◷"}.get(tone, "▣")
+    value_text = str(value)
+    compact_style = "font-size:1.45rem;line-height:1.8rem;" if len(value_text) >= 8 else ""
+    icon = {
+        "blue": "monitoring",
+        "green": "check_circle",
+        "red": "warning",
+        "amber": "priority_high",
+        "slate": "schedule",
+    }.get(tone, "monitoring")
     progress_html = ""
     if progress is not None:
         pct = max(0.0, min(100.0, float(progress)))
@@ -696,9 +752,10 @@ def metric_card(
         f'<div style="display:flex;justify-content:space-between;gap:.6rem;align-items:flex-start;">'
         f'<div class="ids-metric-title">{escape(title)}</div>'
         f'<div style="width:2.15rem;height:2.15rem;border-radius:6px;background:{color}18;color:{color};'
-        f'display:flex;align-items:center;justify-content:center;font-weight:900;">{icon}</div>'
+        f'display:flex;align-items:center;justify-content:center;font-weight:900;">'
+        f'<span class="material-symbols-rounded">{icon}</span></div>'
         '</div>'
-        f'<div class="ids-metric-value" style="color: {color};">{escape(str(value))}</div>'
+        f'<div class="ids-metric-value" style="color: {color};{compact_style}">{escape(value_text)}</div>'
         f"{progress_html}"
         f'<div class="ids-metric-caption">{escape(caption)}</div>'
         "</div>"
@@ -791,8 +848,9 @@ def themed_plotly(fig: go.Figure, *, height: int = 340) -> go.Figure:
         plot_bgcolor="rgba(0,0,0,0)",
         font=dict(color=PALETTE["text"], family='Inter, "Segoe UI", Arial, sans-serif'),
         legend=dict(font=dict(color=PALETTE["text"]), bgcolor="rgba(0,0,0,0)"),
-        title=dict(font=dict(color=PALETTE["text"], size=16)),
     )
+    if fig.layout.title and fig.layout.title.text:
+        fig.update_layout(title_font=dict(color=PALETTE["text"], size=16))
     fig.update_xaxes(gridcolor=PALETTE["border_soft"], zerolinecolor=PALETTE["border"], color=PALETTE["text"])
     fig.update_yaxes(gridcolor=PALETTE["border_soft"], zerolinecolor=PALETTE["border"], color=PALETTE["text"])
     return fig
