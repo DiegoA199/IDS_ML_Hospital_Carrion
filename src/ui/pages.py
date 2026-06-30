@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from html import escape
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 import pandas as pd
@@ -56,6 +57,9 @@ from src.ui.theme import (
 if TYPE_CHECKING:
     from src.preprocessing.pipeline import PreparedDataset
     from src.storage.base_repository import IDSMLRepository
+
+
+DEMO_DATASET_PATH = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "sample_dataset.csv"
 
 
 def _init_session() -> None:
@@ -208,29 +212,46 @@ def _render_results_panel(results: list[Any]) -> None:
 
 def render_dashboard(repo: "IDSMLRepository") -> None:
     _init_session()
-    page_header(
-        "Dashboard principal",
-        "Monitoreo de red, amenazas detectadas y actividad reciente del sistema IDS-ML.",
-        tag="Monitoreo activo",
-    )
-
     ctx = build_dashboard_context(repo)
     counts = ctx["counts"]
     active_model = ctx.get("active_model") or {}
-    total_rows = int(counts.get("prediction_rows", 0))
-    threat_rows = int(counts.get("amenazas_detectadas", 0))
+    persisted_rows = int(counts.get("prediction_rows", 0))
+    persisted_alerts = ctx.get("recent_alerts") or []
+    demo_mode = persisted_rows == 0 and not persisted_alerts
+
+    page_header(
+        "Dashboard principal",
+        "Monitoreo de red, amenazas detectadas y actividad reciente del sistema IDS-ML.",
+        tag="Vista demostrativa" if demo_mode else "Monitoreo activo",
+    )
+
+    if demo_mode:
+        st.markdown(
+            """
+            <div class="ids-demo-notice">
+                <span class="material-symbols-rounded">science</span>
+                <strong>Modo demostración:</strong> los valores de esta vista son sintéticos y sirven para presentar la interfaz.
+                Se reemplazan automáticamente cuando existen inferencias reales.
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    total_rows = 18_640 if demo_mode else persisted_rows
+    threat_rows = 624 if demo_mode else int(counts.get("amenazas_detectadas", 0))
     normal_rows = max(0, total_rows - threat_rows)
     threat_ratio = (threat_rows / total_rows * 100) if total_rows else 0.0
-    risk_label = "Alto" if threat_ratio >= 20 else "Moderado" if threat_ratio >= 5 else "Bajo"
+    risk_label = "Moderado" if demo_mode else "Alto" if threat_ratio >= 20 else "Moderado" if threat_ratio >= 5 else "Bajo"
     risk_tone = "red" if risk_label == "Alto" else "amber" if risk_label == "Moderado" else "blue"
     severity = ctx.get("severity_distribution") or {}
-    critical_alerts = sum(
-        int(value)
-        for key, value in severity.items()
+    critical_alerts = 7 if demo_mode else sum(
+        int(value) for key, value in severity.items()
         if str(key).strip().lower() in {"crítica", "critica", "alta", "critical", "high"}
     )
     last_analysis = ctx.get("last_prediction_at")
-    if last_analysis:
+    if demo_mode:
+        last_label = "Hace 2 min"
+    elif last_analysis:
         try:
             last_label = pd.to_datetime(last_analysis).strftime("%d/%m %H:%M")
         except (TypeError, ValueError):
@@ -248,12 +269,25 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
     with c4:
         metric_card("Riesgo actual", risk_label, f"Índice {threat_ratio:.1f}%", tone=risk_tone, progress=threat_ratio)
     with c5:
-        metric_card("Último análisis", last_label, active_model.get("model_name", "Sin modelo activo"), tone="slate")
+        model_caption = "Random Forest · demo" if demo_mode else active_model.get("model_name", "Sin modelo activo")
+        metric_card("Último análisis", last_label, model_caption, tone="slate")
 
     left, right = st.columns([1.75, 0.75])
     with left:
         section_title("Tráfico: normal vs sospechoso", "Distribución real de las inferencias persistidas.")
-        if normal_rows or threat_rows:
+        if demo_mode:
+            periods = ["00h", "04h", "08h", "12h", "16h", "20h", "Ahora"]
+            normal_series = [1840, 2130, 2480, 2910, 2360, 2020, 2276]
+            threat_series = [48, 62, 85, 121, 97, 104, 107]
+            fig = go.Figure(
+                data=[
+                    go.Bar(name="Normal", x=periods, y=normal_series, marker_color=PALETTE["blue"]),
+                    go.Bar(name="Sospechoso", x=periods, y=threat_series, marker_color=PALETTE["red"]),
+                ]
+            )
+            fig.update_layout(barmode="stack")
+            st.plotly_chart(themed_plotly(fig, height=350), width="stretch")
+        elif normal_rows or threat_rows:
             fig = go.Figure(
                 data=[
                     go.Bar(name="Normal", x=["Tráfico evaluado"], y=[normal_rows], marker_color=PALETTE["blue"]),
@@ -267,7 +301,11 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
 
     with right:
         section_title("Amenazas por tipo", "Clasificación de las alertas registradas.")
-        threat_types = ctx.get("threat_type_distribution") or {}
+        threat_types = (
+            {"Inyección SQL": 248, "Fuerza bruta": 167, "DDoS": 121, "Malware": 88}
+            if demo_mode
+            else ctx.get("threat_type_distribution") or {}
+        )
         if threat_types:
             fig = go.Figure(
                 data=[
@@ -288,16 +326,31 @@ def render_dashboard(repo: "IDSMLRepository") -> None:
         _render_results_panel(st.session_state["results"])
 
     section_title("Eventos de seguridad recientes", "Últimas alertas generadas por inferencia o pruebas manuales.")
-    recent_alerts = ctx.get("recent_alerts") or []
+    recent_alerts = persisted_alerts
+    if demo_mode:
+        recent_alerts = [
+            {"hora": "14:22", "origen": "192.0.2.14", "destino": "Servidor web", "tipo": "HTTPS", "severidad": "Baja", "estado": "Permitido", "fuente": "DEMO"},
+            {"hora": "14:18", "origen": "198.51.100.27", "destino": "Base clínica", "tipo": "SQL Injection", "severidad": "Crítica", "estado": "Bloqueado", "fuente": "DEMO"},
+            {"hora": "14:11", "origen": "203.0.113.42", "destino": "Gateway", "tipo": "Port Scan", "severidad": "Media", "estado": "En revisión", "fuente": "DEMO"},
+        ]
     if recent_alerts:
         alerts_df = pd.DataFrame(recent_alerts)
-        columns = [c for c in ["created_at", "tipo", "severidad", "probabilidad", "modelo_usado", "estado"] if c in alerts_df.columns]
+        columns = [
+            c for c in ["hora", "created_at", "origen", "destino", "tipo", "severidad", "probabilidad", "modelo_usado", "estado", "fuente"]
+            if c in alerts_df.columns
+        ]
         st.dataframe(alerts_df[columns], width="stretch", hide_index=True)
     else:
         empty_state("El centro de alertas todavía no tiene eventos.")
 
     section_title("Bitácora estructurada", "Actividad operativa más reciente del sistema.")
     recent_audit = ctx.get("recent_audit") or []
+    if demo_mode:
+        recent_audit = [
+            {"hora": "14:22", "acción": "Análisis de tráfico", "resultado": "Completado", "origen": "DEMO"},
+            {"hora": "14:18", "acción": "Alerta crítica registrada", "resultado": "Bloqueada", "origen": "DEMO"},
+            {"hora": "14:10", "acción": "Modelo demostrativo disponible", "resultado": "Activo", "origen": "DEMO"},
+        ]
     st.dataframe(pd.DataFrame(recent_audit) if recent_audit else pd.DataFrame(), width="stretch", hide_index=True)
 
 
@@ -316,6 +369,29 @@ def render_dataset(repo: "IDSMLRepository") -> None:
     upload_col, status_col = st.columns([1.8, 0.9])
     with upload_col:
         uploaded = st.file_uploader("Arrastra o selecciona un archivo CSV de tráfico IDS", type=["csv"])
+        load_demo = st.button(
+            "Usar dataset demostrativo",
+            icon=":material/science:",
+            help="Carga datos sintéticos incluidos en el proyecto para recorrer todo el flujo ML.",
+        )
+        if load_demo:
+            demo_df = pd.read_csv(DEMO_DATASET_PATH)
+            demo_profile = profile_dataframe(demo_df)
+            st.session_state["df"] = demo_df
+            st.session_state["dataset_profile"] = demo_profile
+            st.session_state["dataset_upload_key"] = "dataset-demo-incluido"
+            st.session_state["prepared_dataset"] = None
+            st.session_state["prepared_target_col"] = None
+            st.session_state["results"] = None
+            st.session_state["best_model"] = None
+            log_action(
+                repo,
+                action="carga_dataset_demo",
+                module="dataset",
+                result="ok",
+                observation=f"filas={len(demo_df)}, columnas={demo_df.shape[1]}, fuente=sintetica",
+            )
+            st.success("Dataset sintético cargado. Ya puede continuar con Preparación de datos.")
     with status_col:
         profile = st.session_state.get("dataset_profile")
         df = st.session_state.get("df")

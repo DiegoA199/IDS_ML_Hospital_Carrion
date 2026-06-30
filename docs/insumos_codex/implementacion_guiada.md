@@ -35,6 +35,7 @@ La segunda navegación interna del prototipo anterior fue retirada. La interfaz 
 ## Límites
 
 - Los mockups no aportan datos reales ni autorizan acciones defensivas automáticas inexistentes.
-- Los valores mostrados por la aplicación provienen de sesión o persistencia, no de ejemplos dibujados.
+- Cuando no existen inferencias persistidas, el dashboard presenta valores sintéticos con la etiqueta visible `Vista demostrativa`; se reemplazan automáticamente al existir datos reales.
+- Carga de datos incluye un dataset sintético identificable para recorrer preparación, entrenamiento, comparación y predicción sin confundirlo con evidencia hospitalaria real.
 - Las recomendaciones científicas se adoptan solo cuando son compatibles con el alcance y las pruebas actuales.
 - Plan de pruebas, estado del arte, mockups e insumos Codex permanecen fuera del menú productivo.
