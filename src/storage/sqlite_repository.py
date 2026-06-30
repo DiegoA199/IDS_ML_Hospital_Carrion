@@ -158,6 +158,51 @@ class SQLiteRepository(IDSMLRepository):
             )
             """
             )
+            conn.execute(
+                """
+            CREATE TABLE IF NOT EXISTS test_plan (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                code TEXT NOT NULL UNIQUE,
+                module TEXT NOT NULL,
+                description TEXT NOT NULL,
+                test_type TEXT NOT NULL,
+                standard TEXT NOT NULL,
+                input_data TEXT,
+                expected_result TEXT NOT NULL,
+                obtained_result TEXT,
+                status TEXT NOT NULL DEFAULT 'Pendiente',
+                responsible TEXT NOT NULL,
+                execution_date TEXT NOT NULL,
+                evidence TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+            """
+            )
+            conn.execute(
+                """
+            CREATE TABLE IF NOT EXISTS literature_implementation (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                article_code TEXT NOT NULL UNIQUE,
+                authors TEXT NOT NULL,
+                year INTEGER NOT NULL,
+                title TEXT NOT NULL,
+                source TEXT NOT NULL,
+                contribution_type TEXT NOT NULL,
+                problem TEXT NOT NULL,
+                method TEXT NOT NULL,
+                technologies TEXT NOT NULL,
+                main_results TEXT NOT NULL,
+                relation_with_project TEXT NOT NULL,
+                related_dimension TEXT NOT NULL,
+                citation_format TEXT NOT NULL,
+                link_or_doi TEXT,
+                observations TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+            """
+            )
 
     def save_alert(self, alert: dict) -> str:
         aid = str(alert.get("alert_uuid") or uuid.uuid4())
@@ -430,6 +475,83 @@ class SQLiteRepository(IDSMLRepository):
             return None
         cols = ["id", "registered_at", "model_name", "f1_score", "bundle_path", "version_label"]
         return dict(zip(cols, row))
+
+    def save_test_case(self, test_case: dict[str, Any]) -> int:
+        now = datetime.now().isoformat()
+        with self._connect() as conn:
+            cur = conn.execute(
+                """INSERT INTO test_plan (
+                    code, module, description, test_type, standard, input_data,
+                    expected_result, obtained_result, status, responsible,
+                    execution_date, evidence, created_at, updated_at
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (
+                    test_case["code"], test_case["module"], test_case["description"],
+                    test_case["test_type"], test_case["standard"], test_case.get("input_data", ""),
+                    test_case["expected_result"], test_case.get("obtained_result", ""),
+                    test_case.get("status", "Pendiente"), test_case["responsible"],
+                    test_case["execution_date"], test_case.get("evidence", ""), now, now,
+                ),
+            )
+            return int(cur.lastrowid)
+
+    def list_test_cases(self, limit: int = 1000) -> list[dict[str, Any]]:
+        with self._connect() as conn:
+            cur = conn.execute(
+                """SELECT id, code, module, description, test_type, standard, input_data,
+                          expected_result, obtained_result, status, responsible,
+                          execution_date, evidence, created_at, updated_at
+                   FROM test_plan ORDER BY code ASC LIMIT ?""",
+                (limit,),
+            )
+            cols = [d[0] for d in cur.description]
+            return [dict(zip(cols, row)) for row in cur.fetchall()]
+
+    def update_test_case_status(
+        self, code: str, status: str, obtained_result: str = "", evidence: str = ""
+    ) -> bool:
+        with self._connect() as conn:
+            cur = conn.execute(
+                """UPDATE test_plan
+                   SET status=?, obtained_result=?, evidence=?, updated_at=?
+                   WHERE code=?""",
+                (status, obtained_result, evidence, datetime.now().isoformat(), code),
+            )
+            return cur.rowcount > 0
+
+    def save_literature_article(self, article: dict[str, Any]) -> int:
+        now = datetime.now().isoformat()
+        with self._connect() as conn:
+            cur = conn.execute(
+                """INSERT INTO literature_implementation (
+                    article_code, authors, year, title, source, contribution_type,
+                    problem, method, technologies, main_results, relation_with_project,
+                    related_dimension, citation_format, link_or_doi, observations,
+                    created_at, updated_at
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                (
+                    article["article_code"], article["authors"], int(article["year"]),
+                    article["title"], article["source"], article["contribution_type"],
+                    article["problem"], article["method"], article["technologies"],
+                    article["main_results"], article["relation_with_project"],
+                    article["related_dimension"], article["citation_format"],
+                    article.get("link_or_doi", ""), article.get("observations", ""), now, now,
+                ),
+            )
+            return int(cur.lastrowid)
+
+    def list_literature_articles(self, limit: int = 1000) -> list[dict[str, Any]]:
+        with self._connect() as conn:
+            cur = conn.execute(
+                """SELECT id, article_code, authors, year, title, source, contribution_type,
+                          problem, method, technologies, main_results, relation_with_project,
+                          related_dimension, citation_format, link_or_doi, observations,
+                          created_at, updated_at
+                   FROM literature_implementation ORDER BY year DESC, article_code ASC LIMIT ?""",
+                (limit,),
+            )
+            cols = [d[0] for d in cur.description]
+            return [dict(zip(cols, row)) for row in cur.fetchall()]
 
     def get_dashboard_counts(self) -> dict[str, int]:
         with self._connect() as conn:

@@ -753,3 +753,42 @@ CREATE TABLE IF NOT EXISTS controles_cumplimiento (
     FOREIGN KEY (norma_referencia_id) REFERENCES normas_referencia(id)
 );
 
+CREATE TABLE IF NOT EXISTS test_plan (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    module TEXT NOT NULL,
+    description TEXT NOT NULL,
+    test_type TEXT NOT NULL CHECK (test_type IN ('Funcional', 'Integración', 'Rendimiento', 'Seguridad', 'Usabilidad')),
+    standard TEXT NOT NULL,
+    input_data TEXT,
+    expected_result TEXT NOT NULL,
+    obtained_result TEXT,
+    status TEXT NOT NULL DEFAULT 'Pendiente' CHECK (status IN ('Pendiente', 'Aprobado', 'Observado', 'Fallido')),
+    responsible TEXT NOT NULL,
+    execution_date TEXT NOT NULL,
+    evidence TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS literature_implementation (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_code TEXT NOT NULL UNIQUE,
+    authors TEXT NOT NULL,
+    year INTEGER NOT NULL CHECK (year >= 1900),
+    title TEXT NOT NULL,
+    source TEXT NOT NULL,
+    contribution_type TEXT NOT NULL,
+    problem TEXT NOT NULL,
+    method TEXT NOT NULL,
+    technologies TEXT NOT NULL,
+    main_results TEXT NOT NULL,
+    relation_with_project TEXT NOT NULL,
+    related_dimension TEXT NOT NULL,
+    citation_format TEXT NOT NULL,
+    link_or_doi TEXT,
+    observations TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+

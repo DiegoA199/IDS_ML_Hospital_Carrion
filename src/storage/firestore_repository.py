@@ -28,6 +28,8 @@ COL_AUDIT_EVENTS = "idsml_audit_events"
 COL_ERRORS = "idsml_system_errors"
 COL_REPORTS = "idsml_reports"
 COL_MODELS = "idsml_model_versions"
+COL_TEST_PLAN = "idsml_test_plan"
+COL_LITERATURE = "idsml_literature_implementation"
 
 
 def _utc_now_iso() -> str:
@@ -330,6 +332,58 @@ class FirestoreRepository(IDSMLRepository):
             d["id"] = d.get("id", snap.id)
             return d
         return None
+
+    def save_test_case(self, test_case: dict[str, Any]) -> int:
+        code = str(test_case["code"])
+        ref = self._db.collection(COL_TEST_PLAN).document(code)
+        if ref.get().exists:
+            raise ValueError(f"Ya existe el caso de prueba {code}.")
+        now = _utc_now_iso()
+        row_id = _row_id_from_uid(code)
+        ref.set({**test_case, "id": row_id, "created_at": now, "updated_at": now})
+        return row_id
+
+    def list_test_cases(self, limit: int = 1000) -> list[dict[str, Any]]:
+        out: list[dict[str, Any]] = []
+        query = self._db.collection(COL_TEST_PLAN).order_by("code").limit(limit)
+        for snap in query.stream():
+            data = snap.to_dict() or {}
+            data["id"] = data.get("id", snap.id)
+            out.append(data)
+        return out
+
+    def update_test_case_status(
+        self, code: str, status: str, obtained_result: str = "", evidence: str = ""
+    ) -> bool:
+        ref = self._db.collection(COL_TEST_PLAN).document(code)
+        if not ref.get().exists:
+            return False
+        ref.update({
+            "status": status,
+            "obtained_result": obtained_result,
+            "evidence": evidence,
+            "updated_at": _utc_now_iso(),
+        })
+        return True
+
+    def save_literature_article(self, article: dict[str, Any]) -> int:
+        code = str(article["article_code"])
+        ref = self._db.collection(COL_LITERATURE).document(code)
+        if ref.get().exists:
+            raise ValueError(f"Ya existe el artículo {code}.")
+        now = _utc_now_iso()
+        row_id = _row_id_from_uid(code)
+        ref.set({**article, "id": row_id, "created_at": now, "updated_at": now})
+        return row_id
+
+    def list_literature_articles(self, limit: int = 1000) -> list[dict[str, Any]]:
+        out: list[dict[str, Any]] = []
+        query = self._db.collection(COL_LITERATURE).order_by("year", direction=Query.DESCENDING).limit(limit)
+        for snap in query.stream():
+            data = snap.to_dict() or {}
+            data["id"] = data.get("id", snap.id)
+            out.append(data)
+        return out
 
     def get_dashboard_counts(self) -> dict[str, int]:
         db = self._db

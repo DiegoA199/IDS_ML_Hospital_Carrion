@@ -18,7 +18,7 @@ El proyecto ya incluye:
 - `Dockerfile`: construye la aplicacion Streamlit.
 - `render.yaml`: define solo el servicio web Docker.
 - `scripts/start_render.sh`: inicializa la base y arranca Streamlit.
-- `database/init_postgres.py`: crea el modelo PostgreSQL de 60 tablas y carga datos demo si la base esta vacia.
+- `database/init_postgres.py`: crea el modelo PostgreSQL de 62 tablas y carga datos demo si la base esta vacia.
 - `database/postgresql/schema.sql`: estructura relacional para produccion.
 - `database/postgresql/seed_demo.sql`: datos demo para sustentacion.
 
@@ -45,7 +45,7 @@ Render asignara una URL similar a:
 https://ids-ml-hospital-carrion.onrender.com
 ```
 
-Durante el primer arranque, `scripts/start_render.sh` ejecuta `database/init_postgres.py`. Ese script crea las 60 tablas y carga datos demo si todavia no existen registros iniciales.
+Durante el primer arranque, `scripts/start_render.sh` ejecuta `database/init_postgres.py`. Ese script crea las 62 tablas y carga datos demo si todavia no existen registros iniciales.
 
 ## Variables de entorno
 
@@ -137,7 +137,7 @@ WHERE table_schema = 'public'
 ORDER BY table_name;
 ```
 
-El modelo formal debe mostrar 60 tablas academicas, ademas de tablas operativas internas si la aplicacion ya registro ejecuciones.
+El modelo formal debe mostrar 62 tablas academicas, ademas de tablas operativas internas si la aplicacion ya registro ejecuciones.
 
 ## Consideraciones de produccion
 

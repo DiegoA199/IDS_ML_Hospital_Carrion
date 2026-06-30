@@ -85,6 +85,8 @@ Estas credenciales son solo para laboratorio y sustentacion. Antes de produccion
 - Analisis de trafico nuevo.
 - Centro de alertas TI.
 - Reportes y trazabilidad.
+- Plan de Pruebas con registro, filtros, indicadores, actualización de ejecución y exportación CSV.
+- Estado del Arte - Implementación de Software como matriz académica, con búsqueda, filtros, gráficos y exportación CSV.
 - Administracion de usuarios y roles.
 - Configuracion y estado del sistema.
 - Vista academica del modelo de base de datos.
@@ -104,13 +106,13 @@ Estas credenciales son solo para laboratorio y sustentacion. Antes de produccion
 | `src/models/` | Entrenamiento, evaluacion y persistencia Joblib. |
 | `src/storage/` | Repositorios SQLite, PostgreSQL, Firestore y `repository_factory`. |
 | `src/ui/` | Vistas Streamlit y tema visual. |
-| `database/` | Modelo relacional academico de 60 tablas. |
+| `database/` | Modelo relacional academico de 62 tablas. |
 | `docs/` | Documentacion de base de datos, pruebas y SonarQube. |
 | `tests/` | Pruebas unitarias, integracion y fixtures. |
 
 ## Base de datos
 
-El proyecto contiene un modelo relacional formal de 60 tablas para el IDS-ML hospitalario:
+El proyecto contiene un modelo relacional formal de 62 tablas para el IDS-ML hospitalario. Las tablas `test_plan` y `literature_implementation` respaldan los nuevos módulos académicos y de calidad:
 
 - `database/schema.sql`: version SQLite para pruebas locales.
 - `database/postgresql/schema.sql`: version PostgreSQL para Docker/produccion.
@@ -118,6 +120,24 @@ El proyecto contiene un modelo relacional formal de 60 tablas para el IDS-ML hos
 - `database/postgresql/seed_demo.sql`: datos demo para PostgreSQL.
 - `docs/base_datos/modelo_er_ids_ml.dbml`: modelo para dbdiagram.io.
 - `docs/base_datos/diccionario_datos.md`: diccionario de datos.
+
+## Plan de Pruebas
+
+El módulo **Plan de Pruebas** permite registrar casos `CP-XX`, consultar la matriz completa, filtrar por estado, tipo y módulo, y actualizar el estado junto con el resultado obtenido y su evidencia. Presenta total, aprobados, fallidos, pendientes y porcentaje de cumplimiento. La vista filtrada puede exportarse como CSV UTF-8.
+
+Incluye diez casos iniciales (`CP-01` a `CP-10`) que cubren dataset, preprocesamiento, Random Forest, SVM, métricas, matriz de confusión, predicción, alertas, persistencia y reportes. Los códigos son únicos y los formularios validan campos obligatorios, estado, norma, tipo y fecha.
+
+## Estado del Arte - Implementación de Software
+
+Este módulo funciona como una matriz de sustento académico, no solo como bibliografía. Cada artículo registra problema, método, tecnologías, resultados, relación concreta con IDS-ML, dimensión, cita y DOI/enlace. Permite:
+
+- Buscar por autor, título, método o palabra clave.
+- Filtrar por año, dimensión, aporte y tecnología.
+- Identificar qué artículos sustentan cada dimensión del prototipo.
+- Visualizar artículos por año, tipo de aporte y dimensión.
+- Exportar la matriz filtrada a CSV UTF-8.
+
+Ambos módulos usan el repository pattern existente. PostgreSQL/Neon es utilizado cuando `DATABASE_URL` está configurado; si la conexión no está disponible, la fábrica conserva el fallback SQLite local. Firestore también implementa el mismo contrato.
 
 Crear una base SQLite local:
 
@@ -262,7 +282,7 @@ No versionar:
 El repo esta preparado para Render con Docker y PostgreSQL externo. Esta configuracion evita que Render cree una base administrada propia y pida pago por el motor de base de datos.
 
 - `render.yaml` define solo el web service.
-- `scripts/start_render.sh` inicializa las 60 tablas y arranca Streamlit.
+- `scripts/start_render.sh` inicializa las 62 tablas y arranca Streamlit.
 - `database/init_postgres.py` ejecuta `database/postgresql/schema.sql` y carga seed demo si la base esta vacia.
 
 Flujo recomendado:
@@ -315,7 +335,7 @@ Recomendacion para produccion:
 
 ## Pendientes
 
-- Integrar progresivamente las 60 tablas formales con todos los repositorios operativos.
+- Integrar progresivamente las 62 tablas formales con todos los repositorios operativos.
 - Reemplazar autenticacion demo por IAM institucional.
 - Validar el flujo completo con datasets reales de tesis.
 - Mantener actualizada la evidencia SonarQube/SonarCloud despues de cambios grandes.

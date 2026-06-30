@@ -135,6 +135,30 @@ class IDSMLRepository(ABC):
     def get_active_model_version(self) -> dict[str, Any] | None:
         """Metadatos del modelo activo o ``None``."""
 
+    # --- Plan de pruebas ---
+    @abstractmethod
+    def save_test_case(self, test_case: dict[str, Any]) -> int:
+        """Registra un caso de prueba y devuelve su identificador."""
+
+    @abstractmethod
+    def list_test_cases(self, limit: int = 1000) -> list[dict[str, Any]]:
+        """Lista los casos de prueba más recientes."""
+
+    @abstractmethod
+    def update_test_case_status(
+        self, code: str, status: str, obtained_result: str = "", evidence: str = ""
+    ) -> bool:
+        """Actualiza la ejecución de un caso identificado por su código."""
+
+    # --- Estado del arte ---
+    @abstractmethod
+    def save_literature_article(self, article: dict[str, Any]) -> int:
+        """Registra un artículo en la matriz académica."""
+
+    @abstractmethod
+    def list_literature_articles(self, limit: int = 1000) -> list[dict[str, Any]]:
+        """Lista los artículos de la matriz académica."""
+
     # --- Agregados dashboard / estado ---
     @abstractmethod
     def get_dashboard_counts(self) -> dict[str, int]:

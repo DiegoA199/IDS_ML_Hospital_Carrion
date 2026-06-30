@@ -4,7 +4,7 @@ Este directorio contiene el modelo relacional académico del sistema IDS-ML para
 
 ## Archivos
 
-- `schema.sql`: crea 60 tablas relacionales con claves primarias, claves foráneas, estados y marcas de tiempo.
+- `schema.sql`: crea 62 tablas relacionales con claves primarias, claves foráneas, estados y marcas de tiempo.
 - `seed_demo.sql`: carga datos demostrativos no sensibles.
 - `init_db.py`: inicializa una base SQLite local.
 

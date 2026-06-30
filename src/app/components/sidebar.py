@@ -10,6 +10,10 @@ SIDEBAR_SECTIONS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("Monitoreo IDS", ("Dashboard", "Alertas e historial", "Reportes")),
     ("Pipeline ML", ("Dataset", "Preprocesamiento", "Entrenamiento", "Inferencia")),
     (
+        "Calidad e investigación",
+        ("Plan de Pruebas", "Estado del Arte - Implementación de Software"),
+    ),
+    (
         "Administración",
         ("Base de datos", "Usuarios y roles", "Configuración", "Estado del sistema"),
     ),

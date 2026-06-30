@@ -6,7 +6,7 @@ El modelo logico relacional del sistema IDS-ML organiza la informacion requerida
 
 ## 2. Evidencia visual
 
-El modelo formal de tesis contiene 60 tablas academicas. Al ejecutarse en PostgreSQL tambien se visualizan 8 tablas operativas que usa la aplicacion para guardar ejecuciones reales, por lo que el motor puede mostrar 68 tablas.
+El modelo formal de tesis contiene 62 tablas academicas. Al ejecutarse en PostgreSQL tambien se visualizan 8 tablas operativas que usa la aplicacion para guardar ejecuciones reales, por lo que el motor puede mostrar 70 tablas.
 
 La evidencia real capturada desde Adminer/PostgreSQL es:
 
@@ -55,7 +55,7 @@ Las siguientes laminas son referenciales para explicar el modelo:
 - Los reportes generados registran trazabilidad de exportacion y usuario responsable.
 - Los controles de cumplimiento vinculan el sistema con normas de referencia como ISO/IEC 27001, ISO/IEC 25010 y NIST CSF.
 
-## 5. Justificacion de 60 tablas
+## 5. Justificacion de 62 tablas
 
 El numero de tablas no busca inflar artificialmente el modelo, sino separar responsabilidades para una tesis revisable: seguridad, activos, datos, ML, prediccion, alertas, incidentes, auditoria, reportes y cumplimiento. Esta separacion evita una base monolitica, reduce redundancia, permite normalizacion y facilita explicar cada modulo durante sustentacion.
 

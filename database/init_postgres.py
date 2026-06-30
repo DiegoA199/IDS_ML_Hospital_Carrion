@@ -51,7 +51,7 @@ def initialize_postgres(explicit_dsn: str | None = None, with_seed: bool = True)
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Inicializa PostgreSQL con el modelo IDS-ML de 60 tablas."
+        description="Inicializa PostgreSQL con el modelo IDS-ML de 62 tablas."
     )
     parser.add_argument("--dsn", help="DSN PostgreSQL. Si se omite usa DATABASE_URL/POSTGRES_DSN.")
     parser.add_argument("--no-seed", action="store_true", help="No carga datos demo.")

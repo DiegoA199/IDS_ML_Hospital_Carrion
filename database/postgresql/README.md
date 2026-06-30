@@ -1,6 +1,6 @@
 # PostgreSQL para IDS-ML
 
-Este directorio contiene la versión PostgreSQL del modelo relacional académico de 60 tablas.
+Este directorio contiene la versión PostgreSQL del modelo relacional académico de 62 tablas.
 
 ## Archivos
 

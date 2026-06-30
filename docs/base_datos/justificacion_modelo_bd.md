@@ -19,7 +19,7 @@ Lamina explicativa del modelo:
 
 ![Resumen visual de base de datos](../evidencias/base_datos_60_tablas.png)
 
-El diseno documenta 60 tablas formales para la tesis. En PostgreSQL pueden visualizarse 68 tablas porque la aplicacion agrega 8 tablas operativas para guardar datos reales del prototipo: alertas, experimentos, predicciones, auditoria, errores, reportes y versiones de modelo.
+El diseno documenta 62 tablas formales para la tesis. En PostgreSQL pueden visualizarse 70 tablas porque la aplicacion agrega 8 tablas operativas para guardar datos reales del prototipo: alertas, experimentos, predicciones, auditoria, errores, reportes y versiones de modelo.
 
 ## Criterios de diseno
 
@@ -33,7 +33,7 @@ El diseno documenta 60 tablas formales para la tesis. En PostgreSQL pueden visua
 
 ## Razon del numero de tablas
 
-El modelo contiene 60 tablas porque el sistema IDS-ML no es solo un clasificador ML; tambien incluye gestion de datasets, arquitectura institucional, activos de red, eventos, alertas, incidentes, reportes y cumplimiento. Separar estos conceptos permite defender el modelo en una tesis y demostrar que el prototipo puede evolucionar hacia un sistema institucional.
+El modelo contiene 62 tablas porque el sistema IDS-ML no es solo un clasificador ML; tambien incluye gestion de datasets, arquitectura institucional, activos de red, eventos, alertas, incidentes, reportes, cumplimiento, plan de pruebas y sustento académico. Separar estos conceptos permite defender el modelo en una tesis y demostrar que el prototipo puede evolucionar hacia un sistema institucional.
 
 ## Orientacion normativa
 

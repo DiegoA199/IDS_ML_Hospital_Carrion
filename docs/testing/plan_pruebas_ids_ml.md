@@ -90,7 +90,7 @@ Incluye pruebas unitarias, integración, funcionales, interfaz, seguridad básic
 | CP-020 | Alertas | Unitaria | Severidad normal | Servicio alerta | normal | severity_from_label | Baja | Pendiente ejecución | Pendiente | pytest |
 | CP-021 | Alertas | Unitaria | Severidad amenaza | Servicio alerta | DDoS | severity_from_label | Alta | Pendiente ejecución | Pendiente | pytest |
 | CP-022 | Alertas | Integración | Generar alerta por predicción | Predicciones | etiquetas/confianza | build_alerts_from_predictions | Lista alertas | Pendiente ejecución | Pendiente | pytest |
-| CP-023 | SQLite | Integración | Crear esquema | schema.sql | db temporal | init_db | 60 tablas | Pendiente ejecución | Pendiente | pytest |
+| CP-023 | SQLite | Integración | Crear esquema | schema.sql | db temporal | init_db | 62 tablas | Pendiente ejecución | Pendiente | pytest |
 | CP-024 | SQLite | Integración | Cargar seed | seed_demo.sql | db temporal | init_db | Datos demo | Pendiente ejecución | Pendiente | pytest |
 | CP-025 | Repository | Integración | Persistir alerta | SQLite repo | alerta | save_alert/list_alerts | Alerta recuperada | Pendiente ejecución | Pendiente | pytest |
 | CP-026 | Reportes | Integración | Generar CSV | Repo con datos | usuario demo | export_summary_csv | Archivo CSV | Pendiente ejecución | Pendiente | pytest |

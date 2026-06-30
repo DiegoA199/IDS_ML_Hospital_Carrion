@@ -677,6 +677,45 @@ Table controles_cumplimiento {
   updated_at varchar [not null]
 }
 
+Table test_plan {
+  id int [pk, increment]
+  code varchar [not null, unique]
+  module varchar [not null]
+  description varchar [not null]
+  test_type varchar [not null]
+  standard varchar [not null]
+  input_data varchar
+  expected_result varchar [not null]
+  obtained_result varchar
+  status varchar [not null]
+  responsible varchar [not null]
+  execution_date date [not null]
+  evidence varchar
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
+Table literature_implementation {
+  id int [pk, increment]
+  article_code varchar [not null, unique]
+  authors varchar [not null]
+  year int [not null]
+  title varchar [not null]
+  source varchar [not null]
+  contribution_type varchar [not null]
+  problem varchar [not null]
+  method varchar [not null]
+  technologies varchar [not null]
+  main_results varchar [not null]
+  relation_with_project varchar [not null]
+  related_dimension varchar [not null]
+  citation_format varchar [not null]
+  link_or_doi varchar
+  observations varchar
+  created_at varchar [not null]
+  updated_at varchar [not null]
+}
+
 Ref: usuarios_roles.usuario_id > usuarios.id
 Ref: usuarios_roles.rol_id > roles.id
 Ref: roles_permisos.rol_id > roles.id

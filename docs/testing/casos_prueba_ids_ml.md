@@ -26,7 +26,7 @@ Los siguientes casos desarrollan la matriz principal del plan de pruebas. Deben 
 | CP-020 | Alertas | Unitaria | Etiqueta `normal`. | Severidad baja. |
 | CP-021 | Alertas | Unitaria | Etiqueta `DDoS`. | Severidad alta. |
 | CP-022 | Alertas | Integración | Convertir predicciones en alertas. | Lista de alertas persistibles. |
-| CP-023 | SQLite | Integración | Inicializar esquema relacional. | 60 tablas creadas. |
+| CP-023 | SQLite | Integración | Inicializar esquema relacional. | 62 tablas creadas. |
 | CP-024 | SQLite | Integración | Insertar seed demo. | Roles, usuarios y catálogos básicos cargados. |
 | CP-025 | Repository | Integración | Guardar/listar alerta en SQLite. | Alerta recuperada. |
 | CP-026 | Reportes | Integración | Generar reporte CSV. | Archivo creado y registro persistido. |

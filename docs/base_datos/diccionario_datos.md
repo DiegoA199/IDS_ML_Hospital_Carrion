@@ -500,3 +500,36 @@ Diccionario generado a partir de `database/schema.sql`. Las descripciones son ac
 | controles_cumplimiento | estado | TEXT | - | Estado operativo del registro. | NOT NULL DEFAULT 'activo' |
 | controles_cumplimiento | created_at | TEXT | - | Fecha de creaci?n del registro. | NOT NULL DEFAULT CURRENT_TIMESTAMP |
 | controles_cumplimiento | updated_at | TEXT | - | Fecha de ?ltima actualizaci?n del registro. | NOT NULL DEFAULT CURRENT_TIMESTAMP |
+| test_plan | id | INTEGER | PK | Identificador interno del caso de prueba. | PRIMARY KEY AUTOINCREMENT |
+| test_plan | code | TEXT | - | Código único del caso de prueba. | NOT NULL UNIQUE |
+| test_plan | module | TEXT | - | Módulo funcional evaluado. | NOT NULL |
+| test_plan | description | TEXT | - | Objetivo y alcance del caso. | NOT NULL |
+| test_plan | test_type | TEXT | - | Tipo funcional, integración, rendimiento, seguridad o usabilidad. | NOT NULL |
+| test_plan | standard | TEXT | - | Norma ISO relacionada. | NOT NULL |
+| test_plan | input_data | TEXT | - | Datos o precondiciones de entrada. | - |
+| test_plan | expected_result | TEXT | - | Comportamiento esperado. | NOT NULL |
+| test_plan | obtained_result | TEXT | - | Resultado observado durante la ejecución. | - |
+| test_plan | status | TEXT | - | Pendiente, Aprobado, Observado o Fallido. | NOT NULL DEFAULT 'Pendiente' |
+| test_plan | responsible | TEXT | - | Persona o rol responsable. | NOT NULL |
+| test_plan | execution_date | TEXT | - | Fecha planificada o real de ejecución. | NOT NULL |
+| test_plan | evidence | TEXT | - | Evidencia, ruta o comentario de ejecución. | - |
+| test_plan | created_at | TEXT | - | Fecha de creación del registro. | NOT NULL DEFAULT CURRENT_TIMESTAMP |
+| test_plan | updated_at | TEXT | - | Fecha de última actualización. | NOT NULL DEFAULT CURRENT_TIMESTAMP |
+| literature_implementation | id | INTEGER | PK | Identificador interno del artículo. | PRIMARY KEY AUTOINCREMENT |
+| literature_implementation | article_code | TEXT | - | Código único de la matriz académica. | NOT NULL UNIQUE |
+| literature_implementation | authors | TEXT | - | Autor o autores. | NOT NULL |
+| literature_implementation | year | INTEGER | - | Año de publicación. | NOT NULL |
+| literature_implementation | title | TEXT | - | Título del artículo. | NOT NULL |
+| literature_implementation | source | TEXT | - | Revista, conferencia o fuente. | NOT NULL |
+| literature_implementation | contribution_type | TEXT | - | Tipo de aporte a la implementación. | NOT NULL |
+| literature_implementation | problem | TEXT | - | Problema de investigación abordado. | NOT NULL |
+| literature_implementation | method | TEXT | - | Método o diseño del estudio. | NOT NULL |
+| literature_implementation | technologies | TEXT | - | Tecnologías y herramientas analizadas. | NOT NULL |
+| literature_implementation | main_results | TEXT | - | Resultados principales del artículo. | NOT NULL |
+| literature_implementation | relation_with_project | TEXT | - | Sustento concreto para IDS-ML. | NOT NULL |
+| literature_implementation | related_dimension | TEXT | - | Dimensión de investigación respaldada. | NOT NULL |
+| literature_implementation | citation_format | TEXT | - | Cita ISO 690 o IEEE. | NOT NULL |
+| literature_implementation | link_or_doi | TEXT | - | DOI o enlace de consulta. | - |
+| literature_implementation | observations | TEXT | - | Notas de análisis académico. | - |
+| literature_implementation | created_at | TEXT | - | Fecha de creación del registro. | NOT NULL DEFAULT CURRENT_TIMESTAMP |
+| literature_implementation | updated_at | TEXT | - | Fecha de última actualización. | NOT NULL DEFAULT CURRENT_TIMESTAMP |

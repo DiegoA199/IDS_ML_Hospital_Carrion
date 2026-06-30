@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 def render_page(page: str, repo: IDSMLRepository) -> None:
     from collections.abc import Callable
 
-    from src.ui import pages
+    from src.ui import academic_pages, pages
 
     routes: dict[str, Callable[[IDSMLRepository], None]] = {
         "Dashboard": pages.render_dashboard,
@@ -23,6 +23,8 @@ def render_page(page: str, repo: IDSMLRepository) -> None:
         "Inferencia": pages.render_inference,
         "Alertas e historial": pages.render_alerts,
         "Reportes": pages.render_reports,
+        "Plan de Pruebas": academic_pages.render_test_plan,
+        "Estado del Arte - Implementación de Software": academic_pages.render_literature_implementation,
         "Base de datos": pages.render_database_model,
         "Usuarios y roles": pages.render_users,
         "Configuración": pages.render_settings,

@@ -75,6 +75,8 @@ TABLE_MODULES: dict[str, str] = {
     "umbrales_alerta": "Mejora continua",
     "normas_referencia": "Normas ISO/NIST y controles",
     "controles_cumplimiento": "Normas ISO/NIST y controles",
+    "test_plan": "Calidad y plan de pruebas",
+    "literature_implementation": "Estado del arte",
 }
 
 
