@@ -34,8 +34,8 @@ Resultado:
 
 | Indicador | Resultado |
 |---|---:|
-| Pruebas recolectadas | 44 |
-| Pruebas exitosas | 44 |
+| Pruebas recolectadas | 46 |
+| Pruebas exitosas | 46 |
 | Pruebas fallidas | 0 |
 | Cobertura efectiva | 92% |
 | Reporte XML generado | `coverage.xml` |
@@ -59,8 +59,10 @@ La evidencia visual real para anexar al informe se encuentra en:
 | Security Rating | A |
 | Maintainability Rating | A |
 | Lineas de codigo analizadas | 1615 |
-| Fecha de verificacion documentada | 2026-06-23 |
-| Revision | Commit `f67055f` y corrida GitHub Actions `28049612664` |
+| Fecha de verificacion documentada | 2026-06-30 |
+| Revision funcional | Commit `565901b`, PR #2 y corrida GitHub Actions `28429302845` |
+
+SonarCloud Automatic Analysis proceso el commit funcional `565901b` del PR #2 y aprobo el Quality Gate. La corrida de GitHub Actions termino correctamente con las 46 pruebas y el reporte de cobertura; el paso del scanner de CI se omitio porque el repositorio todavia no dispone del secreto `SONAR_TOKEN`. Por ello, el 92% corresponde a la medicion local y al artefacto de Actions, pero aun no figura como metrica importada por SonarCloud.
 
 El analisis oficial se ejecuto con alcance ajustado mediante `.sonarcloud.properties`, evitando que SonarCloud trate documentacion, scripts de apoyo, SQL academico o prototipos como codigo productivo de la aplicacion.
 
@@ -131,6 +133,7 @@ Se agregaron pruebas para:
 - configuracion de persistencia;
 - repositorio SQLite con alertas, predicciones, errores, reportes, versiones de modelo y conteos;
 - generacion de reportes CSV y PDF.
+- configuracion de navegacion para exponer solo los modulos operativos del producto.
 
 ## 9. Archivos de evidencia
 
@@ -146,6 +149,7 @@ Se agregaron pruebas para:
 | `docs/sonarqube/evidencia_quality_gate_sonarcloud.md` | Evidencia oficial del Quality Gate |
 | `docs/evidencias/reales/sonarcloud_dashboard_real.png` | Captura real del dashboard SonarCloud |
 | `docs/evidencias/reales/sonarcloud_quality_gate_api_real.txt` | Respuesta real de la API Quality Gate |
+| `docs/evidencias/reales/sonarcloud_pr2_verificacion_real.txt` | Snapshot verificable del analisis actual del PR #2 |
 
 ## 10. Pasos para reproducir el reporte oficial
 
@@ -181,4 +185,4 @@ Se agregaron pruebas para:
 
 ## 12. Conclusion
 
-El proyecto IDS-ML queda aprobado en el analisis oficial de SonarCloud con **Quality Gate OK**, **0 bugs**, **0 vulnerabilidades**, **0 security hotspots**, **0 code smells** y **0.0% de duplicacion**. Localmente, las pruebas automatizadas pasan correctamente y la cobertura efectiva alcanza **92%**, lo que permite presentar evidencia de calidad, mantenibilidad y preparacion tecnica dentro del informe de tesis.
+El proyecto IDS-ML queda aprobado en el analisis oficial de SonarCloud con **Quality Gate OK**, **0 bugs**, **0 vulnerabilidades**, **0 security hotspots**, **0 code smells** y **0.0% de duplicacion**. Las **46 pruebas automatizadas** pasan correctamente y la cobertura efectiva local alcanza **92%**, lo que permite presentar evidencia de calidad, mantenibilidad y preparacion tecnica dentro del informe de tesis.

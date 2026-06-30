@@ -1,0 +1,29 @@
+SONARCLOUD - VERIFICACION REAL DEL PR #2
+Fecha de consulta: 2026-06-30
+Proyecto: DiegoA199_IDS_ML_Hospital_Carrion
+PR: 2
+Rama: codex/organizar-insumos-stitch
+Base: main
+Commit funcional analizado: 565901ba7abcf9280dd963d7f115b1632594c547
+Fecha del analisis: 2026-06-30T07:58:14+0000
+
+Quality Gate: OK
+Bugs: 0
+Vulnerabilities: 0
+Security Hotspots: 0
+Code Smells: 0
+Duplicacion: 0.0%
+Reliability Rating: A
+Security Rating: A
+Maintainability Rating: A
+
+Condiciones de nuevo codigo:
+- Nueva confiabilidad: A / OK
+- Nueva seguridad: A / OK
+- Nueva mantenibilidad: A / OK
+- Duplicacion de nuevo codigo: 0.0% / OK
+- Security hotspots revisados: 100.0% / OK
+
+Consulta reproducible:
+https://sonarcloud.io/dashboard?id=DiegoA199_IDS_ML_Hospital_Carrion&pullRequest=2
+https://sonarcloud.io/api/qualitygates/project_status?projectKey=DiegoA199_IDS_ML_Hospital_Carrion&pullRequest=2
