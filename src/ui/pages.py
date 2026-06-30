@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from html import escape
 from typing import TYPE_CHECKING, Any
 
 import pandas as pd
@@ -208,67 +209,79 @@ def _render_results_panel(results: list[Any]) -> None:
 def render_dashboard(repo: "IDSMLRepository") -> None:
     _init_session()
     page_header(
-        "Dashboard ejecutivo",
-        "Vista consolidada del prototipo IDS-ML: modelo activo, inferencias, alertas y auditoría.",
-        tag="Sistema en monitoreo",
+        "Dashboard principal",
+        "Monitoreo de red, amenazas detectadas y actividad reciente del sistema IDS-ML.",
+        tag="Monitoreo activo",
     )
 
     ctx = build_dashboard_context(repo)
     counts = ctx["counts"]
     active_model = ctx.get("active_model") or {}
-    active_f1 = active_model.get("f1_score") or ctx.get("best_f1_session")
-
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        metric_card("Eventos evaluados", format_int(counts.get("prediction_rows", 0)), "Filas persistidas", tone="blue")
-    with c2:
-        metric_card("Amenazas detectadas", format_int(counts.get("amenazas_detectadas", 0)), "Predicciones no benignas", tone="red")
-    with c3:
-        metric_card("Precisión ML", format_percent(active_f1, 2), active_model.get("model_name", "Sin modelo activo"), tone="green", progress=(float(active_f1 or 0) * 100))
-    with c4:
-        metric_card("Alertas activas", format_int(counts.get("alerts", 0)), "Eventos bajo seguimiento", tone="amber")
-
-    normal_rows = max(0, int(counts.get("prediction_rows", 0)) - int(counts.get("amenazas_detectadas", 0)))
+    total_rows = int(counts.get("prediction_rows", 0))
     threat_rows = int(counts.get("amenazas_detectadas", 0))
-    left, right = st.columns([0.9, 1.6])
+    normal_rows = max(0, total_rows - threat_rows)
+    threat_ratio = (threat_rows / total_rows * 100) if total_rows else 0.0
+    risk_label = "Alto" if threat_ratio >= 20 else "Moderado" if threat_ratio >= 5 else "Bajo"
+    risk_tone = "red" if risk_label == "Alto" else "amber" if risk_label == "Moderado" else "blue"
+    severity = ctx.get("severity_distribution") or {}
+    critical_alerts = sum(
+        int(value)
+        for key, value in severity.items()
+        if str(key).strip().lower() in {"crítica", "critica", "alta", "critical", "high"}
+    )
+    last_analysis = ctx.get("last_prediction_at")
+    if last_analysis:
+        try:
+            last_label = pd.to_datetime(last_analysis).strftime("%d/%m %H:%M")
+        except (TypeError, ValueError):
+            last_label = str(last_analysis)
+    else:
+        last_label = "Pendiente"
+
+    c1, c2, c3, c4, c5 = st.columns(5)
+    with c1:
+        metric_card("Eventos analizados", format_int(total_rows), "Registros persistidos", tone="blue")
+    with c2:
+        metric_card("Amenazas detectadas", format_int(threat_rows), f"{threat_ratio:.1f}% del tráfico", tone="red")
+    with c3:
+        metric_card("Alertas críticas", format_int(critical_alerts), "Requieren revisión", tone="red")
+    with c4:
+        metric_card("Riesgo actual", risk_label, f"Índice {threat_ratio:.1f}%", tone=risk_tone, progress=threat_ratio)
+    with c5:
+        metric_card("Último análisis", last_label, active_model.get("model_name", "Sin modelo activo"), tone="slate")
+
+    left, right = st.columns([1.75, 0.75])
     with left:
-        section_title("Distribución de tráfico", "Proporción operacional basada en inferencias persistidas.")
+        section_title("Tráfico: normal vs sospechoso", "Distribución real de las inferencias persistidas.")
         if normal_rows or threat_rows:
             fig = go.Figure(
                 data=[
-                    go.Pie(
-                        labels=["Normal", "Amenaza"],
-                        values=[normal_rows, threat_rows],
-                        hole=0.62,
-                        marker=dict(colors=[PALETTE["blue"], PALETTE["red"]]),
-                    )
+                    go.Bar(name="Normal", x=["Tráfico evaluado"], y=[normal_rows], marker_color=PALETTE["blue"]),
+                    go.Bar(name="Sospechoso", x=["Tráfico evaluado"], y=[threat_rows], marker_color=PALETTE["red"]),
                 ]
             )
-            st.plotly_chart(themed_plotly(fig, height=330), width="stretch")
+            fig.update_layout(barmode="group")
+            st.plotly_chart(themed_plotly(fig, height=350), width="stretch")
         else:
             empty_state("Ejecute una inferencia y persista predicciones para construir esta vista.")
 
     with right:
-        section_title("Paisaje de amenazas", "Severidad registrada en la muestra reciente de alertas.")
-        severity = ctx.get("severity_distribution") or {}
-        if severity:
-            sev_df = pd.DataFrame({"severidad": list(severity.keys()), "alertas": list(severity.values())})
-            fig = px.bar(
-                sev_df,
-                x="severidad",
-                y="alertas",
-                color="severidad",
-                color_discrete_map={
-                    "Alta": PALETTE["red"],
-                    "Crítica": PALETTE["red"],
-                    "Media": PALETTE["amber"],
-                    "Baja": PALETTE["green"],
-                },
-                title="Alertas por severidad",
+        section_title("Amenazas por tipo", "Clasificación de las alertas registradas.")
+        threat_types = ctx.get("threat_type_distribution") or {}
+        if threat_types:
+            fig = go.Figure(
+                data=[
+                    go.Pie(
+                        labels=list(threat_types.keys()),
+                        values=list(threat_types.values()),
+                        hole=0.68,
+                        marker=dict(colors=[PALETTE["red"], PALETTE["blue"], PALETTE["slate"], PALETTE["amber"]]),
+                    )
+                ]
             )
-            st.plotly_chart(themed_plotly(fig, height=330), width="stretch")
+            st.plotly_chart(themed_plotly(fig, height=350), width="stretch")
         else:
-            empty_state("Aún no hay alertas almacenadas.")
+            empty_state("Aún no hay amenazas clasificadas.")
 
     if st.session_state.get("results"):
         section_title("Comparación de la sesión actual", "Resultados recientes aún disponibles en memoria.")
@@ -482,7 +495,7 @@ def render_training(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "Entrenamiento de modelos",
+        "Entrenamiento",
         "Entrena modelos candidatos, compara métricas y registra como activo el mejor clasificador por F1-score.",
         tag="Nodo de modelos",
     )
@@ -563,23 +576,6 @@ def render_comparison(repo: "IDSMLRepository") -> None:
 
     best_index = history_df["f1_score"].idxmax()
     best_row = history_df.loc[best_index]
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        metric_card("Modelo recomendado", best_row.get("model_name", "Sin nombre"), "Mayor F1 persistido", tone="blue")
-    with c2:
-        metric_card("Accuracy", format_percent(best_row.get("accuracy"), 2), "Exactitud global", tone="green")
-    with c3:
-        metric_card("Recall", format_percent(best_row.get("recall"), 2), "Cobertura de amenazas", tone="amber")
-    with c4:
-        metric_card(
-            "F1-score",
-            format_percent(best_row.get("f1_score"), 2),
-            "Balance Precision/Recall",
-            tone="blue",
-            progress=float(best_row.get("f1_score", 0)) * 100,
-        )
-
-    section_title("Rendimiento comparativo", "Historial de experimentos persistidos por modelo.")
     chart_source = history_df.tail(30).copy()
     chart_df = chart_source.melt(
         id_vars=["model_name"],
@@ -596,7 +592,25 @@ def render_comparison(repo: "IDSMLRepository") -> None:
         title="Métricas por modelo",
         color_discrete_sequence=[PALETTE["blue"], PALETTE["green"], PALETTE["amber"], PALETTE["slate"]],
     )
-    st.plotly_chart(themed_plotly(fig, height=380), width="stretch")
+    chart_col, recommended_col = st.columns([1.85, 0.9])
+    with chart_col:
+        section_title("Rendimiento comparativo", "Historial de experimentos persistidos por modelo.")
+        st.plotly_chart(themed_plotly(fig, height=420), width="stretch")
+    with recommended_col:
+        model_name = escape(str(best_row.get("model_name", "Sin nombre")))
+        st.markdown(
+            f"""
+            <div class="ids-recommendation">
+                <span class="ids-recommendation-badge">◎ Modelo recomendado</span>
+                <h3>{model_name}</h3>
+                <p>Seleccionado por ofrecer el mejor equilibrio verificable entre precisión y sensibilidad para el tráfico analizado.</p>
+                <div class="ids-recommendation-metric">F1-score · {format_percent(best_row.get("f1_score"), 2)}</div>
+                <div class="ids-recommendation-metric">Accuracy · {format_percent(best_row.get("accuracy"), 2)}</div>
+                <div class="ids-recommendation-metric">Recall · {format_percent(best_row.get("recall"), 2)}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
     section_title("Matriz de métricas detalladas", "Registro verificable para selección y trazabilidad del modelo.")
     display_columns = [
@@ -620,7 +634,7 @@ def render_inference(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "Predicción de tráfico",
+        "Predicción de tráfico en tiempo real",
         "Carga registros sin columna objetivo, aplica el bundle activo y genera predicciones, alertas y persistencia.",
         tag="Análisis de tráfico",
     )
@@ -876,32 +890,70 @@ def render_reports(repo: "IDSMLRepository") -> None:
         return
 
     page_header(
-        "Reportes exportables",
+        "Generación de reportes",
         "Generación de evidencias CSV/PDF con trazabilidad en el repositorio activo.",
         tag="Reportes",
     )
 
     user = str(st.session_state.get("username", "usuario"))
-    csv_col, pdf_col = st.columns(2)
-    with csv_col:
-        render_card("CSV de experimentos", "Exporta métricas de modelos, conteos y resumen operativo.", tone="blue")
-        if st.button("Generar CSV de experimentos"):
+    filter_date, filter_type, filter_state, filter_action = st.columns([1.2, 1, 1, 0.75])
+    with filter_date:
+        st.date_input("Rango de fechas", value=(datetime.now().date().replace(day=1), datetime.now().date()))
+    with filter_type:
+        st.selectbox("Tipo de reporte", ["Todos los reportes", "Modelos", "Alertas", "Actividad"])
+    with filter_state:
+        st.selectbox("Estado de modelo", ["Todos", "Activos", "Históricos"])
+    with filter_action:
+        st.write("")
+        st.write("")
+        st.button("Aplicar filtros", use_container_width=True)
+
+    section_title("Secciones del reporte", "Exportaciones y resúmenes construidos con los registros persistidos.")
+    summary_col, model_col = st.columns([0.72, 1.55])
+    with summary_col:
+        render_card("Resumen de análisis", "Perspectiva general del tráfico de red, modelos y anomalías detectadas.", tone="blue")
+        if st.button("Exportar CSV", use_container_width=True):
             path = report_gen.export_summary_csv(repo, user)
             log_action(repo, action="export_csv", module="reportes", result="ok", observation=str(path))
             st.success(f"CSV generado: {path}")
-    with pdf_col:
-        render_card("PDF ejecutivo", "Resumen visual para revisión académica o institucional.", tone="green")
-        if st.button("Generar PDF resumen"):
+        if st.button("Descargar PDF", use_container_width=True):
             path = report_gen.export_summary_pdf(repo, user)
             if path:
                 log_action(repo, action="export_pdf", module="reportes", result="ok", observation=str(path))
                 st.success(f"PDF generado: {path}")
             else:
                 st.warning("No se pudo generar PDF. Revise dependencias o registros disponibles.")
+    with model_col:
+        section_title("Resultados de modelos predictivos", "Métricas verificables de los experimentos registrados.")
+        experiments = repo.list_experiments(limit=30)
+        experiments_df = pd.DataFrame(experiments)
+        if experiments_df.empty:
+            empty_state("Aún no hay experimentos para incorporar al reporte.")
+        else:
+            columns = [c for c in ["created_at", "model_name", "precision", "recall", "f1_score"] if c in experiments_df.columns]
+            st.dataframe(experiments_df[columns], width="stretch", hide_index=True)
 
-    section_title("Historial de reportes", "Archivos generados y registrados en persistencia.")
-    reports = repo.list_reports(limit=20)
-    st.dataframe(pd.DataFrame(reports) if reports else pd.DataFrame(), width="stretch", hide_index=True)
+    alerts_col, history_col = st.columns([1.25, 0.9])
+    with alerts_col:
+        section_title("Alertas generadas recientemente", "Incidentes registrados por los ciclos de predicción.")
+        alerts = repo.list_alerts(limit=10)
+        alerts_df = pd.DataFrame(alerts)
+        if alerts_df.empty:
+            empty_state("No hay alertas disponibles en el periodo actual.")
+        else:
+            columns = [c for c in ["created_at", "tipo", "severidad", "estado"] if c in alerts_df.columns]
+            st.dataframe(alerts_df[columns], width="stretch", hide_index=True)
+    with history_col:
+        section_title("Historial de descargas", "Archivos generados y registrados en persistencia.")
+        reports = repo.list_reports(limit=20)
+        if reports:
+            st.dataframe(pd.DataFrame(reports), width="stretch", hide_index=True)
+        else:
+            empty_state("Todavía no se han generado reportes.")
+
+    section_title("Registro detallado de actividad", "Bitácora trazable del sistema para revisión institucional.")
+    audit = repo.list_audit_events(limit=60)
+    st.dataframe(pd.DataFrame(audit) if audit else pd.DataFrame(), width="stretch", hide_index=True)
 
 
 def render_database_model(repo: "IDSMLRepository") -> None:

@@ -11,16 +11,16 @@ import plotly.graph_objects as go
 import streamlit as st
 
 PALETTE = {
-    "background": "#f8f9ff",
+    "background": "#f6f8fd",
     "surface": "#ffffff",
-    "surface_high": "#eff4ff",
-    "surface_higher": "#e5eeff",
-    "border": "#c6cbd5",
+    "surface_high": "#eef4ff",
+    "surface_higher": "#e2ecff",
+    "border": "#c9d0dc",
     "border_soft": "#e2e8f0",
     "text": "#0b1c30",
-    "muted": "#5f6673",
-    "blue": "#0058be",
-    "blue_deep": "#004395",
+    "muted": "#687080",
+    "blue": "#075fc7",
+    "blue_deep": "#004ba8",
     "green": "#07885f",
     "amber": "#a85d00",
     "red": "#ba1a1a",
@@ -70,9 +70,9 @@ def apply_global_theme() -> None:
         }}
 
         [data-testid="stHeader"] {{
-            background: rgba(248, 249, 255, 0.94);
-            border-bottom: 1px solid var(--ids-border);
-            backdrop-filter: blur(12px);
+            height: 0;
+            min-height: 0;
+            background: transparent;
         }}
 
         [data-testid="stToolbar"],
@@ -85,62 +85,52 @@ def apply_global_theme() -> None:
 
         [data-testid="stSidebar"] {{
             background: #111b2f;
-            border-right: 1px solid #26354f;
+            border-right: 0;
+            min-width: 260px;
+            max-width: 260px;
+        }}
+
+        [data-testid="stSidebarHeader"] {{
+            display: none;
+        }}
+
+        [data-testid="stSidebarContent"] {{
+            padding: 0 !important;
+        }}
+
+        [data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"] {{
+            gap: 0 !important;
         }}
 
         [data-testid="stSidebar"] * {{
             color: #dce6f7;
         }}
 
-        [data-testid="stSidebar"] .ids-sidebar-user {{
-            background: #18263f;
-            border: 1px solid #2c3c57;
-            border-radius: 8px;
-            padding: 0.95rem;
-            margin-bottom: 1rem;
-        }}
-
-        [data-testid="stSidebar"] .ids-sidebar-label {{
-            color: #adc6ff;
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 0.35rem;
-        }}
-
-        [data-testid="stSidebar"] .ids-sidebar-section-title {{
-            color: #8e9bb0;
-            font-size: 0.72rem;
-            font-weight: 850;
-            text-transform: uppercase;
-            margin: 1rem 0 0.35rem 0;
-        }}
-
         [data-testid="stSidebar"] .stButton > button {{
             width: 100%;
             justify-content: flex-start;
             text-align: left;
-            min-height: 2.35rem;
-            border-radius: 8px;
-            border: 1px solid transparent;
+            min-height: 3.75rem;
+            border-radius: 0;
+            border: 0;
             background: transparent;
-            color: var(--ids-text);
+            color: #8490a6;
             font-weight: 700;
-            padding-left: 0.75rem;
+            padding: 0 1.45rem;
+            letter-spacing: 0.01em;
         }}
 
         [data-testid="stSidebar"] .stButton > button:hover {{
-            background: rgba(33, 112, 228, 0.14);
-            border-color: rgba(173, 198, 255, 0.26);
+            background: #17243c;
             color: #ffffff;
         }}
 
         [data-testid="stSidebar"] .stButton > button[kind="primary"] {{
             background: #0864ca;
-            border-color: #2170e4;
-            border-left: 4px solid #adc6ff;
+            border-left: 4px solid #b8d2ff;
             color: #ffffff;
             box-shadow: none;
+            padding-left: calc(1.45rem - 4px);
         }}
 
         [data-testid="stSidebar"] .stButton > button p {{
@@ -167,8 +157,8 @@ def apply_global_theme() -> None:
         }}
 
         .main .block-container {{
-            max-width: 1440px;
-            padding-top: 2.4rem;
+            max-width: none;
+            padding: 0 2rem 3rem 2rem;
             padding-bottom: 3rem;
         }}
 
@@ -185,7 +175,7 @@ def apply_global_theme() -> None:
         .stDownloadButton > button,
         button[kind="primary"],
         button[kind="secondary"] {{
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid #0058be;
             background: #0058be;
             color: #ffffff;
@@ -209,7 +199,11 @@ def apply_global_theme() -> None:
         div[data-testid="stFileUploader"] section {{
             background: #ffffff;
             border: 1px dashed #9aabc2;
-            border-radius: 8px;
+            border-radius: 10px;
+            min-height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }}
 
         div[data-testid="stFileUploader"] section:hover {{
@@ -222,10 +216,10 @@ def apply_global_theme() -> None:
         div[data-baseweb="textarea"] > div,
         [data-testid="stTextInput"] input,
         [data-testid="stNumberInput"] input {{
-            background: #ffffff;
+            background: #f3f6fc;
             border-color: #9aabc2;
             color: var(--ids-text);
-            border-radius: 8px;
+            border-radius: 6px;
         }}
 
         .stDataFrame,
@@ -236,7 +230,7 @@ def apply_global_theme() -> None:
         }}
 
         .stAlert {{
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid #c8d7ed;
             background: #eff4ff;
         }}
@@ -244,67 +238,82 @@ def apply_global_theme() -> None:
         .ids-page-head {{
             display: flex;
             justify-content: space-between;
-            gap: 1rem;
-            align-items: flex-start;
-            border-bottom: 1px solid var(--ids-border);
-            padding: 0 0 1rem 0;
-            margin-bottom: 1.35rem;
-        }}
-
-        .ids-main-nav-note {{
-            display: flex;
-            flex-wrap: wrap;
+            gap: 1.5rem;
             align-items: center;
-            gap: 0.65rem;
-            margin: 0.1rem 0 0.7rem 0;
-            padding: 0.7rem 0.85rem;
-            border: 1px solid var(--ids-border);
-            border-radius: 8px;
+            min-height: 5rem;
+            border-bottom: 1px solid var(--ids-border);
+            padding: 0.8rem 2rem;
+            margin: 0 -2rem 1.5rem -2rem;
             background: #ffffff;
         }}
 
-        .ids-main-nav-note span {{
+        .ids-head-actions {{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.85rem;
+        }}
+
+        .ids-search-box {{
+            min-width: 300px;
+            padding: 0.72rem 1rem;
+            border: 1px solid #b9c3d2;
+            border-radius: 12px;
+            background: #eef4ff;
+            color: #6d7481;
+            font-size: 0.92rem;
+        }}
+
+        .ids-head-icon {{
+            width: 2.2rem;
+            height: 2.2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #111827;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }}
+
+        .ids-user-avatar {{
+            width: 2.3rem;
+            height: 2.3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #d8e7ff;
             color: var(--ids-blue);
-            font-size: 0.72rem;
+            border: 1px solid #a9c4ee;
             font-weight: 850;
-            text-transform: uppercase;
-        }}
-
-        .ids-main-nav-note strong {{
-            color: var(--ids-text);
-            font-size: 0.86rem;
-            font-weight: 700;
-        }}
-
-        .ids-main-nav-state {{
-            min-height: 4.65rem;
-            background: #ffffff;
-            border: 1px solid var(--ids-border);
-            border-radius: 8px;
-            padding: 0.75rem 0.9rem;
         }}
 
         .ids-title {{
-            font-size: 2rem;
-            line-height: 2.4rem;
+            font-size: 1.35rem;
+            line-height: 1.7rem;
             font-weight: 800;
-            color: var(--ids-text);
+            color: var(--ids-blue);
             margin: 0;
         }}
 
         .ids-kicker {{
-            color: var(--ids-blue);
-            font-size: 0.78rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 0.35rem;
+            display: none;
         }}
 
         .ids-subtitle {{
             color: var(--ids-muted);
-            font-size: 0.95rem;
-            margin-top: 0.35rem;
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
             max-width: 820px;
+        }}
+
+        .ids-page-context {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: -0.55rem 0 1.25rem 0;
         }}
 
         .ids-top-tag,
@@ -325,10 +334,10 @@ def apply_global_theme() -> None:
         .ids-card {{
             background: #ffffff;
             border: 1px solid var(--ids-border);
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 10px;
+            padding: 1.25rem;
             min-height: 100%;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.035);
+            box-shadow: 0 2px 5px rgba(15, 23, 42, 0.025);
         }}
 
         .ids-card-title {{
@@ -344,17 +353,59 @@ def apply_global_theme() -> None:
             line-height: 1.35rem;
         }}
 
+        .ids-recommendation {{
+            min-height: 420px;
+            padding: 1.55rem;
+            border-radius: 10px;
+            background: #111b2f;
+            color: #eef4ff;
+            border: 1px solid #26354f;
+        }}
+
+        .ids-recommendation-badge {{
+            display: inline-block;
+            padding: .32rem .65rem;
+            border-radius: 999px;
+            background: #173d78;
+            color: #d9e8ff;
+            font-size: .7rem;
+            font-weight: 850;
+            text-transform: uppercase;
+        }}
+
+        .ids-recommendation h3 {{
+            color: #ffffff;
+            font-size: 1.45rem;
+            margin: 1.15rem 0 .65rem 0;
+        }}
+
+        .ids-recommendation p {{
+            color: #c4d0e4;
+            font-size: .9rem;
+            line-height: 1.45rem;
+        }}
+
+        .ids-recommendation-metric {{
+            margin-top: 1rem;
+            padding: .85rem;
+            background: #1b2943;
+            border-radius: 7px;
+            color: #ffffff;
+            font-weight: 800;
+        }}
+
         .ids-metric-title {{
             color: #45464d;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 800;
             text-transform: uppercase;
-            margin-bottom: 0.55rem;
+            letter-spacing: 0.08em !important;
+            margin-bottom: 0.8rem;
         }}
 
         .ids-metric-value {{
             color: var(--ids-text);
-            font-size: 2.1rem;
+            font-size: 2rem;
             line-height: 2.35rem;
             font-weight: 850;
             font-variant-numeric: tabular-nums;
@@ -389,16 +440,25 @@ def apply_global_theme() -> None:
 
         .ids-steps {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 0.85rem;
+            grid-template-columns: 1fr;
+            gap: 0;
             margin: 0.5rem 0 1.1rem 0;
+            padding: 0.6rem 1.3rem;
+            background: #ffffff;
+            border: 1px solid var(--ids-border);
+            border-radius: 10px;
         }}
 
         .ids-step {{
-            border: 1px solid var(--ids-border);
-            border-radius: 8px;
+            border: 0;
+            border-bottom: 1px solid var(--ids-border-soft);
+            border-radius: 0;
             background: #ffffff;
-            padding: 0.95rem;
+            padding: 1.15rem 1rem;
+        }}
+
+        .ids-step:last-child {{
+            border-bottom: 0;
         }}
 
         .ids-step[data-state="done"] {{
@@ -440,40 +500,100 @@ def apply_global_theme() -> None:
 
         .ids-login-hero {{
             max-width: 620px;
-            margin: 3.5rem auto 1.5rem auto;
+            margin: 4.5rem auto 1.6rem auto;
             text-align: center;
         }}
 
+        .ids-login-hero .ids-title {{
+            color: var(--ids-text);
+            font-size: 2rem;
+            line-height: 2.4rem;
+        }}
+
         .ids-login-mark {{
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 8px;
             background: #111b2f;
-            color: #ffffff;
+            color: #46a5c8;
             font-size: 1.75rem;
             font-weight: 850;
             margin-bottom: 1rem;
         }}
 
         .ids-sidebar-brand {{
-            border-bottom: 1px solid var(--ids-border);
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
+            height: 7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0 1.45rem;
+            border-bottom: 1px solid #26354f;
+            margin: 0 0 0.75rem 0;
+        }}
+
+        .ids-brand-mark {{
+            width: 2.65rem;
+            height: 2.65rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background: #0b4b68;
+            color: #63c4df;
+            font-size: 1.45rem;
+            font-weight: 900;
         }}
 
         .ids-brand {{
             color: #ffffff;
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             font-weight: 850;
         }}
 
         .ids-sidebar-meta {{
             color: #8e9bb0;
-            font-size: 0.82rem;
-            margin-top: 0.35rem;
+            font-size: 0.78rem;
+            margin-top: 0.2rem;
+        }}
+
+        [data-testid="stForm"] {{
+            background: #ffffff;
+            border: 1px solid var(--ids-border);
+            border-radius: 12px;
+            padding: 1.7rem 2rem 1.5rem 2rem;
+            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+        }}
+
+        .ids-login-form-head {{
+            margin-bottom: 1rem;
+        }}
+
+        .ids-login-help {{
+            color: var(--ids-blue);
+            text-align: right;
+            padding-top: 0.45rem;
+            font-size: 0.86rem;
+        }}
+
+        .ids-login-secure {{
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--ids-border);
+            color: #6b7280;
+            text-align: center;
+            font-size: 0.72rem;
+            font-weight: 750;
+            letter-spacing: 0.08em !important;
+        }}
+
+        .ids-login-footer {{
+            color: #858b96;
+            text-align: center;
+            font-size: 0.76rem;
+            margin-top: 1.1rem;
         }}
 
         @media (max-width: 900px) {{
@@ -482,8 +602,13 @@ def apply_global_theme() -> None:
             }}
 
             .ids-title {{
-                font-size: 1.45rem;
-                line-height: 1.9rem;
+                font-size: 1.15rem;
+                line-height: 1.5rem;
+            }}
+
+            .ids-search-box,
+            .ids-user-meta {{
+                display: none;
             }}
 
             .ids-metric-value {{
@@ -496,7 +621,10 @@ def apply_global_theme() -> None:
     )
 
 
-def page_header(title: str, subtitle: str = "", kicker: str = "IDS-ML Core", tag: str | None = None) -> None:
+def page_header(title: str, subtitle: str = "", kicker: str = "IDS-ML", tag: str | None = None) -> None:
+    username = str(st.session_state.get("username", "usuario"))
+    role = str(st.session_state.get("role", "Operador"))
+    initial = username[:1].upper() if username else "U"
     tag_html = f'<span class="ids-top-tag">{escape(tag)}</span>' if tag else ""
     _html(
         f"""
@@ -504,8 +632,20 @@ def page_header(title: str, subtitle: str = "", kicker: str = "IDS-ML Core", tag
             <div>
                 <div class="ids-kicker">{escape(kicker)}</div>
                 <div class="ids-title">{escape(title)}</div>
-                <div class="ids-subtitle">{escape(subtitle)}</div>
             </div>
+            <div class="ids-head-actions">
+                <div class="ids-search-box">⌕ &nbsp; Buscar eventos, registros...</div>
+                <div class="ids-head-icon">♟</div>
+                <div class="ids-head-icon">?</div>
+                <div class="ids-user-avatar">{escape(initial)}</div>
+                <div class="ids-user-meta">
+                    <div style="font-weight:800; color:var(--ids-text);">{escape(username)}</div>
+                    <div style="font-size:.72rem; color:var(--ids-muted);">{escape(role)}</div>
+                </div>
+            </div>
+        </div>
+        <div class="ids-page-context">
+            <div class="ids-subtitle">{escape(subtitle)}</div>
             <div>{tag_html}</div>
         </div>
         """
@@ -544,6 +684,7 @@ def metric_card(
     progress: float | None = None,
 ) -> None:
     color = TONE_COLORS.get(tone, PALETTE["blue"])
+    icon = {"blue": "▣", "green": "✓", "red": "!", "amber": "◇", "slate": "◷"}.get(tone, "▣")
     progress_html = ""
     if progress is not None:
         pct = max(0.0, min(100.0, float(progress)))
@@ -552,7 +693,11 @@ def metric_card(
         )
     _html(
         '<div class="ids-card">'
+        f'<div style="display:flex;justify-content:space-between;gap:.6rem;align-items:flex-start;">'
         f'<div class="ids-metric-title">{escape(title)}</div>'
+        f'<div style="width:2.15rem;height:2.15rem;border-radius:6px;background:{color}18;color:{color};'
+        f'display:flex;align-items:center;justify-content:center;font-weight:900;">{icon}</div>'
+        '</div>'
         f'<div class="ids-metric-value" style="color: {color};">{escape(str(value))}</div>'
         f"{progress_html}"
         f'<div class="ids-metric-caption">{escape(caption)}</div>'
